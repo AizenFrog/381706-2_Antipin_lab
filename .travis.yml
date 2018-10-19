@@ -1,0 +1,13 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_script:
+  - mkdir ../build
+  - cd ../build
+script:
+  - cmake ../381706-2_Antipin_lab
+  - make -j
+  - ./vector/vector
+notifications:
+  email: false
