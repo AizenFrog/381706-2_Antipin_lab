@@ -67,28 +67,30 @@ public:
 		return rez;
 	}
 
-	Matrix<A>& operator+(Matrix<A>& B)
+	Matrix<A> operator+(Matrix<A>& B)
 	{
+		Matrix<A> rez(l);
 		if (l == B.l)
 		{
 			for (int i = 0; i < l; i++)
-				m[i] = m[i] + B.m[i];
+				rez.m[i] = m[i] + B.m[i];
 		}
 		else
 			throw(1);
-		return *this;
+		return rez;
 	}
 
-	Matrix<A>& operator-(Matrix<A>& B)
+	Matrix<A> operator-(Matrix<A>& B)
 	{
+		Matrix<A> rez(l);
 		if (l == B.l)
 		{
 			for (int i = 0; i < l; i++)
-				m[i] = m[i] - B.m[i];
+				rez.m[i] = m[i] - B.m[i];
 		}
 		else
 			throw(1);
-		return *this;
+		return rez;
 	}
 
 	Matrix<A> operator*(Matrix<A>& B)

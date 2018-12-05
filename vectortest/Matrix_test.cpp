@@ -18,9 +18,9 @@ TEST(Matrix, can_assign_matrix)
 	bf[0][1] = 2;
 	bf[1][1] = 3;
 	bp = bf;
-	EXPECT_EQ(1, bf[0][0]);
-	EXPECT_EQ(2, bf[0][1]);
-	EXPECT_EQ(3, bf[1][1]);
+	EXPECT_EQ(1, bp[0][0]);
+	EXPECT_EQ(2, bp[0][1]);
+	EXPECT_EQ(3, bp[1][1]);
 }
 
 TEST(Matrix, can_compare_matrixs)

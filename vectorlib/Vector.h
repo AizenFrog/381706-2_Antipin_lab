@@ -71,7 +71,8 @@ public:
 
 	T& operator[](const int n)
 	{
-		return m[n - StartIndex];
+		if (n >= StartIndex)
+			return m[n - StartIndex];
 	}
 
 	Vector<T>& operator=(const Vector<T>& A)
@@ -115,22 +116,24 @@ public:
 
 	Vector<T> operator+(const Vector<T>& A)
 	{
+		Vector<T> rez(l, StartIndex);
 		int min = l;
 		if (A.l < l)
 			min = A.l;
 		for (int i = 0; i < min; i++)
-			m[i] = m[i] + A.m[i];
-		return *this;
+			rez.m[i] = m[i] + A.m[i];
+		return rez;
 	}
 
 	Vector<T> operator-(const Vector<T>& A)
 	{
+		Vector<T> rez(l, StartIndex);
 		int min = l;
 		if (A.l < l)
 			min = A.l;
 		for (int i = 0; i < min; i++)
-			m[i] = m[i] - A.m[i];
-		return *this;
+			rez.m[i] = m[i] - A.m[i];
+		return rez;
 	}
 
 	T operator*(const Vector<T>& A)
@@ -146,23 +149,26 @@ public:
 
 	Vector<T> operator+(const T& A)
 	{
+		Vector<T> rez(l, StartIndex);
 		for (int i = 0; i < l; i++)
-			m[i] = m[i] + A;
-		return *this;
+			rez.m[i] = m[i] + A;
+		return rez;
 	}
 
 	virtual Vector<T> operator-(const T& A)
 	{
+		Vector<T> rez(l, StartIndex);
 		for (int i = 0; i < l; i++)
-			m[i] = m[i] - A;
-		return *this;
+			rez.m[i] = m[i] - A;
+		return rez;
 	}
 
 	Vector<T> operator*(const T& A)
 	{
+		Vector<T> rez(l, StartIndex);
 		for (int i = 0; i < l; i++)
-			m[i] = m[i] * A;
-		return *this;
+			rez.m[i] = m[i] * A;
+		return rez;
 	}
 
 	friend std::istream &operator>>(std::istream &in, Vector &A)
