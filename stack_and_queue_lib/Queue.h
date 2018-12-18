@@ -20,8 +20,24 @@ Queue<T>::Queue() : Stack<T>()
 }
 
 template<class T>
-Queue<T>::Queue(const int _Len) : Stack<T>(_Len)
+Queue<T>::Queue(const int _Len)
 {
+	if (_Len < 0)
+		except.except_throw(106);
+	else if (_Len == 0)
+	{
+		Len = 0;
+		Mem = NULL;
+		Index = 0;
+	}
+	else
+	{
+		Len = _Len;
+		Mem = new T[Len];
+		for (int i = 0; i < Len; i++)
+			Mem[i] = 0;
+		Index = 0;
+	}
 }
 
 template<class T>
@@ -43,7 +59,7 @@ void Queue<T>::Put(const T& A)
 		Index++;
 	}
 	else
-		throw("Queue is full");
+		except.except_throw(107);
 }
 
 template<class T>
@@ -59,7 +75,7 @@ T Queue<T>::Get()
 		return A;
 	}
 	else
-		throw("Queue is empty");
+		except.except_throw(108);
 }
 
 template<class T>
@@ -68,7 +84,7 @@ bool Queue<T>::IsFull()
 	if (Index == Len)
 		return true;
 	else if (Index > Len)
-		throw("Error!!!");
+		except.except_throw(109);
 	else
 		return false;
 }
@@ -79,7 +95,7 @@ bool Queue<T>::IsEmpty()
 	if (Index == 0)
 		return true;
 	else if (Index > Len)
-		throw("Error");
+		except.except_throw(110);
 	if (Index > 0)
 		return false;
 }

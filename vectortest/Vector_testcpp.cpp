@@ -90,6 +90,14 @@ TEST(Vector, can_add_vectors)
 	EXPECT_EQ(4, bd[1]);
 }
 
+TEST(Vector, can_throw_if_add_vectors_whis_differnt_size)
+{
+	Vector<int> bf(2), bp(3);
+	for (int i = 0; i < 2; i++)
+		bp[i] = bf[i] = i + 1;
+	ASSERT_ANY_THROW(bp + bf);
+}
+
 TEST(Vector, can_subtract_vectors)
 {
 	Vector<int> bf(2), bp(2), bd(2);
@@ -98,6 +106,14 @@ TEST(Vector, can_subtract_vectors)
 	bd = bp - bf;
 	EXPECT_EQ(0, bd[0]);
 	EXPECT_EQ(0, bd[1]);
+}
+
+TEST(Vector, can_throw_if_subtract_vectors_whis_differnt_size)
+{
+	Vector<int> bf(2), bp(3);
+	for (int i = 0; i < 2; i++)
+		bp[i] = bf[i] = i + 1;
+	ASSERT_ANY_THROW(bp + bf);
 }
 
 TEST(Vector, can_conduct_vector_multiplication)

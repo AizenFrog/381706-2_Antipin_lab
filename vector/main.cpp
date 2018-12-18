@@ -10,7 +10,7 @@ int main()
 	Matrix<int> a(5), b(5), c(5);
 	cout << "Тестирование программ поддержки треугольных матриц" << endl;
 	for (int i = 0; i < 5; i++)
-		for (int g = 0; g < 5; g++)
+		for (int g = i; g < 5; g++)
 		{
 			a[i][g] = i * 10 + g;
 			b[i][g] = (i * 10 + g) * 100;

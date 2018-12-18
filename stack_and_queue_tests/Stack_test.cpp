@@ -11,6 +11,33 @@ TEST(Stack, can_create_stack_with_negative_len)
 	ASSERT_ANY_THROW(Stack<int> A(-2));
 }
 
+//#define SETMEMORY
+#ifdef SETMEMORY
+
+TEST(Stack, can_set_memory)
+{
+	Stack<int> A(3);
+	int* B = new int[10];
+	A.SetMem(B, 10);
+	EXPECT_EQ(10, A.GetLen());
+	EXPECT_EQ(B, A.Mem);
+}
+
+#endif
+
+TEST(Stack, can_return_index)
+{
+	Stack<int> A(3);
+	A.Put(10);
+	EXPECT_EQ(1, A.GetIndex());
+}
+
+TEST(Stack, can_return_len)
+{
+	Stack<int> A(3);
+	EXPECT_EQ(3, A.GetLen());
+}
+
 TEST(Stack, can_put_item)
 {
 	Stack<int> A(3);

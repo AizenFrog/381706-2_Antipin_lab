@@ -96,3 +96,9 @@ TEST(Matrix, can_multiply_matrixs)
 	EXPECT_EQ(13, bd[0][1]);
 	EXPECT_EQ(1, bd[1][1]);
 }
+
+TEST(Matrix, can_throw_if_multiply_matrixs_with_different_lenght)
+{
+	Matrix<int> bf(2), bp(3);
+	ASSERT_ANY_THROW(bf * bp);
+}
