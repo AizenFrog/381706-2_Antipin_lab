@@ -118,7 +118,7 @@ bool Multystack<T>::Resize(int _i)
 		Index[0] = &GeneralStack[0];
 		for (int i = 1; i < Counts - 1; i++)///////////
 			Index[i] = Index[i - 1] + stacks[i - 1]->GetIndex() + FreeMemSize / Counts;
-		Index[Counts - 1] = stacks[Counts - 1]->Mem;////////////
+		Index[Counts - 1] = Index[Counts - 2] + stacks[Counts - 2]->GetIndex() + FreeMemSize / Counts + FreeMemSize % Counts;////////////
 		stacks[_i]->Len -= 1;
 		for (in = 0; in < Counts; in++)
 			if (Index[in] < stacks[in]->Mem)
@@ -131,7 +131,9 @@ bool Multystack<T>::Resize(int _i)
 			{
 				k = in;
 				if (k < Counts - 1)
-					for (; Index[k + 1] > stacks[k + 1]->Mem; k++);
+					for (; Index[k + 1] > stacks[k + 1]->Mem; k++)
+						if(k == Counts - 2)
+							break;
 				for (n = k; n >= in; n--)
 				{
 					for (j = stacks[n]->Len - 1; j >= 0; j--)
@@ -141,7 +143,15 @@ bool Multystack<T>::Resize(int _i)
 			}
 			else
 				stacks[in]->SetMem(Index[in], Index[in + 1] - Index[in]);
+		for (int i = 0; i < Counts - 1; i++)
+		{
+			stacks[i]->Len = Index[i + 1] - Index[i];
+			Len[i] = stacks[i]->Len;
+		}
+		stacks[Counts - 1]->Len = (&GeneralStack[0] + L) - Index[Counts - 2];
+		Len[Counts - 1] = stacks[Counts - 1]->Len;
 	}
+	
 	else
 		rez = false;
 	

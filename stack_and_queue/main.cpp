@@ -1,11 +1,42 @@
+#include "Stack.h"
+#include "Queue.h"
 #include "Multystack.h"
+#include "Stack_on_List.h"
 #include <iostream>
 #include <stdlib.h>
 #include <ctime>
+//#define stack
+//#define queue
+//#define multystack
+#define stacklist
+
 
 void main()
 {
 	setlocale(LC_ALL, "RUS");
+#ifdef stack
+	Stack<int> st(100);
+	std::cout << "Тестирование системы стека:" << std::endl;
+	for (int i = 0; i < 100; i++)
+	{
+		st.Put(i);
+		std::cout << "В стек положено: " << i << std::endl;
+	}
+	for (int i = 0; i < 100; i++)
+		std::cout << "Из стека взято: " << st.Get() << std::endl;
+#endif
+#ifdef queue
+	Queue<int> qu(100);
+	std::cout << "Тестирование системы очереди:" << std::endl;
+	for (int i = 0; i < 100; i++)
+	{
+		qu.Put(i);
+		std::cout << "В очередь положено: " << i << std::endl;
+	}
+	for (int i = 0; i < 100; i++)
+		std::cout << "Из очереди взято: " << qu.Get() << std::endl;
+#endif
+#ifdef multystack
 	Multystack<int> mst(4, 100);
 	int ms, val = 0;
 	std::cout << "Тестирование системы N стеков:" << std::endl;
@@ -30,4 +61,16 @@ void main()
 		val++;
 	}
 	std::cout << "Число циклов - " << val << ", перепаковок - " << mst.GetResizeCount() << std::endl;
+#endif
+#ifdef stacklist
+	tStackList<int> sl;
+	std::cout << "Тестирование системы стека, основанного на списке:" << std::endl;
+	for (int i = 0; i < 100; i++)
+	{
+		sl.Put(i);
+		std::cout << "В стек положено: " << i << std::endl;
+	}
+	for (int i = 0; i < 100; i++)
+		std::cout << "Из стека взято: " << sl.Get() << std::endl;
+#endif
 }

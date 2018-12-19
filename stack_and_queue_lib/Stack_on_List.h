@@ -72,12 +72,21 @@ T tStackList<T>::Get()
 	if (ListLen == 0)
 		throw 1;
 	T A;
-	TDatLink<T>* tmp_2 = pFirstItem;
-	for (int i = 0; i < ListLen - 1; i++)
-		tmp_2 = tmp_2->GetNextLink();
-	A = tmp_2->GetMem();
+	if (ListLen == 1)
+	{
+		A = pFirstItem->GetMem();
+		pFirstItem = NULL;
+	}
+	else
+	{
+		TDatLink<T>* tmp_2 = pFirstItem;
+		for (int i = 0; i < ListLen - 2; i++)
+			tmp_2 = tmp_2->GetNextLink();
+		A = tmp_2->GetNextLink()->GetMem();
+		delete tmp_2->GetNextLink();
+		tmp_2->Set_m(NULL);
+	}
 	ListLen--;
-	//delete tmp_2;
 	return A;
 }
 
