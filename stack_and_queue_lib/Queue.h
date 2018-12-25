@@ -23,7 +23,7 @@ template<class T>
 Queue<T>::Queue(const int _Len)
 {
 	if (_Len < 0)
-		except.except_throw(106);
+		except->except_throw(106);
 	else if (_Len == 0)
 	{
 		Len = 0;
@@ -43,11 +43,11 @@ Queue<T>::Queue(const int _Len)
 template<class T>
 Queue<T>::Queue(const Queue<T>& A)
 {
-	Len = A.Len;
+	Len = A->Len;
 	Mem = new T[Len];
 	for (int i = 0; i < Len; i++)
-		Mem[i] = A.Mem[i];
-	Index = A.Index;
+		Mem[i] = A->Mem[i];
+	Index = A->Index;
 }
 
 template<class T> 
@@ -59,7 +59,7 @@ void Queue<T>::Put(const T& A)
 		Index++;
 	}
 	else
-		except.except_throw(107);
+		except->except_throw(107);
 }
 
 template<class T>
@@ -75,7 +75,7 @@ T Queue<T>::Get()
 		return A;
 	}
 	else
-		except.except_throw(108);
+		except->except_throw(108);
 }
 
 template<class T>
@@ -84,7 +84,7 @@ bool Queue<T>::IsFull()
 	if (Index == Len)
 		return true;
 	else if (Index > Len)
-		except.except_throw(109);
+		except->except_throw(109);
 	else
 		return false;
 }
@@ -95,7 +95,7 @@ bool Queue<T>::IsEmpty()
 	if (Index == 0)
 		return true;
 	else if (Index > Len)
-		except.except_throw(110);
+		except->except_throw(110);
 	if (Index > 0)
 		return false;
 }
