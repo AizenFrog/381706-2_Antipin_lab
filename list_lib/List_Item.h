@@ -5,20 +5,23 @@ template <class T>
 class TDatLink
 {
 protected:
-	T Mem;
-	TDatLink<T>* m;
+  T Mem;
+  TDatLink<T>* m;
 public:
-	TDatLink()
-	{
-
-	}
-	TDatLink(const T _Mem, TDatLink<T>* _m);
-	TDatLink(const TDatLink<T>& A);
-	void SetMem(T _Mem);
-	T GetMem();
-	void Set_m(TDatLink<T>* _m);
-	TDatLink<T>* GetNextLink();
+  TDatLink();
+  TDatLink(const T _Mem, TDatLink<T>* _m);
+  TDatLink(const TDatLink<T>& A);
+  void SetMem(T _Mem);
+  T GetMem();
+  void Set_m(TDatLink<T>* _m);
+  TDatLink<T>* GetNextLink();
 };
+
+template <class T>
+TDatLink<T>::TDatLink()
+{
+
+}
 
 template <class T>
 TDatLink<T>::TDatLink(const T _Mem, TDatLink<T>* _m)

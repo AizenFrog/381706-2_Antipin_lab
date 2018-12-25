@@ -1,15 +1,15 @@
-﻿#include "Matrix.h"
-#include "Stack.h"
-#include "Multystack.h"
-#include "Queue.h"
-#include <time.h>
-#include <iostream>
-#include <chrono>
+﻿//#include "Matrix.h"
+//#include "Stack.h"
+//#include "Multystack.h"
+//#include "Queue.h"
+//#include <time.h>
+//#include <iostream>
+//#include <chrono>
 
-#define VECTOR_AND_MATRIX
+//#define VECTOR_AND_MATRIX
 //#define STACK_QUEUE_MULTYSTACK
 
-void main()
+int main()
 {
 #ifdef VECTOR_AND_MATRIX
 	Vector<int> A(1000);
@@ -277,4 +277,5 @@ void main()
 	std::cout << "1000000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;*/
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #endif
+  return 0;
 }

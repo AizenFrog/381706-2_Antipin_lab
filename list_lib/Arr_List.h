@@ -23,7 +23,7 @@ public:
 };
 
 template <class T>
-ArrList<T>::ArrList(const int n = 0)
+ArrList<T>::ArrList(const int n)
 {
 	if (n < 0)
 		exception.except_throw(105);
@@ -59,7 +59,7 @@ ArrList<T>::ArrList(const ArrList<T>& A)
 		size = A.size;
 		c = A.c;
 		Mem = A.Mem;
-		counts = A.count;
+		count = A.count;
 		for (int i = 0; i < size; i++)
 		{
 			Mas[i] = A.Mas[i];
