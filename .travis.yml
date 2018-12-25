@@ -8,6 +8,7 @@ before_script:
 script:
   - cmake ../381706-2_Antipin_lab
   - make -j
-  - ./vector/vector
+  - cd ./bin/
+  - ./vectortest
 notifications:
   email: false

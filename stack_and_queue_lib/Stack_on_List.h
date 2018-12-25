@@ -1,6 +1,7 @@
 #pragma once
 #include "List_Item.h"
 #include <iostream>
+#include "Exception_class.h"
 
 template <class T>
 class tStackList
@@ -8,6 +9,7 @@ class tStackList
 protected:
 	TDatLink<T>* pFirstItem;
 	int ListLen;
+	Exceptions_from_stack_queue_multystack exception;
 public:
 	tStackList();
 	~tStackList();
@@ -70,7 +72,7 @@ template <class T>
 T tStackList<T>::Get()
 {
 	if (ListLen == 0)
-		throw 1;
+		exception.except_throw(103);
 	T A;
 	if (ListLen == 1)
 	{

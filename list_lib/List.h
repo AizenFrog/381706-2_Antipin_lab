@@ -104,7 +104,7 @@ template <class T>
 void List<T>::InstLast(T A)
 {
 	TDatLink<T>* tmp = FirstItem;
-	TDatLink<int>* TMP = new TDatLink<T>(A, NULL);
+	TDatLink<T>* TMP = new TDatLink<T>(A, NULL);
 	for (int i = 0; i < ListLen - 1; i++)
 		tmp = tmp->GetNextLink();
 	ListLen++;
@@ -124,7 +124,7 @@ void List<T>::InstCustom(const int Pos, T A)
 	{
 		TDatLink<T>* tmp_1 = FirstItem;
 		TDatLink<T>* tmp_2 = new TDatLink<T>(A, NULL);
-		TDatLink<T> tmp_3(NULL, NULL);/////
+		TDatLink<T> tmp_3(A, NULL);/////
 		for (int i = 0; i < Pos; i++)
 			if (i == Pos - 1)
 			{

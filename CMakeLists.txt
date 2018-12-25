@@ -13,13 +13,16 @@ set(stack_and_queue_tests stack_and_queue_tests)
 set(list list)
 set(list_lib list_lib)
 set(list_tests list_tests)
+set(math_function math_function)
+set(math_function_lib math_function_lib)
+set(math_function_tests math_function_tests)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE) #Создается переменная CMAKE_CONFIGURATION_TYPES со значением "Debug;Release" и меткой/разделом Configs, переменная сохраниется в специальном файле доступном из всех файлов,
 if(NOT CMAKE_BUILD_TYPE) # проверка имеющихся у компилятора вариантов сборки
   set(CMAKE_BUILD_TYPE Release) #Если нет то устанавливаем Release
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vectorlib ${CMAKE_CURRENT_SOURCE_DIR}/stack_and_queue_lib ${CMAKE_CURRENT_SOURCE_DIR}/list_lib ${CMAKE_CURRENT_SOURCE_DIR}/gtest ${CMAKE_CURRENT_SOURCE_DIR}/time_check)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vectorlib ${CMAKE_CURRENT_SOURCE_DIR}/stack_and_queue_lib ${CMAKE_CURRENT_SOURCE_DIR}/list_lib ${CMAKE_CURRENT_SOURCE_DIR}/math_function_lib ${CMAKE_CURRENT_SOURCE_DIR}/gtest ${CMAKE_CURRENT_SOURCE_DIR}/time_check)
 add_subdirectory(time_check)
 add_subdirectory(vector) #Собираем проект в поддиректории vector
 add_subdirectory(vectorlib) #Собираем проект в поддиректории lib
@@ -30,6 +33,9 @@ add_subdirectory(stack_and_queue_tests)
 add_subdirectory(list)
 add_subdirectory(list_lib)
 add_subdirectory(list_tests)
+add_subdirectory(math_function)
+add_subdirectory(math_function_lib)
+add_subdirectory(math_function_tests)
 add_subdirectory(gtest)
 
 #file(GLOB hdrs "*.h*") #Добавляем в переменную hdrs все файлы с расширением .h

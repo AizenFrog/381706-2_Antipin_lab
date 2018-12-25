@@ -8,8 +8,12 @@ protected:
 	T Mem;
 	TDatLink<T>* m;
 public:
+	TDatLink()
+	{
+
+	}
 	TDatLink(const T _Mem, TDatLink<T>* _m);
-	TDatLink(TDatLink<T>& A);
+	TDatLink(const TDatLink<T>& A);
 	void SetMem(T _Mem);
 	T GetMem();
 	void Set_m(TDatLink<T>* _m);
@@ -17,14 +21,14 @@ public:
 };
 
 template <class T>
-TDatLink<T>::TDatLink(const T _Mem, TDatLink<T>* _m = NULL)
+TDatLink<T>::TDatLink(const T _Mem, TDatLink<T>* _m)
 {
 	Mem = _Mem;
 	m = _m;
 }
 
 template <class T>
-TDatLink<T>::TDatLink(TDatLink<T>& A)
+TDatLink<T>::TDatLink(const TDatLink<T>& A)
 {
 	Mem = A.Mem;
 	m = A.m;
