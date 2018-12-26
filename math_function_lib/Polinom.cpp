@@ -140,7 +140,7 @@ Polinom& Polinom::operator+=(Monom& monom)
 	return *this;
 }
 
-Monom& Polinom::operator[](int nomber)
+Monom& Polinom::operator[](const int nomber)
 {
 	return GetValue(nomber);
 }

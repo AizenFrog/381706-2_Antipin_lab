@@ -194,14 +194,12 @@ Vector<T> Vector<T>::operator-(const Vector<T>& A)
 template <class T>
 T Vector<T>::operator*(const Vector<T>& A)
 {
+  T rez = 0;
   if (l != A.l)
     except.except_throw(105);
-  T rez = 0;
-  if (A.l != l)
-    throw(1);
   else
     for (int i = 0; i < l; i++)
-      rez = rez + m[i] * A.m[i];
+      rez += m[i] * A.m[i];
   return rez;
 }
 
