@@ -11,7 +11,6 @@ public: //??????
 	int Index;
 	Exceptions_from_stack_queue_multystack except;
 	void SetMem(T* _Mem, int _Len);
-	//friend Myltistack<T>;
 public:
 	Stack();
 	Stack(const int _Len);
