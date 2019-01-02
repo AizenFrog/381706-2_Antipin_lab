@@ -124,7 +124,7 @@ void List<T>::InstCustom(const int Pos, T A)
 	{
 		TDatLink<T>* tmp_1 = FirstItem;
 		TDatLink<T>* tmp_2 = new TDatLink<T>(A, NULL);
-		TDatLink<T> tmp_3(A, NULL);/////
+		TDatLink<T> tmp_3(A, NULL);
 		for (int i = 0; i < Pos; i++)
 			if (i == Pos - 1)
 			{
@@ -163,17 +163,23 @@ void List<T>::DelCustom(const int Pos)
 	else if (Pos == ListLen - 1)
 	{
 		TDatLink<T>* tmp = FirstItem;
+        TDatLink<T>* TMP = new TDatLink<T>(NULL, NULL);
 		for (int i = 0; i < Pos - 1; i++)
 			tmp = tmp->GetNextLink();
+        TMP = tmp->GetNextLink();
+        delete TMP;
 		tmp->Set_m(NULL);
 		ListLen--;
 	}
 	else
 	{
 		TDatLink<T>* tmp = FirstItem;
+        TDatLink<T>* TMP = new TDatLink<T>(NULL, NULL);
 		for (int i = 0; i < Pos - 1; i++)
 			tmp = tmp->GetNextLink();
+        TMP = tmp->GetNextLink();
 		tmp->Set_m(tmp->GetNextLink()->GetNextLink());
+        delete TMP;
 		ListLen--;
 	}
 }
