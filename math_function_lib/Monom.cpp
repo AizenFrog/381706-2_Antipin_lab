@@ -1,6 +1,11 @@
 #include "Monom.h"
 #include <iostream>
 
+Monom::Monom()
+{
+
+}
+
 Monom::Monom(int _n, unsigned int* _power, double _c)
 {
 	if (_n <= 0)
@@ -21,6 +26,7 @@ Monom::Monom(const Monom& monom)
 {
 	n = monom.n;
 	c = monom.c;
+    power = new unsigned int[n];
 	for (int i = 0; i < n; i++)
 		power[i] = monom.power[i];
 	NextMonom = monom.NextMonom;
@@ -28,7 +34,8 @@ Monom::Monom(const Monom& monom)
 
 Monom::~Monom()
 {
-	delete[] power;
+  if (power != NULL)
+    delete[] power;
 }
 
 int Monom::GetN()
@@ -60,9 +67,22 @@ void Monom::SetN(int _n)
 		tmp[i] = power[i];
 	delete[] power;
 	power = new unsigned int[_n];
-	for (int i = 0; i < (n > _n ? _n : n); i++)
+    bool flag = true;
+    int more = _n;
+    int less = n;
+    if (n > _n)
+    {
+      flag = false;
+      more = _n;
+      less = n;
+    }
+	for (int i = 0; i < less; i++)
 		power[i] = tmp[i];
+    if (flag = true)
+      for (int i = less; i < more; i++)
+        power[i] = 1;
 	delete[] tmp;
+    n = _n;
 }
 
 void Monom::SetC(double _c)
@@ -102,8 +122,11 @@ Monom& Monom::operator=(const Monom& monom)
 		n = monom.n;
 		c = monom.c;
 		NextMonom = monom.NextMonom;
-		if (power)
-			delete[] power;
+        if (power)
+        {
+          power = NULL;
+          delete[] power;
+        }
 		power = new unsigned int[n];
 		for (int i = 0; i < n; i++)
 			power[i] = monom.power[i];
@@ -116,7 +139,11 @@ Monom Monom::operator+(const Monom& monom)
 	if (n != monom.n)
 		throw 3;
 	Monom tmp(monom);
-	if (*this == monom)
+    bool flag = true;
+    for (int i = 0; i < n; i++)
+      if (this->power[i] != monom.power[i])
+        flag = false;
+	if (flag == true)
 		tmp.c = c + monom.c;
 	else
 		throw 4;
@@ -128,7 +155,11 @@ Monom Monom::operator-(const Monom& monom)
 	if (n != monom.n)
 		throw 3;
 	Monom tmp(monom);
-	if (*this == monom)
+    bool flag = true;
+    for (int i = 0; i < n; i++)
+      if (this->power[i] != monom.power[i])
+        flag = false;
+    if (flag == true)
 		tmp.c = c - monom.c;
 	else
 		throw 4;
@@ -138,7 +169,7 @@ Monom Monom::operator-(const Monom& monom)
 Monom Monom::operator*(const Monom& monom)
 {
 	if (n != monom.n)
-		throw 5;
+		throw 3;
 	Monom tmp(monom);
 	tmp.c = c * monom.c;
 	for (int i = 0; i < n; i++)
@@ -150,7 +181,7 @@ bool Monom::operator==(const Monom& monom)
 {
 	bool res = true;
 	if (n != monom.n)
-		throw 5;
+		throw 3;
 	for (int i = 0; i < n; i++)
 		if (power[i] != monom.power[i])
 			res = false;
@@ -163,16 +194,19 @@ bool Monom::operator>(const Monom& monom)
 {
 	bool res = true;
 	if (n != monom.n)
-		throw 5;
-	for (int i = 0; i < n; i++)
-		if (power[i] < monom.power[i])
-		{
-			res = false;
-			break;
-		}
-	if (res == true)
-		if (c < monom.c)
-			res = false;
+		throw 3;
+    for (int i = 0; i < n; i++)
+      if (power[i] > monom.power[i])
+        return true;
+      else if (power[i] < monom.power[i])
+        return false;
+      else
+        res = false;
+    if (res == false)
+      if (c < monom.c)
+        res = false;
+      else
+        res = true;
 	return res;
 }
 
@@ -182,14 +216,17 @@ bool Monom::operator<(const Monom& monom)
 	if (n != monom.n)
 		throw 5;
 	for (int i = 0; i < n; i++)
-		if (power[i] > monom.power[i])
-		{
-			res = false;
-			break;
-		}
-	if (res == true)
-		if (c > monom.c)
-			res = false;
+      if (power[i] < monom.power[i])
+        return true;
+      else if (power[i] > monom.power[i])
+        return false;
+      else
+        res = false;
+    if (res == false)
+      if (c > monom.c)
+        res = false;
+      else
+        res = true;
 	return res;
 }
 

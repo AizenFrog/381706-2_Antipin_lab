@@ -9,8 +9,7 @@ protected:
 	unsigned int* power;//степени
 	Monom* NextMonom;//следующий моном
 public:
-	Monom()
-	{}
+    Monom();
 	Monom(int _n, unsigned int* _power, double _c);
 	Monom(const Monom& monom);
 	~Monom();

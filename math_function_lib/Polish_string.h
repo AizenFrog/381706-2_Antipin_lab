@@ -1,1 +1,25 @@
 #pragma once
+#include <iostream>
+
+struct Number
+{
+public:
+  char* number;
+  int len;
+  Number();
+};
+
+class Polich_string
+{
+private:
+  char* str;
+  int index;
+  int char_count;
+  char* servicechar;
+public:
+  Polich_string();
+  int GetIndex();
+  void WrightString(char* string);
+  Number GetNextChar();
+  bool IsServiceChar();
+};

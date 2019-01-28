@@ -4,33 +4,58 @@ Polinom::Polinom() :  List<Monom>()
 {
 }
 
-Polinom::Polinom(const Polinom& polinom) : List<Monom>(polinom)
+Polinom::Polinom(const Polinom& polinom)
 {
+  ListLen = polinom.ListLen;
+  TDatLink<Monom>* tmp = polinom.FirstItem;
+  FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
+  TDatLink<Monom>* TMP = FirstItem;
+  TDatLink<Monom>* tmpCurr;
+  for (int i = 1; i < polinom.ListLen; i++)
+  {
+    tmp = tmp->GetNextLink();
+    tmpCurr = new TDatLink<Monom>(tmp->GetMem(), NULL);
+    TMP->Set_m(tmpCurr);
+    TMP = tmpCurr;
+  }
+  LastItem = tmpCurr;
 }
 
 Polinom::Polinom(const List<Monom>& ls) : List<Monom>(ls)
 {
+  ListLen = ls.GetListLen();
+  FirstItem = new TDatLink<Monom>(ls.GetValue(0), NULL);
+  TDatLink<Monom>* tmp = FirstItem;
+  TDatLink<Monom>* tmpCurr;
+  for (int i = 1; i < ListLen; i++)
+  {
+    tmpCurr = new TDatLink<Monom>(ls.GetValue(i), NULL);
+    tmp->Set_m(tmpCurr);
+    tmp = tmp->GetNextLink();
+  }
+  LastItem = tmpCurr;
 }
 
 Polinom& Polinom::operator=(Polinom& polinom)
 {
-	if (this != &polinom)
-	{
-		ListLen = polinom.ListLen;
-		TDatLink<Monom>* tmp = polinom.FirstItem;
-		FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
-		TDatLink<Monom>* TMP = FirstItem;
-		TDatLink<Monom>* tmpCurr;
-		for (int i = 1; i < polinom.ListLen; i++)
-		{
-			tmp = tmp->GetNextLink();
-			tmpCurr = new TDatLink<Monom>(tmp->GetMem(), NULL);
-			TMP->Set_m(tmpCurr);
-			TMP = tmpCurr;
-		}
-		LastItem = tmpCurr;
-	}
-	return *this;
+  if (this != &polinom)
+  {
+    DelList();
+    ListLen = polinom.ListLen;
+    TDatLink<Monom>* tmp = polinom.FirstItem;
+    FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
+    TDatLink<Monom>* TMP = FirstItem;
+    TDatLink<Monom>* tmpCurr;
+    for (int i = 1; i < polinom.ListLen; i++)
+    {
+      tmp = tmp->GetNextLink();
+      tmpCurr = new TDatLink<Monom>(tmp->GetMem(), NULL);
+      TMP->Set_m(tmpCurr);
+      TMP = tmpCurr;
+    }
+    LastItem = tmpCurr;
+  }
+  return *this;
 }
 
 Polinom Polinom::operator+(Polinom& polinom)
@@ -83,13 +108,15 @@ Polinom Polinom::operator-(Polinom& polinom)
 		}
 		else if (tmp_1->GetMem() > tmp_2->GetMem())
 		{
-			res.InstLast(tmp_1->GetMem());
-			tmp_1 = tmp_1->GetNextLink();
+          Monom A(tmp_1->GetMem().GetN(), tmp_1->GetMem().GetPower(), 0);
+		  res.InstLast(A - tmp_1->GetMem());
+		  tmp_1 = tmp_1->GetNextLink();
 		}
 		else
 		{
-			res.InstLast(tmp_2->GetMem());
-			tmp_2 = tmp_2->GetNextLink();
+          Monom A(tmp_2->GetMem().GetN(), tmp_2->GetMem().GetPower(), 0);
+		  res.InstLast(A - tmp_2->GetMem());
+		  tmp_2 = tmp_2->GetNextLink();
 		}
 	if (!tmp_1)
 		tmp_1 = tmp_2;
@@ -140,7 +167,7 @@ Polinom& Polinom::operator+=(Monom& monom)
 	return *this;
 }
 
-Monom& Polinom::operator[](const int nomber)
+Monom Polinom::operator[](const int nomber)
 {
 	return GetValue(nomber);
 }

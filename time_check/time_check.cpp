@@ -2,9 +2,10 @@
 //#include "Stack.h"
 //#include "Multystack.h"
 //#include "Queue.h"
-//#include <time.h>
-//#include <iostream>
-//#include <chrono>
+#include "List.h"
+#include <time.h>
+#include <iostream>
+#include <chrono>
 
 //#define VECTOR_AND_MATRIX
 //#define STACK_QUEUE_MULTYSTACK
@@ -276,6 +277,54 @@ int main()
 	end = std::chrono::high_resolution_clock::now();
 	std::cout << "1000000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;*/
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif
+//////////------LIST-------/////////
+  List<int> A;
+  for (int i = 0; i < 10000; i++)
+    A.InstFirst(i);
+  List<int> B;
+  for (int i = 0; i < 100000; i++)
+    B.InstFirst(i);
+  List<int> C;
+  for (int i = 0; i < 500000; i++)
+    C.InstFirst(i);
+  List<int> D;
+  for (int i = 0; i < 1000000; i++)
+    D.InstFirst(i);
+  std::cout << "Put in list:" << std::endl;
+  auto begin = std::chrono::high_resolution_clock::now();
+  A.InstCustom(9999, -1);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::cout << "10000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  B.InstCustom(99999, -1);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "100000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  C.InstCustom(499999, -1);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "500000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  D.InstCustom(999999, -1);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "1000000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  std::cout << "Delete from list:" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  A.DelCustom(10000);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "10000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  B.DelCustom(100000);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "100000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  C.DelCustom(500000);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "500000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  D.DelCustom(1000000);
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "1000000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
   return 0;
+#endif
 }

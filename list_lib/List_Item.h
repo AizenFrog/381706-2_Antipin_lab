@@ -26,37 +26,37 @@ TDatLink<T>::TDatLink()
 template <class T>
 TDatLink<T>::TDatLink(const T _Mem, TDatLink<T>* _m)
 {
-	Mem = _Mem;
-	m = _m;
+  Mem = _Mem;
+  m = _m;
 }
 
 template <class T>
 TDatLink<T>::TDatLink(const TDatLink<T>& A)
 {
-	Mem = A.Mem;
-	m = A.m;
+  Mem = A.Mem;
+  m = A.m;
 }
 
 template <class T>
 void TDatLink<T>::SetMem(T _Mem)
 {
-	Mem = _Mem;
+  Mem = _Mem;
 }
 
 template <class T>
 T TDatLink<T>::GetMem()
 {
-	return Mem;
+  return Mem;
 }
 
 template <class T>
 void TDatLink<T>::Set_m(TDatLink<T>* _m)
 {
-	m = _m;
+  m = _m;
 }
 
 template<class T>
 TDatLink<T>* TDatLink<T>::GetNextLink()
 {
-	return m;
+  return m;
 }

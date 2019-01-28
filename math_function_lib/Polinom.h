@@ -13,7 +13,7 @@ public:
 	Polinom operator-(Polinom& polinom);
 	Polinom operator*(Polinom& polinom);
 	Polinom& operator+=(Monom& monom);
-	Monom& operator[](const int nomber);
+	Monom operator[](const int nomber);
 	friend std::ostream& operator<<(std::ostream& os, Polinom& polinom);
 };
 
