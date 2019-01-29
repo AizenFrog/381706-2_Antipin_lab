@@ -11,7 +11,7 @@
 //#define stacklist
 
 
-void main()
+int main()
 {
   setlocale(LC_ALL, "RUS");
 #ifdef stack
@@ -73,4 +73,5 @@ void main()
   for (int i = 0; i < 100; i++)
     std::cout << "Из стека взято: " << sl.Get() << std::endl;
 #endif
+  return 0;
 }

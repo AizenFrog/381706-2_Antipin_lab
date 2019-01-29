@@ -94,8 +94,8 @@ Multystack<T>::~Multystack()
     //delete[] GeneralStack;
  /*   for (int i = 0; i < Counts; i++)
     {*/
-      delete[] Index;
-      delete[] stacks;
+    delete[] Index;
+    delete[] stacks;
  //   }
 }
 
