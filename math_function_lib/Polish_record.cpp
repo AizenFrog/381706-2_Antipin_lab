@@ -146,9 +146,13 @@ int Calculator::AddToStacks(Number n)
 int Calculator::CharToInt(Number st)
 {
   int M = 0;
+  int N = 0;
   for (int i = 0; i < st.len; i++)
   {
     M += (st.number[i] - '0') * pow(10, st.len - i - 1);
+    N = st.number[i] - '0';
+    if (N > 9 || N < 0)
+      exception.except_throw(106);
   }
   return M;
 }

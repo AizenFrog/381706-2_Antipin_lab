@@ -4,6 +4,8 @@
 
 class Polinom : public List<Monom>
 {
+protected:
+  Exceptions_from_polinom_and_calculator exception;
 public:
 	Polinom();
 	Polinom(const Polinom& polinom);

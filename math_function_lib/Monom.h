@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Exception_class.h"
 
 class Monom
 {
@@ -8,6 +9,7 @@ protected:
 	double c;//коэффициент
 	unsigned int* power;//степени
 	Monom* NextMonom;//следующий моном
+    Exceptions_from_polinom_and_calculator exception;
 public:
     Monom();
 	Monom(int _n, unsigned int* _power, double _c);

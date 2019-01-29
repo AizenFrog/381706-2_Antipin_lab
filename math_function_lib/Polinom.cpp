@@ -61,7 +61,7 @@ Polinom& Polinom::operator=(Polinom& polinom)
 Polinom Polinom::operator+(Polinom& polinom)
 {
 	if(ListLen != polinom.ListLen)
-		throw 6;
+      exception.except_throw(105);
 	TDatLink<Monom>* tmp_1 = FirstItem;
 	TDatLink<Monom>* tmp_2 = polinom.FirstItem;
 	Polinom res;
@@ -95,7 +95,7 @@ Polinom Polinom::operator+(Polinom& polinom)
 Polinom Polinom::operator-(Polinom& polinom)
 {
 	if (ListLen != polinom.ListLen)
-		throw 6;
+      exception.except_throw(105);
 	TDatLink<Monom>* tmp_1 = FirstItem;
 	TDatLink<Monom>* tmp_2 = polinom.FirstItem;
 	Polinom res;

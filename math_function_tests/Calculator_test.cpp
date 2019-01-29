@@ -98,3 +98,24 @@ TEST(calculator, can_raise_to_a_hard_power)
   Calculator calc(string);
   EXPECT_EQ(calc.Calculate(), 125);
 }
+
+TEST(calculator, can_throw_if_whrong_record)
+{
+  char* string = { "S^(2+1)=" };
+  Calculator calc(string);
+  ASSERT_ANY_THROW(calc.Calculate());
+}
+
+TEST(calculator, can_throw_if_whrong_record_2)
+{
+  char* string = { "5^(;+1)=" };
+  Calculator calc(string);
+  ASSERT_ANY_THROW(calc.Calculate());
+}
+
+TEST(calculator, can_throw_if_record_without_equally)
+{
+  char* string = { "2+1" };
+  Calculator calc(string);
+  ASSERT_ANY_THROW(calc.Calculate());
+}

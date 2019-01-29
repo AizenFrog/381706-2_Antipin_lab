@@ -8,18 +8,18 @@ Monom::Monom()
 
 Monom::Monom(int _n, unsigned int* _power, double _c)
 {
-	if (_n <= 0)
-		throw 1;
-	n = _n;
-	c = _c;
-	power = new unsigned int[n];
-	if (power != NULL)
-		for (int i = 0; i < n; i++)
-			power[i] = _power[i];
-	else
-		for (int i = 0; i < n; i++)
-			power[i] = 0;
-	NextMonom = NULL;
+  if (_n <= 0)
+    exception.except_throw(101);
+  n = _n;
+  c = _c;
+  power = new unsigned int[n];
+  if (power != NULL)
+    for (int i = 0; i < n; i++)
+      power[i] = _power[i];
+  else
+    for (int i = 0; i < n; i++)
+      power[i] = 0;
+  NextMonom = NULL;
 }
 
 Monom::Monom(const Monom& monom)
@@ -61,7 +61,7 @@ Monom* Monom::GetNextMonom()
 void Monom::SetN(int _n)
 {
 	if (_n <= 0)
-		throw 2;
+      exception.except_throw(101);
 	unsigned int* tmp = new unsigned int[n];
 	for (int i = 0; i < n; i++)
 		tmp[i] = power[i];
@@ -98,15 +98,11 @@ void Monom::SetPower(unsigned int* _power)
 			if (_power[i] >= 0)
 				power[i] = _power[i];
 			else
-				throw 1;
+              exception.except_throw(102);
 	}
 	catch (int ex)
 	{
-		throw ex;
-	}
-	catch (...)
-	{
-		throw 2;
+      exception.except_throw(100);
 	}
 }
 
@@ -137,7 +133,7 @@ Monom& Monom::operator=(const Monom& monom)
 Monom Monom::operator+(const Monom& monom)
 {
 	if (n != monom.n)
-		throw 3;
+      exception.except_throw(103);
 	Monom tmp(monom);
     bool flag = true;
     for (int i = 0; i < n; i++)
@@ -146,14 +142,14 @@ Monom Monom::operator+(const Monom& monom)
 	if (flag == true)
 		tmp.c = c + monom.c;
 	else
-		throw 4;
+      exception.except_throw(104);
 	return tmp;
 }
 
 Monom Monom::operator-(const Monom& monom)
 {
 	if (n != monom.n)
-		throw 3;
+      exception.except_throw(103);
 	Monom tmp(monom);
     bool flag = true;
     for (int i = 0; i < n; i++)
@@ -162,14 +158,14 @@ Monom Monom::operator-(const Monom& monom)
     if (flag == true)
 		tmp.c = c - monom.c;
 	else
-		throw 4;
+      exception.except_throw(104);
 	return tmp;
 }
 
 Monom Monom::operator*(const Monom& monom)
 {
 	if (n != monom.n)
-		throw 3;
+      exception.except_throw(103);
 	Monom tmp(monom);
 	tmp.c = c * monom.c;
 	for (int i = 0; i < n; i++)
@@ -181,7 +177,7 @@ bool Monom::operator==(const Monom& monom)
 {
 	bool res = true;
 	if (n != monom.n)
-		throw 3;
+      exception.except_throw(103);
 	for (int i = 0; i < n; i++)
 		if (power[i] != monom.power[i])
 			res = false;
@@ -194,7 +190,7 @@ bool Monom::operator>(const Monom& monom)
 {
 	bool res = true;
 	if (n != monom.n)
-		throw 3;
+      exception.except_throw(103);
     for (int i = 0; i < n; i++)
       if (power[i] > monom.power[i])
         return true;
@@ -214,7 +210,7 @@ bool Monom::operator<(const Monom& monom)
 {
 	bool res = true;
 	if (n != monom.n)
-		throw 5;
+      exception.except_throw(103);
 	for (int i = 0; i < n; i++)
       if (power[i] < monom.power[i])
         return true;
