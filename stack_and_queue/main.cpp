@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <ctime>
 //#define stack
-#define queue
-//#define multystack
+//#define queue
+#define multystack
 //#define stacklist
 
 

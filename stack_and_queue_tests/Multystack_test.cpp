@@ -16,11 +16,74 @@ TEST(Multystack, can_throw_if_create_multystack_with_more_counts_than_len)
 	ASSERT_ANY_THROW(Multystack<int> M(10, 5));
 }
 
+TEST(Multystack, can_put_item_into_stack_without_throws)
+{
+  Multystack<int> M(3, 5);
+  ASSERT_NO_THROW(M.Put(0, 10));
+}
+
+TEST(Multystack, can_get_item_from_stack_without_throws)
+{
+  Multystack<int> M(3, 5);
+  M.Put(0, 10);
+  ASSERT_NO_THROW(M.Get(0));
+}
+
 TEST(Multystack, can_put_item_into_stack)
 {
 	Multystack<int> M(3, 5);
 	M.Put(0, 10);
-	EXPECT_EQ(10, M.Get(0));
+    M.Put(0, 10);
+    M.Put(0, 10);
+    int m = M.Get(0);
+	EXPECT_EQ(10, m);
+}
+
+TEST(Multystack, can_put_item_into_full_stack_with_resise_without_throws)
+{
+  Multystack<int> M(3, 5);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  ASSERT_NO_THROW(M.Put(0, 10));
+}
+
+TEST(Multystack, can_put_item_into_full_stack_with_resise_without_throws_2)
+{
+  Multystack<int> M(3, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(1, 10);
+  M.Put(1, 10);
+  ASSERT_NO_THROW(M.Put(1, 10));
+}
+
+TEST(Multystack, can_put_item_into_stack_with_resise_without_throws_3)
+{
+  Multystack<int> M(3, 7);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(1, 10);
+  M.Put(1, 10);
+  ASSERT_NO_THROW(M.Put(2, 10));
+}
+
+TEST(Multystack, can_get_item_from_full_stack_with_resise_without_throws)
+{
+  Multystack<int> M(3, 7);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(0, 10);
+  M.Put(1, 10);
+  M.Put(1, 10);
+  M.Put(2, 10);
+  ASSERT_NO_THROW(M.Get(0));
 }
 
 TEST(Multystack, can_get_item_from_stack)

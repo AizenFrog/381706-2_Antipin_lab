@@ -26,7 +26,6 @@ public:
 	bool IsEmpty(const int i);
 	bool IsFull(const int i);
 	int GetResizeCount();
-	//friend Stack<T>;
 };
 
 template <class T>
@@ -92,8 +91,12 @@ template<class T>
 Multystack<T>::~Multystack()
 {
 	delete[] Len;
-	delete[] Index;
-	delete[] stacks;
+    //delete[] GeneralStack;
+ /*   for (int i = 0; i < Counts; i++)
+    {*/
+      delete[] Index;
+      delete[] stacks;
+ //   }
 }
 
 template <class T>
@@ -110,7 +113,7 @@ bool Multystack<T>::Resize(int _i)
 {
 	bool rez = true;
 	int in, j, k, n;
-	stacks[_i]->Len += 1;///
+    stacks[_i]->SetLen(stacks[_i]->GetLen() + 1);//Len += 1;///
 	int FreeMemSize = CalcFree();
 	if (FreeMemSize > -1)
 	{
@@ -119,25 +122,25 @@ bool Multystack<T>::Resize(int _i)
 		for (int i = 1; i < Counts - 1; i++)///////////
 			Index[i] = Index[i - 1] + stacks[i - 1]->GetIndex() + FreeMemSize / Counts;
 		Index[Counts - 1] = Index[Counts - 2] + stacks[Counts - 2]->GetIndex() + FreeMemSize / Counts + FreeMemSize % Counts;////////////
-		stacks[_i]->Len -= 1;
+        stacks[_i]->SetLen(stacks[_i]->GetLen() - 1);//Len -= 1;
 		for (in = 0; in < Counts; in++)
-			if (Index[in] < stacks[in]->Mem)
+			if (Index[in] < stacks[in]->GetMem())
 			{
-				for (j = 0; j < stacks[in]->Len; j++)///
-					Index[in][j] = stacks[in]->Mem[j];
+				for (j = 0; j < stacks[in]->GetLen(); j++)///
+					Index[in][j] = stacks[in]->GetValue(j);
 				stacks[in]->SetMem(Index[in], Index[in + 1] - Index[in]);
 			}
-			else if (Index[in] > stacks[in]->Mem)
+			else if (Index[in] > stacks[in]->GetMem())
 			{
 				k = in;
 				if (k < Counts - 1)
-					for (; Index[k + 1] > stacks[k + 1]->Mem; k++)
+					for (; Index[k + 1] > stacks[k + 1]->GetMem(); k++)
 						if(k == Counts - 2)
 							break;
 				for (n = k; n >= in; n--)
 				{
-					for (j = stacks[n]->Len - 1; j >= 0; j--)
-						Index[n][j] = stacks[n]->Mem[j];
+					for (j = stacks[n]->GetLen() - 1; j >= 0; j--)
+						Index[n][j] = stacks[n]->GetValue(j);
 					stacks[n]->SetMem(Index[n], Index[n + 1] - Index[n]);
 				}
 			}
@@ -145,11 +148,11 @@ bool Multystack<T>::Resize(int _i)
 				stacks[in]->SetMem(Index[in], Index[in + 1] - Index[in]);
 		for (int i = 0; i < Counts - 1; i++)
 		{
-			stacks[i]->Len = Index[i + 1] - Index[i];
-			Len[i] = stacks[i]->Len;
+			stacks[i]->SetLen(Index[i + 1] - Index[i]);
+			Len[i] = stacks[i]->GetLen();
 		}
-		stacks[Counts - 1]->Len = (&GeneralStack[0] + L) - Index[Counts - 2];
-		Len[Counts - 1] = stacks[Counts - 1]->Len;
+		stacks[Counts - 1]->SetLen((&GeneralStack[0] + L) - Index[Counts - 2]);
+		Len[Counts - 1] = stacks[Counts - 1]->GetLen();
 	}
 	
 	else
@@ -174,9 +177,9 @@ template<class T>
 T Multystack<T>::Get(const int i)
 {
 	if (stacks[i]->IsEmpty() == true)
-		throw("This stack is empty");//////////
+      exception.except_throw(114);
 	else
-		stacks[i]->Get();
+		return stacks[i]->Get();
 }
 
 template<class T>

@@ -5,25 +5,27 @@
 template<class T>
 class Stack
 {
-public:
+protected:
   int Len;
   T *Mem;
   int Index;
   Exceptions_from_stack_queue_multystack except;
-  void SetMem(T* _Mem, int _Len);
 public:
   Stack();
   Stack(const int _Len);
   Stack(const Stack<T>& A);
   ~Stack();
+  void SetMem(T* _Mem, int _Len);
   int GetIndex();
   int GetLen();
+  void SetLen(const int N);
+  T* GetMem();
+  T GetValue(const int N);
   void Put(const T& A);
   T Get();
   T GetWithoutDelete();
   bool IsFull();
   bool IsEmpty();
-
 };
 
 template<class T>
@@ -88,6 +90,24 @@ template<class T>
 int Stack<T>::GetLen()
 {
   return Len;
+}
+
+template<class T>
+void Stack<T>::SetLen(const int N)
+{
+  Len = N;
+}
+
+template<class T>
+T* Stack<T>::GetMem()
+{
+  return Mem;
+}
+
+template<class T>
+T Stack<T>::GetValue(const int N)
+{
+  return Mem[N];
 }
 
 template<class T>

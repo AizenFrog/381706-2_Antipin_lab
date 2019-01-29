@@ -20,7 +20,7 @@ TEST(Stack, can_set_memory)
   int* B = new int[10];
   A.SetMem(B, 10);
   EXPECT_EQ(10, A.GetLen());
-  EXPECT_EQ(B, A.Mem);
+  EXPECT_EQ(B, A.GetMem());
 }
 
 #endif
