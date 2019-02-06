@@ -41,9 +41,9 @@ Queue<T>::Queue(const int _Len)
   else
   {
     this->Len = _Len;
-    this->Mem = new T[Len];
-    for (int i = 0; i < Len; i++)
-      Mem[i] = 0;
+    this->Mem = new T[this->Len];
+    for (int i = 0; i < this->Len; i++)
+      this->Mem[i] = 0;
     this->Index = 0;
     IndexFirst = 0;
     counts = 0;
@@ -54,8 +54,8 @@ template<class T>
 Queue<T>::Queue(const Queue<T>& A)
 {
   this->Len = A->Len;
-  this->Mem = new T[Len];
-  for (int i = 0; i < Len; i++)
+  this->Mem = new T[this->Len];
+  for (int i = 0; i < this->Len; i++)
     this->Mem[i] = A->Mem[i];
   this->Index = A->Index;
   IndexFirst = A.IndexFirst;
@@ -67,11 +67,11 @@ void Queue<T>::Put(const T& A)
 {
   if (IsFull() == false)
   {
-    this->Mem[Index] = A;
+    this->Mem[this->Index] = A;
     counts++;
-    if (counts != this->Len && Index != this->Len)
+    if (counts != this->Len && this->Index != this->Len)
       this->Index++;
-    else if (counts != this->Len && Index == this->Len)
+    else if (counts != this->Len && this->Index == this->Len)
       this->Index = 0;
     else if (counts == this->Len)
       this->Index = 0;
