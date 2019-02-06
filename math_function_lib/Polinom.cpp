@@ -6,10 +6,10 @@ Polinom::Polinom() : List<Monom>()
 
 Polinom::Polinom(const Polinom& polinom)
 {
-  ListLen = polinom.ListLen;
+  this->ListLen = polinom.ListLen;
   TDatLink<Monom>* tmp = polinom.FirstItem;
-  FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
-  TDatLink<Monom>* TMP = FirstItem;
+  this->FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
+  TDatLink<Monom>* TMP = this->FirstItem;
   TDatLink<Monom>* tmpCurr;
   for (int i = 1; i < polinom.ListLen; i++)
   {
@@ -18,33 +18,33 @@ Polinom::Polinom(const Polinom& polinom)
     TMP->Set_m(tmpCurr);
     TMP = tmpCurr;
   }
-  LastItem = tmpCurr;
+  this->LastItem = tmpCurr;
 }
 
 Polinom::Polinom(const List<Monom>& ls)
 {
-  ListLen = ls.GetListLen();
-  FirstItem = new TDatLink<Monom>(ls.GetValue(0), NULL);
-  TDatLink<Monom>* tmp = FirstItem;
+  this->ListLen = ls.GetListLen();
+  this->FirstItem = new TDatLink<Monom>(ls.GetValue(0), NULL);
+  TDatLink<Monom>* tmp = this->FirstItem;
   TDatLink<Monom>* tmpCurr;
-  for (int i = 1; i < ListLen; i++)
+  for (int i = 1; i < this->ListLen; i++)
   {
     tmpCurr = new TDatLink<Monom>(ls.GetValue(i), NULL);
     tmp->Set_m(tmpCurr);
     tmp = tmp->GetNextLink();
   }
-  LastItem = tmpCurr;
+  this->LastItem = tmpCurr;
 }
 
 Polinom& Polinom::operator=(Polinom& polinom)
 {
   if (this != &polinom)
   {
-    DelList();
-    ListLen = polinom.ListLen;
+    this->DelList();
+    this->ListLen = polinom.ListLen;
     TDatLink<Monom>* tmp = polinom.FirstItem;
-    FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
-    TDatLink<Monom>* TMP = FirstItem;
+    this->FirstItem = new TDatLink<Monom>(tmp->GetMem(), NULL);
+    TDatLink<Monom>* TMP = this->FirstItem;
     TDatLink<Monom>* tmpCurr;
     for (int i = 1; i < polinom.ListLen; i++)
     {
@@ -53,16 +53,16 @@ Polinom& Polinom::operator=(Polinom& polinom)
       TMP->Set_m(tmpCurr);
       TMP = tmpCurr;
     }
-    LastItem = tmpCurr;
+    this->LastItem = tmpCurr;
   }
   return *this;
 }
 
 Polinom Polinom::operator+(Polinom& polinom)
 {
-  if (ListLen != polinom.ListLen)
+  if (this->ListLen != polinom.ListLen)
     exception.except_throw(105);
-  TDatLink<Monom>* tmp_1 = FirstItem;
+  TDatLink<Monom>* tmp_1 = this->FirstItem;
   TDatLink<Monom>* tmp_2 = polinom.FirstItem;
   Polinom res;
   while (tmp_1 && tmp_2)
@@ -94,9 +94,9 @@ Polinom Polinom::operator+(Polinom& polinom)
 
 Polinom Polinom::operator-(Polinom& polinom)
 {
-  if (ListLen != polinom.ListLen)
+  if (this->ListLen != polinom.ListLen)
     exception.except_throw(105);
-  TDatLink<Monom>* tmp_1 = FirstItem;
+  TDatLink<Monom>* tmp_1 = this->FirstItem;
   TDatLink<Monom>* tmp_2 = polinom.FirstItem;
   Polinom res;
   while (tmp_1 && tmp_2)
@@ -131,9 +131,9 @@ Polinom Polinom::operator-(Polinom& polinom)
 Polinom Polinom::operator*(Polinom& polinom)
 {
   Polinom res;
-  TDatLink<Monom>* tmp_1 = FirstItem;
+  TDatLink<Monom>* tmp_1 = this->FirstItem;
   TDatLink<Monom>* tmp_2 = polinom.FirstItem;
-  for (int i = 0; i < ListLen; i++)
+  for (int i = 0; i < this->ListLen; i++)
   {
     for (int i = 0; i < polinom.ListLen; i++)
     {
@@ -148,28 +148,28 @@ Polinom Polinom::operator*(Polinom& polinom)
 
 Polinom& Polinom::operator+=(Monom& monom)
 {
-  for (int i = 0; i < ListLen; i++)
+  for (int i = 0; i < this->ListLen; i++)
   {
     Monom tmp = GetValue(i);
     if (tmp == monom)
     {
-      DelCustom(i);
-      InstCustom(i, monom + tmp);
+      this->DelCustom(i);
+      this->InstCustom(i, monom + tmp);
       return *this;
     }
     else if (tmp < monom)
     {
-      InstCustom(i, monom);
+      this->InstCustom(i, monom);
       return *this;
     }
   }
-  InstLast(monom);
+  this->InstLast(monom);
   return *this;
 }
 
 Monom Polinom::operator[](const int nomber)
 {
-  return GetValue(nomber);
+  return this->GetValue(nomber);
 }
 
 std::ostream& operator<<(std::ostream& os, Polinom& polinom)
