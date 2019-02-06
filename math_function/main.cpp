@@ -2,7 +2,7 @@
 #include "Polinom.h"
 #include "Polish_record.h"
 
-//#define POLINOM
+#define POLINOM
 
 int main()
 {

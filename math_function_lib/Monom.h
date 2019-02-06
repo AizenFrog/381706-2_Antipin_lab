@@ -2,6 +2,8 @@
 #include <iostream>
 #include "Exception_class.h"
 
+using namespace std;
+
 class Monom
 {
 protected:
@@ -29,4 +31,3 @@ public:
   bool operator<(const Monom& monom);
   friend std::ostream& operator<<(std::ostream& os, Monom& monom);
 };
-
