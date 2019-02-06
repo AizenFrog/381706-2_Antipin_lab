@@ -6,9 +6,12 @@
 #include <time.h>
 #include <iostream>
 #include <chrono>
+#include "Polinom.h"
+#include "Monom.h"
 
 //#define VECTOR_AND_MATRIX
 //#define STACK_QUEUE_MULTYSTACK
+//#define POLINOM
 
 int main()
 {
@@ -325,6 +328,77 @@ int main()
   D.DelCustom(1000000);
   end = std::chrono::high_resolution_clock::now();
   std::cout << "1000000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  #endif
+#ifdef POLINOM
+  unsigned int A10[10];
+  for (int i = 0; i < 10; i++)
+    A10[i] = i;
+  Monom M10(10, A10, 1);
+  Monom M20(10, A10, 1);
+  Polinom P1;
+  for (int i = 0; i < 10; i++)
+    P1.InstLast(M10);
+  unsigned int A100[100];
+  for (int i = 0; i < 100; i++)
+    A100[i] = i;
+  Monom M100(100, A100, 1);
+  Monom M200(100, A100, 1);
+  Polinom P2;
+  for (int i = 0; i < 100; i++)
+    P1.InstLast(M100);
+  unsigned int A500[500];
+  for (int i = 0; i < 500; i++)
+    A500[i] = i;
+  Monom M1000(500, A500, 1);
+  Monom M2000(500, A500, 1);
+  Polinom P3;
+  for (int i = 0; i < 500; i++)
+    P3.InstLast(M1000);
+  unsigned int A1000[1000];
+  for (int i = 0; i < 1000; i++)
+    A1000[i] = i;
+  Monom M0001(1000, A1000, 1);
+  Monom M0002(1000, A1000, 1);
+  Polinom P4;
+  for (int i = 0; i < 1000; i++)
+    P4.InstLast(M0001);
+  ////////////////////////////////////////////////////////////////////////////
+  std::cout << "Adding of monoms:" << std::endl;
+  auto begin = std::chrono::high_resolution_clock::now();
+  M10 + M20;
+  auto end = std::chrono::high_resolution_clock::now();
+  std::cout << "10 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  M100 + M200;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "100 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  M1000 + M2000;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "500 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  M0001 + M0002;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "1000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  ////////////////////////////////////////////////////////////////////////////
+  std::cout << "Multiplying of polinoms:" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  P1 * P1;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "10 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  P2 * P2;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "100 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  P3 * P3;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "500 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+  begin = std::chrono::high_resolution_clock::now();
+  P4 * P4;
+  end = std::chrono::high_resolution_clock::now();
+  std::cout << "1000 elements - " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << "ns" << std::endl;
+#endif 
+
   return 0;
-#endif
 }

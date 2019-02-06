@@ -21,9 +21,6 @@ public:
 template<class T>
 Queue<T>::Queue() : Stack<T>()
 {
-  Len = 0;
-  Mem = NULL;
-  Index = 0;
   counts = 0;
   IndexFirst = 0;
 }

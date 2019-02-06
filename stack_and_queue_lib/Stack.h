@@ -13,6 +13,7 @@ protected:
 public:
   Stack();
   Stack(const int _Len);
+  Stack(T* _Mem, const int _Len);
   Stack(const Stack<T>& A);
   ~Stack();
   void SetMem(T* _Mem, int _Len);
@@ -55,6 +56,14 @@ Stack<T>::Stack(const int _Len)
       Mem[i] = 0;
     Index = 0;
   }
+}
+
+template<class T>
+Stack<T>::Stack(T* _Mem, const int _Len)
+{
+    Len = _Len;
+    Mem = _Mem;
+    Index = 0;
 }
 
 template<class T>

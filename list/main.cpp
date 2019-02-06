@@ -1,7 +1,7 @@
 #include "List.h"
 #include "Arr_List.h"
 #include <iostream>
-//#define ARRLIST
+#define ARRLIST
 
 #ifndef ARRLIST
 int main()

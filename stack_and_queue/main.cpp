@@ -10,6 +10,7 @@
 #define multystack
 //#define stacklist
 
+using namespace std;
 
 int main()
 {
@@ -60,7 +61,7 @@ int main()
     mst.Put(3, ms);
     val++;
   }
-  std::cout << "Число циклов - " << val << ", перепаковок - " << mst.GetResizeCount() << std::endl;
+  cout << "Число циклов - " << val << ", перепаковок - " << mst.GetResizeCount() << endl;
 #endif
 #ifdef stacklist
   tStackList<int> sl;
