@@ -16,6 +16,16 @@ public:
   Polinom operator*(Polinom& polinom);
   Polinom& operator+=(Monom& monom);
   Monom operator[](const int nomber);
-  friend std::ostream& operator<<(std::ostream& os, Polinom& polinom);
+  friend std::ostream& operator<<(std::ostream& os, Polinom& polinom)
+  {
+    TDatLink<Monom>* tmp = polinom.FirstItem;
+    for (int i = 0; i < polinom.ListLen - 1; i++)
+    {
+      os << polinom.GetValue(i) << '+';
+      tmp = tmp->GetNextLink();
+    }
+    os << polinom.GetValue(polinom.ListLen - 1) << std::endl;
+    return os;
+  }
 };
 

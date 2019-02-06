@@ -213,11 +213,11 @@ bool Monom::operator<(const Monom& monom)
   return res;
 }
 
-std::ostream& operator<<(std::ostream& os, Monom& monom)
-{
-  os << monom.c << '*';
-  for (int i = 0; i < monom.n - 1; i++)
-    os << "x" << i << "^" << monom.power[i] << '*';
-  os << "x" << monom.n - 1 << "^" << monom.power[monom.n - 1];
-  return os;
-}
+//std::ostream& operator<<(std::ostream& os, Monom& monom)
+//{
+//  os << monom.c << '*';
+//  for (int i = 0; i < monom.n - 1; i++)
+//    os << "x" << i << "^" << monom.power[i] << '*';
+//  os << "x" << monom.n - 1 << "^" << monom.power[monom.n - 1];
+//  return os;
+//}

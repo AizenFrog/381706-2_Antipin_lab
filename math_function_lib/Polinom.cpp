@@ -172,14 +172,14 @@ Monom Polinom::operator[](const int nomber)
   return this->GetValue(nomber);
 }
 
-std::ostream& operator<<(std::ostream& os, Polinom& polinom)
-{
-  TDatLink<Monom>* tmp = polinom.FirstItem;
-  for (int i = 0; i < polinom.ListLen - 1; i++)
-  {
-    os << polinom.GetValue(i) << '+';
-    tmp = tmp->GetNextLink();
-  }
-  os << polinom.GetValue(polinom.ListLen - 1) << std::endl;
-  return os;
-}
+//std::ostream& operator<<(std::ostream& os, Polinom& polinom)
+//{
+//  TDatLink<Monom>* tmp = polinom.FirstItem;
+//  for (int i = 0; i < polinom.ListLen - 1; i++)
+//  {
+//    os << polinom.GetValue(i) << '+';
+//    tmp = tmp->GetNextLink();
+//  }
+//  os << polinom.GetValue(polinom.ListLen - 1) << std::endl;
+//  return os;
+//}
