@@ -13,9 +13,9 @@ public:
   Queue(const Queue<T>& A);
   void Put(const T& A);
   T Get();
-  T GetWithoutDelete();
-  bool IsFull();
-  bool IsEmpty();
+  T GetWithoutDelete() const;
+  bool IsFull() const;
+  bool IsEmpty() const;
 };
 
 template<class T>
@@ -29,7 +29,7 @@ template<class T>
 Queue<T>::Queue(const int _Len)
 {
   if (_Len < 0)
-    except.except_throw(106);
+    except->except_throw(106);
   else if (_Len == 0)
   {
     Len = 0;
@@ -77,7 +77,7 @@ void Queue<T>::Put(const T& A)
       Index = 0;
   }
   else
-    except.except_throw(107);
+    except->except_throw(107);
 }
 
 template<class T>
@@ -96,11 +96,11 @@ T Queue<T>::Get()
     return A;
   }
   else
-    except.except_throw(108);
+    except->except_throw(108);
 }
 
 template<class T>
-T Queue<T>::GetWithoutDelete()
+T Queue<T>::GetWithoutDelete() const
 {
   if (IsEmpty() == false)
   {
@@ -108,27 +108,27 @@ T Queue<T>::GetWithoutDelete()
     return A;
   }
   else
-    except.except_throw(108);
+    except->except_throw(108);
 }
 
 template<class T>
-bool Queue<T>::IsFull()
+bool Queue<T>::IsFull() const
 {
   if (counts == Len)
     return true;
   else if (counts > Len)
-    except.except_throw(109);
+    except->except_throw(109);
   else
     return false;
 }
 
 template<class T>
-bool Queue<T>::IsEmpty()
+bool Queue<T>::IsEmpty() const
 {
   if (counts == 0)
     return true;
   else if (counts > Len)
-    except.except_throw(110);
+    except->except_throw(110);
   if (counts > 0)
     return false;
 }
