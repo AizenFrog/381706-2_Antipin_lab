@@ -15,7 +15,7 @@ private:
   char* str;
   int index;
   int char_count;
-  char* servicechar;
+  const char* servicechar;
 public:
   Polich_string();
   int GetIndex();
