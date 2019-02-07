@@ -37,7 +37,7 @@ public:
     return in;
   }
 
-  friend std::ostream &operator<<(std::ostream &out, Vector &a)
+  friend std::ostream &operator<<(std::ostream &out, const Vector &a)
   {
     for (int i = 0; i < a.l; i++)
       out << a.m[i] << ' ';

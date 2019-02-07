@@ -21,7 +21,7 @@ public:
     return in;
   }
 
-  friend std::ostream & operator<<(std::ostream &out, Matrix &mt)
+  friend std::ostream & operator<<(std::ostream &out, const Matrix &mt)
   {
     for (int i = 0; i < mt.l; i++)
     {
