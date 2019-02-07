@@ -2,12 +2,12 @@
 //#include "Stack.h"
 //#include "Multystack.h"
 //#include "Queue.h"
-#include "List.h"
-#include <time.h>
+//#include "List.h"
+//#include <time.h>
 #include <iostream>
-#include <chrono>
-#include "Polinom.h"
-#include "Monom.h"
+//#include <chrono>
+//#include "Polinom.h"
+//#include "Monom.h"
 
 //#define VECTOR_AND_MATRIX
 //#define STACK_QUEUE_MULTYSTACK
