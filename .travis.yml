@@ -9,6 +9,9 @@ script:
   - cmake ../381706-2_Antipin_lab
   - make -j
   - cd ./bin/
-  - ./vectortest
+  - ./vectortest/vectortest
+  - ./stack_and_queue_tests/stack_and_queue_tests
+  - ./list_tests/list_tests
+  - ./math_function_tests/math_function_tests
 notifications:
   email: false
