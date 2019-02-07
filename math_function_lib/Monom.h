@@ -29,7 +29,7 @@ public:
   bool operator==(const Monom& monom);
   bool operator>(const Monom& monom);
   bool operator<(const Monom& monom);
-  friend std::ostream& operator<<(std::ostream& os, Monom& monom)
+  friend std::ostream& operator<<(std::ostream& os, const Monom& monom)
   {
     os << monom.c << '*';
     for (int i = 0; i < monom.n - 1; i++)
