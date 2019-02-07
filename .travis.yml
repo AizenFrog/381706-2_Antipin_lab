@@ -3,14 +3,15 @@ compiler:
   - gcc
   - clang
 before_script:
-  - mkdir ../builds
-  - cd ../builds
+  - mkdir ../build
+  - cd ../build
 script:
   - cmake ../381706-2_Antipin_lab
   - make -j
-  - ./vectortest/vectortest
-  - ./stack_and_queue_tests/stack_and_queue_tests
-  - ./list_tests/list_tests
-  - ./math_function_tests/math_function_tests
+  - cd ./bin/
+  - ./vectortest
+  - ./stack_and_queue_tests
+  - ./list_tests
+  - ./math_function_tests
 notifications:
   email: false
