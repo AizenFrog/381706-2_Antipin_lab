@@ -16,10 +16,10 @@ public:
   Vector();
   Vector(const int _l, const int _si);
   Vector(const int _l);
-  Vector(Vector<T> &a);
+  Vector(const Vector<T> &a);
   ~Vector();
-  int GetSize();
-  int GetStartIndex();
+  int GetSize() const;
+  int GetStartIndex() const;
   T& GetValue(const int n);
   T& operator[](const int n);
   Vector<T>& operator=(const Vector<T>& a);
@@ -80,7 +80,7 @@ Vector<T>::Vector(const int _l)
 }
 
 template <class T>
-Vector<T>::Vector(Vector<T> &A)
+Vector<T>::Vector(const Vector<T> &A)
 {
   tStartIndex = A.tStartIndex;
   l = A.l;
@@ -96,19 +96,19 @@ Vector<T>::~Vector()
 }
 
 template <class T>
-int Vector<T>::GetSize()
+int Vector<T>::GetSize() const
 {
   return l;
 }
 
 template <class T>
-int Vector<T>::GetStartIndex()
+int Vector<T>::GetStartIndex() const
 {
   return tStartIndex;
 }
 
 template <class T>
-T& Vector<T>::GetValue(const int n)
+T& Vector<T>::GetValue(const int n) 
 {
   if (n < 0 || n > l - 1)
     except.except_throw(102);

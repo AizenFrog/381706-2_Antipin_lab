@@ -6,14 +6,14 @@ class Matrix : public Vector<Vector<A> >
 {
 public:
   Matrix(int _size);
-  Matrix(Matrix<A> &b);
-  Matrix(Vector<Vector<A> > &b);
-  Matrix<A>& operator=(Matrix<A>& b);
-  bool operator==(Matrix<A>& b);
-  Matrix<A> operator+(Matrix<A>& b);
-  Matrix<A> operator-(Matrix<A>& b);
-  Matrix<A> operator*(Matrix<A>& b);
-  Matrix<A> operator/(Matrix<A>& b);
+  Matrix(const Matrix<A> &b);
+  Matrix(const Vector<Vector<A> > &b);
+  Matrix<A>& operator=(const Matrix<A>& b);
+  bool operator==(const Matrix<A>& b);
+  Matrix<A> operator+(const Matrix<A>& b);
+  Matrix<A> operator-(const Matrix<A>& b);
+  Matrix<A> operator*(const Matrix<A>& b);
+  Matrix<A> operator/(const Matrix<A>& b);
   friend std::istream & operator>>(std::istream &in, Matrix &mt)
   {
     for (int i = 0; i < mt.l; i++)
@@ -59,12 +59,12 @@ Matrix<A>::Matrix(int _size)
 }
 
 template<class A>
-Matrix<A>::Matrix(Matrix<A> &B) : Vector<Vector<A> >(B)
+Matrix<A>::Matrix(const Matrix<A> &B) : Vector<Vector<A> >(B)
 {
 }
 
 template<class A>
-Matrix<A>::Matrix(Vector<Vector<A> > &B)
+Matrix<A>::Matrix(const Vector<Vector<A> > &B)
 {
   this->l = B->l;
   this->tStartIndex = B->GetStartIndex;
@@ -74,7 +74,7 @@ Matrix<A>::Matrix(Vector<Vector<A> > &B)
 }
 
 template<class A>
-Matrix<A>& Matrix<A>::operator=(Matrix<A>& B)
+Matrix<A>& Matrix<A>::operator=(const Matrix<A>& B)
 {
   if (this->m != B.m)
   {
@@ -92,7 +92,7 @@ Matrix<A>& Matrix<A>::operator=(Matrix<A>& B)
 }
 
 template<class A>
-bool Matrix<A>::operator==(Matrix<A>& B)
+bool Matrix<A>::operator==(const Matrix<A>& B)
 {
   bool rez = true;
   if (this->l != B.l)
@@ -105,7 +105,7 @@ bool Matrix<A>::operator==(Matrix<A>& B)
 }
 
 template<class A>
-Matrix<A> Matrix<A>::operator+(Matrix<A>& B)
+Matrix<A> Matrix<A>::operator+(const Matrix<A>& B)
 {
   Matrix<A> rez(this->l);
   if (this->l == B.l)
@@ -119,7 +119,7 @@ Matrix<A> Matrix<A>::operator+(Matrix<A>& B)
 }
 
 template<class A>
-Matrix<A> Matrix<A>::operator-(Matrix<A>& B)
+Matrix<A> Matrix<A>::operator-(const Matrix<A>& B)
 {
   Matrix<A> rez(this->l);
   if (this->l == B.l)
@@ -133,7 +133,7 @@ Matrix<A> Matrix<A>::operator-(Matrix<A>& B)
 }
 
 template<class A>
-Matrix<A> Matrix<A>::operator*(Matrix<A>& B)
+Matrix<A> Matrix<A>::operator*(const Matrix<A>& B)
 {
   if (this->l != B.l)
     this->except.except_throw(109);
@@ -146,7 +146,7 @@ Matrix<A> Matrix<A>::operator*(Matrix<A>& B)
 }
 
 template<class A>
-Matrix<A> Matrix<A>::operator/(Matrix<A>& B)
+Matrix<A> Matrix<A>::operator/(const Matrix<A>& B)
 {
   if (this->l != B.l)
     this->except.except_throw(110);
