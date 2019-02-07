@@ -25,7 +25,7 @@ public:
   void DelFirst();
   void DelCustom(const int Pos);
   void DelList();
-  friend TDatLink<T>;
+  //friend TDatLink<T>;
 };
 
 template <class T>
