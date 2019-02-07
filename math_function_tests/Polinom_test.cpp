@@ -8,7 +8,7 @@ TEST(polinom, can_create_polinom)
 
 TEST(polinom, can_transformate_list_monoms_to_polinom)
 {
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 3.14);
   List<Monom> A;
   A.InstFirst(C);
@@ -20,7 +20,7 @@ TEST(polinom, can_transformate_list_monoms_to_polinom)
 TEST(polinom, can_assign_polinom)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 3.14);
   P.InstFirst(C);
   P.InstFirst(C);
@@ -31,7 +31,7 @@ TEST(polinom, can_assign_polinom)
 TEST(polinom, can_throw_if_add_polinoms_with_different_lenght)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 3.14);
   P.InstFirst(C);
   P.InstFirst(C);
@@ -43,7 +43,7 @@ TEST(polinom, can_throw_if_add_polinoms_with_different_lenght)
 TEST(polinom, can_add_polinoms_1)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 2);
   P.InstFirst(C);
   P.InstFirst(C);
@@ -59,8 +59,8 @@ TEST(polinom, can_add_polinoms_1)
 TEST(polinom, can_add_polinoms_2)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(C);
@@ -78,7 +78,7 @@ TEST(polinom, can_add_polinoms_2)
 TEST(polinom, can_throw_if_subtract_polinoms_with_different_lenght)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 3.14);
   P.InstFirst(C);
   P.InstFirst(C);
@@ -90,7 +90,7 @@ TEST(polinom, can_throw_if_subtract_polinoms_with_different_lenght)
 TEST(polinom, can_subtract_polinoms_1)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 2);
   P.InstFirst(C);
   P.InstFirst(C);
@@ -106,8 +106,8 @@ TEST(polinom, can_subtract_polinoms_1)
 TEST(polinom, can_subtract_polinoms_2)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(C);
@@ -125,8 +125,8 @@ TEST(polinom, can_subtract_polinoms_2)
 TEST(polinom, can_multiply_polinoms)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(C);
@@ -147,8 +147,8 @@ TEST(polinom, can_multiply_polinoms)
 TEST(polinom, can_add_polinom_with_monom)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(C);
@@ -159,8 +159,8 @@ TEST(polinom, can_add_polinom_with_monom)
 TEST(polinom, can_add_polinom_with_monom_2)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(D);
@@ -172,7 +172,7 @@ TEST(polinom, can_add_polinom_with_monom_2)
 TEST(polinom, can_return_monom)
 {
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
+  unsigned int B[]={ 3, 2, 1 };
   Monom C(3, B, 2);
   P.InstFirst(C);
   P.InstFirst(C);

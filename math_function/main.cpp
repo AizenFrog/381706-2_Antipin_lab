@@ -10,8 +10,8 @@ int main()
 #ifdef POLINOM
   std::cout << "Тестирование программы работающей с полиномами:\n";
   Polinom P;
-  unsigned int B[]{ 3, 2, 1 };
-  unsigned int A[]{ 1, 2, 3 };
+  unsigned int B[]={ 3, 2, 1 };
+  unsigned int A[]={ 1, 2, 3 };
   Monom C(3, B, 2);
   Monom D(3, A, 3);
   P.InstFirst(C);
