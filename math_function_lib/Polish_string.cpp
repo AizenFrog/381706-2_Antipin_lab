@@ -5,7 +5,7 @@ Polich_string::Polich_string()
   str = new char[100];
   index = 0;
   char_count = 0;
-  servicechar = { "+-*/^()=" };
+  servicechar = "+-*/^()=" ;
 }
 
 int Polich_string::GetIndex()
