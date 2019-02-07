@@ -2,6 +2,8 @@
 #include <iostream>
 #include "Exception_class.h"
 
+using namespace std;
+
 template <class T>
 class Vector
 {
