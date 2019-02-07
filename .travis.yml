@@ -8,7 +8,6 @@ before_script:
 script:
   - cmake ../381706-2_Antipin_lab
   - make -j
-  - cd ./bin/
   - ./vectortest
   - ./stack_and_queue_tests
   - ./list_tests
