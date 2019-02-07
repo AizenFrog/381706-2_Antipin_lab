@@ -13,7 +13,7 @@ int Polich_string::GetIndex()
   return index;
 }
 
-void Polich_string::WrightString(char* string)
+void Polich_string::WrightString(const char* string)
 {
   for (int i = 0; i < 100; i++)
   {

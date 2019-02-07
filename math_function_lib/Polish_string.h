@@ -19,7 +19,7 @@ private:
 public:
   Polich_string();
   int GetIndex();
-  void WrightString(char* string);
+  void WrightString(const char* string);
   Number GetNextChar();
   bool IsServiceChar();
 };
