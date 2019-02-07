@@ -37,4 +37,5 @@ public:
     os << "x" << monom.n - 1 << "^" << monom.power[monom.n - 1];
     return os;
   }
+  friend class Polinim;
 };

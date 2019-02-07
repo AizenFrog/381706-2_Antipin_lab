@@ -36,7 +36,7 @@ Polinom::Polinom(const List<Monom>& ls)
   this->LastItem = tmpCurr;
 }
 
-Polinom& Polinom::operator=(Polinom& polinom)
+Polinom& Polinom::operator=(const Polinom& polinom)
 {
   if (this != &polinom)
   {
@@ -58,7 +58,7 @@ Polinom& Polinom::operator=(Polinom& polinom)
   return *this;
 }
 
-Polinom Polinom::operator+(Polinom& polinom)
+Polinom Polinom::operator+(const Polinom& polinom)
 {
   if (this->ListLen != polinom.ListLen)
     exception.except_throw(105);
@@ -92,7 +92,7 @@ Polinom Polinom::operator+(Polinom& polinom)
   return res;
 }
 
-Polinom Polinom::operator-(Polinom& polinom)
+Polinom Polinom::operator-(const Polinom& polinom)
 {
   if (this->ListLen != polinom.ListLen)
     exception.except_throw(105);
@@ -128,7 +128,7 @@ Polinom Polinom::operator-(Polinom& polinom)
   return res;
 }
 
-Polinom Polinom::operator*(Polinom& polinom)
+Polinom Polinom::operator*(const Polinom& polinom)
 {
   Polinom res;
   TDatLink<Monom>* tmp_1 = this->FirstItem;
