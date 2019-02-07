@@ -26,10 +26,12 @@ TEST(calculator, can_transformate_char_to_int)
 TEST(calculator, can_add_to_stack)
 {
   Number sign;
-  sign.number ="+";
+  char string2[] = "+";
+  sign.number = string2;
   sign.len = 1;
   Number num;
-  num.number = "100";
+  char string1[] = "100";
+  num.number = string1;
   num.len = 3;
   Calculator calc_sign("+");
   ASSERT_NO_THROW(calc_sign.AddToStacks(sign));

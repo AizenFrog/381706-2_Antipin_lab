@@ -136,7 +136,7 @@ TEST(polinom, can_multiply_polinoms)
   Po.InstFirst(C);
   Polinom rez;
   rez = P * Po;
-  unsigned int rez_rower[]{ 4, 4, 4 };
+  unsigned int rez_rower[]={ 4, 4, 4 };
   EXPECT_EQ(rez.GetValue(0).GetC(), 6);
   EXPECT_EQ(rez.GetValue(0).GetN(), 3);
   EXPECT_EQ(rez.GetValue(0).GetPower()[0], rez_rower[0]);

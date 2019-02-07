@@ -11,7 +11,7 @@ private:
   Stack<char>* s_char;
   Exceptions_from_polinom_and_calculator exception;
 public:
-  Calculator(char* string);
+  Calculator(const char* string);
   int Calculate();
   int AddToStacks(Number n);
   int CharToInt(Number st);

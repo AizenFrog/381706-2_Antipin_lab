@@ -1,7 +1,7 @@
 #include "Polish_record.h"
 #include <cmath>
 
-Calculator::Calculator(char* string)
+Calculator::Calculator(const char* string)
 {
   str.WrightString(string);
   numbers = new Stack<int>(100);
