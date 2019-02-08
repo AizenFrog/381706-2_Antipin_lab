@@ -79,7 +79,9 @@ Stack<T>::Stack(const Stack<T>& A)
 template<class T>
 Stack<T>::~Stack()
 {
-  delete[] Mem;
+  if (Mem != NULL)
+      delete Mem;
+  Mem = NULL;
 }
 
 template <class T>

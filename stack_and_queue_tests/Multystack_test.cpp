@@ -1,37 +1,37 @@
 #include <gtest.h>
 #include "Multystack.h"
 
-TEST(Multystack, can_create_multystack_with_positive_len)
+TEST(Multistack, can_create_multystack_with_positive_len)
 {
-	ASSERT_NO_THROW(Multystack<int> M(5, 20));
+	ASSERT_NO_THROW(Multistack<int> M(5, 20));
 }
 
-TEST(Multystack, can_throw_if_create_multystack_with_negative_len)
+TEST(Multistack, can_throw_if_create_multystack_with_negative_len)
 {
-	ASSERT_ANY_THROW(Multystack<int> M(-1, -2));
+	ASSERT_ANY_THROW(Multistack<int> M(-1, -2));
 }
 
-TEST(Multystack, can_throw_if_create_multystack_with_more_counts_than_len)
+TEST(Multistack, can_throw_if_create_multystack_with_more_counts_than_len)
 {
-	ASSERT_ANY_THROW(Multystack<int> M(10, 5));
+	ASSERT_ANY_THROW(Multistack<int> M(10, 5));
 }
 
-TEST(Multystack, can_put_item_into_stack_without_throws)
+TEST(Multistack, can_put_item_into_stack_without_throws)
 {
-  Multystack<int> M(3, 5);
+  Multistack<int> M(3, 5);
   ASSERT_NO_THROW(M.Put(0, 10));
 }
 
-TEST(Multystack, can_get_item_from_stack_without_throws)
+TEST(Multistack, can_get_item_from_stack_without_throws)
 {
-  Multystack<int> M(3, 5);
+  Multistack<int> M(3, 5);
   M.Put(0, 10);
   ASSERT_NO_THROW(M.Get(0));
 }
 
-TEST(Multystack, can_put_item_into_stack)
+TEST(Multistack, can_put_item_into_stack)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
     M.Put(0, 10);
     M.Put(0, 10);
@@ -39,18 +39,18 @@ TEST(Multystack, can_put_item_into_stack)
 	EXPECT_EQ(10, m);
 }
 
-TEST(Multystack, can_put_item_into_full_stack_with_resise_without_throws)
+TEST(Multistack, can_put_item_into_full_stack_with_resise_without_throws)
 {
-  Multystack<int> M(3, 5);
+  Multistack<int> M(3, 5);
   M.Put(0, 10);
   M.Put(0, 10);
   M.Put(0, 10);
   ASSERT_NO_THROW(M.Put(0, 10));
 }
 
-TEST(Multystack, can_put_item_into_full_stack_with_resise_without_throws_2)
+TEST(Multistack, can_put_item_into_full_stack_with_resise_without_throws_2)
 {
-  Multystack<int> M(3, 10);
+  Multistack<int> M(3, 10);
   M.Put(0, 10);
   M.Put(0, 10);
   M.Put(0, 10);
@@ -61,9 +61,9 @@ TEST(Multystack, can_put_item_into_full_stack_with_resise_without_throws_2)
   ASSERT_NO_THROW(M.Put(1, 10));
 }
 
-TEST(Multystack, can_put_item_into_stack_with_resise_without_throws_3)
+TEST(Multistack, can_put_item_into_stack_with_resise_without_throws_3)
 {
-  Multystack<int> M(3, 7);
+  Multistack<int> M(3, 7);
   M.Put(0, 10);
   M.Put(0, 10);
   M.Put(0, 10);
@@ -73,9 +73,9 @@ TEST(Multystack, can_put_item_into_stack_with_resise_without_throws_3)
   ASSERT_NO_THROW(M.Put(2, 10));
 }
 
-TEST(Multystack, can_get_item_from_full_stack_with_resise_without_throws)
+TEST(Multistack, can_get_item_from_full_stack_with_resise_without_throws)
 {
-  Multystack<int> M(3, 7);
+  Multistack<int> M(3, 7);
   M.Put(0, 10);
   M.Put(0, 10);
   M.Put(0, 10);
@@ -86,61 +86,61 @@ TEST(Multystack, can_get_item_from_full_stack_with_resise_without_throws)
   ASSERT_NO_THROW(M.Get(0));
 }
 
-TEST(Multystack, can_get_item_from_stack)
+TEST(Multistack, can_get_item_from_stack)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 5);
 	EXPECT_EQ(5, M.Get(0));
 }
 
-TEST(Multystack, can_messege_if_stack_is_full)
+TEST(Multistack, can_messege_if_stack_is_full)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 5);
 	EXPECT_EQ(1, M.IsFull(0));
 }
 
-TEST(Multystack, can_messege_if_stack_is_empty)
+TEST(Multistack, can_messege_if_stack_is_empty)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	EXPECT_EQ(1, M.IsEmpty(0));
 }
 
 //#define PUBLICMETHODS
 #ifdef PUBLICMETHODS
-TEST(Multystack, can_calculate_free_memory_in_all_stacks)
+TEST(Multistack, can_calculate_free_memory_in_all_stacks)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	EXPECT_EQ(3, M.CalcFree());
 }
 
-TEST(Multystack, can_resize1_free_memory_in_all_stacks)
+TEST(Multistack, can_resize1_free_memory_in_all_stacks)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 5);
 	EXPECT_EQ(1, M.Resize(0));
 }
 
-TEST(Multystack, can_resize2_free_memory_in_all_stacks)
+TEST(Multistack, can_resize2_free_memory_in_all_stacks)
 {
-	Multystack<int> M(3, 10);
+	Multistack<int> M(3, 10);
 	M.Put(1, 10);
 	M.Put(1, 8);
 	M.Put(1, 5);
 	EXPECT_EQ(1, M.Resize(1));
 }
 
-TEST(Multystack, can_resize_if_no_free_memory_in_all_stacks)
+TEST(Multistack, can_resize_if_no_free_memory_in_all_stacks)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 5);
@@ -149,9 +149,9 @@ TEST(Multystack, can_resize_if_no_free_memory_in_all_stacks)
 	EXPECT_EQ(0, M.Resize(0));
 }
 
-TEST(Multystack, can_resize_if_have_1_slot_free_memory)
+TEST(Multistack, can_resize_if_have_1_slot_free_memory)
 {
-	Multystack<int> M(3, 5);
+	Multistack<int> M(3, 5);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 5);
@@ -159,9 +159,9 @@ TEST(Multystack, can_resize_if_have_1_slot_free_memory)
 	EXPECT_EQ(1, M.Resize(0));
 }
 
-TEST(Multystack, can_resize_and_return_item)
+TEST(Multistack, can_resize_and_return_item)
 {
-	Multystack<int> M(3, 6);
+	Multistack<int> M(3, 6);
 	M.Put(0, 10);
 	M.Put(0, 8);
 	M.Put(0, 1);

@@ -38,7 +38,7 @@ int main()
     std::cout << "Из очереди взято: " << qu.Get() << std::endl;
 #endif
 #ifdef multystack
-  Multystack<int> mst(4, 100);
+  Multistack<int> mst(4, 100);
   int ms, val = 0;
   std::cout << "Тестирование системы N стеков:" << std::endl;
   for (ms = 0; ms < 40; ms++)

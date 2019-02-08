@@ -3,7 +3,7 @@
 #include "Exception_class.h"
 
 template <class T>
-class Multystack : public Stack<T>
+class Multistack : public Stack<T>
 {
 protected:
 	int Counts;//количество стеков
@@ -18,9 +18,9 @@ protected:
 	int CalcFree();
 	bool Resize(const int _i);
 public:
-	Multystack(int _Counts, int _L);
-	Multystack(const Multystack& A);
-	~Multystack();
+	Multistack(int _Counts, int _L);
+	Multistack(const Multistack& A);
+	~Multistack();
 	void Put(const int i, const T& A);
 	T Get(const int i);
 	bool IsEmpty(const int i);
@@ -29,7 +29,7 @@ public:
 };
 
 template <class T>
-Multystack<T>::Multystack(int _Counts, int _L)
+Multistack<T>::Multistack(int _Counts, int _L)
 {
 	if (_Counts < 0 || _L < 0)
 		exception.except_throw(111);
@@ -62,7 +62,7 @@ Multystack<T>::Multystack(int _Counts, int _L)
 }
 
 template <class T>
-Multystack<T>::Multystack(const Multystack& A)
+Multistack<T>::Multistack(const Multistack& A)
 {
 	Counts = A.Counts;
 	L = A.L;
@@ -90,17 +90,16 @@ Multystack<T>::Multystack(const Multystack& A)
 }
 
 template<class T>
-Multystack<T>::~Multystack()
+Multistack<T>::~Multistack()
 {
-	delete[] Len;
-    delete[] Index;
-    //delete[] GeneralStack;
-    delete[] stacks;
-    
+  delete[] stacks;
+  delete[] GeneralStack;
+  delete[] Len;
+  delete[] Index; 
 }
 
 template <class T>
-int Multystack<T>::CalcFree()
+int Multistack<T>::CalcFree()
 {
 	int rez = 0;
 	for (int i = 0; i < Counts; i++)
@@ -109,7 +108,7 @@ int Multystack<T>::CalcFree()
 }
 
 template<class T>
-bool Multystack<T>::Resize(const int _i)
+bool Multistack<T>::Resize(const int _i)
 {
 	bool rez = true;
 	int in, j, k, n;
@@ -168,7 +167,7 @@ bool Multystack<T>::Resize(const int _i)
 }
 
 template<class T>
-void Multystack<T>::Put(const int i, const T& A)
+void Multistack<T>::Put(const int i, const T& A)
 {
 	if (stacks[i]->IsFull() == true)
 		if (Resize(i) == true)
@@ -180,7 +179,7 @@ void Multystack<T>::Put(const int i, const T& A)
 }
 
 template<class T>
-T Multystack<T>::Get(const int i)
+T Multistack<T>::Get(const int i)
 {
 	if (stacks[i]->IsEmpty() == true)
       exception.except_throw(114);
@@ -189,19 +188,19 @@ T Multystack<T>::Get(const int i)
 }
 
 template<class T>
-bool Multystack<T>::IsFull(const int i)
+bool Multistack<T>::IsFull(const int i)
 {
 	return stacks[i]->IsFull();
 }
 
 template<class T>
-int Multystack<T>::GetResizeCount()
+int Multistack<T>::GetResizeCount()
 {
 	return ResizeCount;
 }
 
 template<class T>
-bool Multystack<T>::IsEmpty(const int i)
+bool Multistack<T>::IsEmpty(const int i)
 {
 	return stacks[i]->IsEmpty();
 }
