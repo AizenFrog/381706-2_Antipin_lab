@@ -1,9 +1,9 @@
 #pragma once
-#include "Stack.h"
+#include "MStack.h"
 #include "Exception_class.h"
 
 template <class T>
-class Multistack : public Stack<T>
+class Multistack// : public MStack<T>
 {
 protected:
 	int Counts;//количество стеков
@@ -11,7 +11,7 @@ protected:
 	int *Len;//длина каждго стека
 	T** Index;//индекс начала каждого стека 
 	T* GeneralStack;//главный стек
-	Stack<T>** stacks;
+	MStack<T>** stacks;
 	int ResizeCount;
 	Exceptions_from_stack_queue_multystack exception;
 protected:
@@ -52,13 +52,9 @@ Multistack<T>::Multistack(int _Counts, int _L)
 		Index[i] = &GeneralStack[Len[i - 1] + t];
 		t += Len[i - 1];
 	}
-	stacks = new Stack<T>*[Counts];
+	stacks = new MStack<T>*[Counts];
 	for (int i = 0; i < Counts; i++)
-	{
-		//stacks[i] = new Stack<T>(Len[i]);
-		//stacks[i]->SetMem(Index[i], Len[i]);
-      stacks[i] = new Stack<T>(Index[i], Len[i]);
-	}
+      stacks[i] = new MStack<T>(Index[i], Len[i]);
 }
 
 template <class T>
@@ -74,26 +70,27 @@ Multistack<T>::Multistack(const Multistack& A)
 	for (int i = 0; i < Counts; i++)
 		Len[i] = A.Len[i];
 	int t = 0;
+    Index = new T*[Counts];
 	Index[0] = GeneralStack;
 	for (int i = 1; i < Counts; i++)
 	{
 		Index[i] = &GeneralStack[Len[i - 1] + t];
 		t += Len[i - 1];
 	}
-	stacks = new Stack<T>*[Counts];
+	stacks = new MStack<T>*[Counts];
 	for (int i = 0; i < Counts; i++)
 	{
-		//stacks[i] = new Stack<T>(A.stacks[i]);
-		//stacks[i]->SetMem(Index[i], Len[i]);
-      stacks[i] = new Stack<T>(Index[i], Len[i]);
+      stacks[i] = new MStack<T>(Index[i], Len[i]);
+      stacks[i]->SetIndex(A.stacks[i]->GetIndex());
 	}
 }
 
 template<class T>
 Multistack<T>::~Multistack()
 {
-  delete[] stacks;
   delete[] GeneralStack;
+  for (int i = 0; i < Counts; i++)
+    delete stacks[i];
   delete[] Len;
   delete[] Index; 
 }
@@ -112,28 +109,22 @@ bool Multistack<T>::Resize(const int _i)
 {
 	bool rez = true;
 	int in, j, k, n;
-    //stacks[_i]->SetLen(stacks[_i]->GetLen() + 1);//Len += 1;///
 	int FreeMemSize = CalcFree();
-	if (FreeMemSize > 0)////-1
+	if (FreeMemSize > 0)
 	{
 		ResizeCount++;
 		Index[0] = &GeneralStack[0];
-		//for (int i = 1; i <= _i; i++)///////////Counts - 1
-			//Index[i] = Index[i - 1] + stacks[i - 1]->GetIndex() + FreeMemSize / Counts;
-        //if (_i > 0)
-		  //Index[_i] = Index[_i - 1] + stacks[_i - 1]->GetIndex() + FreeMemSize / Counts + FreeMemSize % Counts;////////////Counts - 1, Counts - 2
-        for (int i = 1; i < Counts; i++)///////////Counts - 1
+        for (int i = 1; i < Counts; i++)
         {
           if (_i + 1 == i)
             Index[i] = Index[i - 1] + stacks[i - 1]->GetIndex() + FreeMemSize / Counts + FreeMemSize % Counts;
           else
             Index[i] = Index[i - 1] + stacks[i - 1]->GetIndex() + FreeMemSize / Counts;
         }
-        //stacks[_i]->SetLen(stacks[_i]->GetLen() - 1);//Len -= 1;
 		for (in = 0; in < Counts; in++)
 			if (Index[in] < stacks[in]->GetMem())
 			{
-				for (j = 0; j < stacks[in]->GetLen(); j++)///
+				for (j = 0; j < stacks[in]->GetIndex(); j++)///
 					Index[in][j] = stacks[in]->GetValue(j);
 				stacks[in]->SetMem(Index[in], Index[in + 1] - Index[in]);
 			}
@@ -146,14 +137,14 @@ bool Multistack<T>::Resize(const int _i)
 							break;
 				for (n = k; n >= in; n--)
 				{
-					for (j = stacks[n]->GetLen() - 1; j >= 0; j--)
+					for (j = stacks[n]->GetIndex() - 1; j >= 0; j--)////////
 						Index[n][j] = stacks[n]->GetValue(j);
 					stacks[n]->SetMem(Index[n], Index[n + 1] - Index[n]);
 				}
 			}
 			else
 				stacks[in]->SetMem(Index[in], Index[in + 1] - Index[in]);
-		for (int i = 0; i < Counts - 1; i++)//Counts - 1
+		for (int i = 0; i < Counts - 1; i++)
 		{
 			stacks[i]->SetLen(Index[i + 1] - Index[i]);
 			Len[i] = stacks[i]->GetLen();

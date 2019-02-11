@@ -13,15 +13,10 @@ protected:
 public:
   Stack();
   Stack(const int _Len);
-  Stack(T* _Mem, const int _Len);
   Stack(const Stack<T>& A);
-  ~Stack();
-  void SetMem(T* _Mem, int _Len);
+  virtual ~Stack();
   int GetIndex();
   int GetLen();
-  void SetLen(const int N);
-  T* GetMem();
-  T GetValue(const int N);
   void Put(const T& A);
   T Get();
   T GetWithoutDelete();
@@ -59,14 +54,6 @@ Stack<T>::Stack(const int _Len)
 }
 
 template<class T>
-Stack<T>::Stack(T* _Mem, const int _Len)
-{
-    Len = _Len;
-    Mem = _Mem;
-    Index = 0;
-}
-
-template<class T>
 Stack<T>::Stack(const Stack<T>& A)
 {
   Len = A.Len;
@@ -80,15 +67,8 @@ template<class T>
 Stack<T>::~Stack()
 {
   if (Mem != NULL)
-      delete Mem;
+      delete[] Mem;
   Mem = NULL;
-}
-
-template <class T>
-void Stack<T>::SetMem(T* _Mem, int _Len)
-{
-  Mem = _Mem;
-  Len = _Len;
 }
 
 template<class T>
@@ -101,24 +81,6 @@ template<class T>
 int Stack<T>::GetLen()
 {
   return Len;
-}
-
-template<class T>
-void Stack<T>::SetLen(const int N)
-{
-  Len = N;
-}
-
-template<class T>
-T* Stack<T>::GetMem()
-{
-  return Mem;
-}
-
-template<class T>
-T Stack<T>::GetValue(const int N)
-{
-  return Mem[N];
 }
 
 template<class T>

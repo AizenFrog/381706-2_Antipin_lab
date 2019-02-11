@@ -16,6 +16,12 @@ TEST(Multistack, can_throw_if_create_multystack_with_more_counts_than_len)
 	ASSERT_ANY_THROW(Multistack<int> M(10, 5));
 }
 
+TEST(Multistack, can_create_multistack_using_other_multistack)
+{
+  Multistack<int> M(5, 20);
+  ASSERT_NO_THROW(Multistack<int> B(M));
+}
+
 TEST(Multistack, can_put_item_into_stack_without_throws)
 {
   Multistack<int> M(3, 5);
@@ -37,6 +43,13 @@ TEST(Multistack, can_put_item_into_stack)
     M.Put(0, 10);
     int m = M.Get(0);
 	EXPECT_EQ(10, m);
+}
+
+TEST(Multistack, can_put_item_into_full_stack_with_resise_without_throws_0)
+{
+  Multistack<int> M(3, 5);
+  M.Put(2, 10);
+  ASSERT_NO_THROW(M.Put(2, 10));
 }
 
 TEST(Multistack, can_put_item_into_full_stack_with_resise_without_throws)

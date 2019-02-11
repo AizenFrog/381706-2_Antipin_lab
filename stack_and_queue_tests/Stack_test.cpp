@@ -14,14 +14,20 @@ TEST(Stack, can_create_stack_with_negative_len)
 #define SETMEMORY
 #ifdef SETMEMORY
 
-TEST(Stack, can_set_memory)
-{
-  Stack<int> A(3);
-  int* B = new int[10];
-  A.SetMem(B, 10);
-  EXPECT_EQ(10, A.GetLen());
-  EXPECT_EQ(B, A.GetMem());
-}
+//TEST(Stack, can_set_memory)
+//{
+//  Stack<int> A(3);
+//  int* B = new int[10];
+//  A.SetMem(B, 10);
+//  EXPECT_EQ(10, A.GetLen());
+//  EXPECT_EQ(B, A.GetMem());
+//}
+
+//TEST(Stack, can_set_memory_in_new_stack)
+//{
+//  int B[5];
+//  ASSERT_NO_THROW(Stack<int> A(B, 5));
+//}
 
 #endif
 
