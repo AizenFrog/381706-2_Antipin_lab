@@ -123,63 +123,49 @@ TEST(Multistack, can_messege_if_stack_is_empty)
 	EXPECT_EQ(1, M.IsEmpty(0));
 }
 
-//#define PUBLICMETHODS
-#ifdef PUBLICMETHODS
-TEST(Multistack, can_calculate_free_memory_in_all_stacks)
+//#define TIMECHECK
+#ifdef TIMECHECK
+
+TEST(Multistack, resize_time_check_with_100000)
 {
-	Multistack<int> M(3, 5);
-	M.Put(0, 10);
-	M.Put(0, 8);
-	EXPECT_EQ(3, M.CalcFree());
+  Multistack<int> M(160, 100000);
+  for (int i = 0; i < 100000; i++)
+  {
+    int j = 0;
+    if (i % 1000 == 0)
+      j++;
+    M.Put(j, i);
+   
+  }
+  M.GetResizeCount();
 }
 
-TEST(Multistack, can_resize1_free_memory_in_all_stacks)
+TEST(Multistack, resize_time_check_with_1000000)
 {
-	Multistack<int> M(3, 5);
-	M.Put(0, 10);
-	M.Put(0, 8);
-	M.Put(0, 5);
-	EXPECT_EQ(1, M.Resize(0));
+  Multistack<int> M(160, 1000000);
+  for (int i = 0; i < 1000000; i++)
+  {
+    int j = 0;
+    if (i % 10000 == 0)
+      j++;
+    M.Put(j, i);
+
+  }
+  M.GetResizeCount();
 }
 
-TEST(Multistack, can_resize2_free_memory_in_all_stacks)
+TEST(Multistack, resize_time_check_with_10000000)
 {
-	Multistack<int> M(3, 10);
-	M.Put(1, 10);
-	M.Put(1, 8);
-	M.Put(1, 5);
-	EXPECT_EQ(1, M.Resize(1));
-}
+  Multistack<int> M(160, 10000000);
+  for (int i = 0; i < 10000000; i++)
+  {
+    int j = 0;
+    if (i % 100000 == 0)
+      j++;
+    M.Put(j, i);
 
-TEST(Multistack, can_resize_if_no_free_memory_in_all_stacks)
-{
-	Multistack<int> M(3, 5);
-	M.Put(0, 10);
-	M.Put(0, 8);
-	M.Put(0, 5);
-	M.Put(1, 3);
-	M.Put(2, 1);
-	EXPECT_EQ(0, M.Resize(0));
-}
-
-TEST(Multistack, can_resize_if_have_1_slot_free_memory)
-{
-	Multistack<int> M(3, 5);
-	M.Put(0, 10);
-	M.Put(0, 8);
-	M.Put(0, 5);
-	M.Put(2, 1);
-	EXPECT_EQ(1, M.Resize(0));
-}
-
-TEST(Multistack, can_resize_and_return_item)
-{
-	Multistack<int> M(3, 6);
-	M.Put(0, 10);
-	M.Put(0, 8);
-	M.Put(0, 1);
-	EXPECT_EQ(1, M.Get(0));
-	//ASSERT_NO_THROW(M.Get(0));
+  }
+  M.GetResizeCount();
 }
 
 #endif

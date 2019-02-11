@@ -31,7 +31,6 @@ MStack<T>::MStack(T* _Mem, const int _Len)
 template<class T>
 MStack<T>::~MStack()
 {
-  //for (int i = 0; i < this->Len; i++)
   this->Mem = NULL;
 }
 
