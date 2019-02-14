@@ -18,13 +18,13 @@ public:
   Monom operator[](const int nomber);
   friend std::ostream& operator<<(std::ostream& os, const Polinom& polinom)
   {
-    TDatLink<Monom>* tmp = polinom.FirstItem;
-    for (int i = 0; i < polinom.ListLen - 1; i++)
+    TDatLink<Monom>* tmp = polinom.tFirstItem;
+    for (int i = 0; i < polinom.pListLen - 1; i++)
     {
       os << polinom.GetValue(i) << '+';
       tmp = tmp->GetNextLink();
     }
-    os << polinom.GetValue(polinom.ListLen - 1) << std::endl;
+    os << polinom.GetValue(polinom.pListLen - 1) << std::endl;
     return os;
   }
 };

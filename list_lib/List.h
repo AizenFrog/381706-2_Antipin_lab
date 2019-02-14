@@ -8,31 +8,31 @@ class List
 {
 protected:
   Exceptions_from_list_arrlist* exception;
-  TDatLink<T>* FirstItem;
-  TDatLink<T>* LastItem;
-  int ListLen;
-  TDatLink<T>* GetLink(T _Mem, TDatLink<T>* _m);
-  void DelLink(TDatLink<T>* Link);
+  TDatLink<T>* tFirstItem;
+  TDatLink<T>* tLastItem;
+  int pListLen;
+  TDatLink<T>* GetLink(T _mem, TDatLink<T>* _m);
+  void DelLink(TDatLink<T>* link);
 public:
   List();
   ~List();
-  T GetValue(const int Pos) const;
+  T GetValue(const int pos) const;
   bool IsEmpty() const;
   int GetListLen() const;
-  void InstFirst(T A);
-  void InstCustom(const int Pos, T A);
-  void InstLast(T A);
+  void InstFirst(T a);
+  void InstCustom(const int pos, T a);
+  void InstLast(T a);
   void DelFirst();
-  void DelCustom(const int Pos);
+  void DelCustom(const int pos);
   void DelList();
 };
 
 template <class T>
 List<T>::List()
 {
-  FirstItem = NULL;
-  LastItem = NULL;
-  ListLen = 0;
+  tFirstItem = NULL;
+  tLastItem = NULL;
+  pListLen = 0;
 }
 
 template <class T>
@@ -42,9 +42,9 @@ List<T>::~List()
 }
 
 template <class T>
-TDatLink<T>* List<T>::GetLink(T _Mem, TDatLink<T>* _m)
+TDatLink<T>* List<T>::GetLink(T _mem, TDatLink<T>* _m)
 {
-  TDatLink<T>* tmp = new TDatLink<T>(_Mem, _m);
+  TDatLink<T>* tmp = new TDatLink<T>(_mem, _m);
   if (tmp->GetMem() == NULL && tmp->GetNextLink() == NULL)
     exception->except_throw(101);
   else
@@ -52,24 +52,24 @@ TDatLink<T>* List<T>::GetLink(T _Mem, TDatLink<T>* _m)
 }
 
 template <class T>
-void List<T>::DelLink(TDatLink<T>* Link)
+void List<T>::DelLink(TDatLink<T>* link)
 {
-  if (Link->GetMem() != NULL && Link->GetNextLink() != NULL)
+  if (link->GetMem() != NULL && link->GetNextLink() != NULL)
   {
-    delete Link->Mem;
-    delete Link->m;
+    delete link->Mem;
+    delete link->m;
   }
   else
     exception->except_throw(102);
 }
 
 template <class T>
-T List<T>::GetValue(const int Pos) const
+T List<T>::GetValue(const int pos) const
 {
-  if (Pos >= ListLen || Pos < 0)
+  if (pos >= pListLen || pos < 0)
     exception->except_throw(103);
-  TDatLink<T>* tmp = FirstItem;
-  for (int i = 0; i < Pos; i++)
+  TDatLink<T>* tmp = tFirstItem;
+  for (int i = 0; i < pos; i++)
     tmp = tmp->GetNextLink();
   return tmp->GetMem();
 }
@@ -77,7 +77,7 @@ T List<T>::GetValue(const int Pos) const
 template <class T>
 bool List<T>::IsEmpty() const
 {
-  if (ListLen == 0)
+  if (pListLen == 0)
     return true;
   else
     return false;
@@ -86,48 +86,48 @@ bool List<T>::IsEmpty() const
 template <class T>
 int List<T>::GetListLen() const
 {
-  return ListLen;
+  return pListLen;
 }
 
 template <class T>
-void List<T>::InstFirst(T A)
+void List<T>::InstFirst(T a)
 {
-  TDatLink<T>* tmp = new TDatLink<T>(A, FirstItem);
-  FirstItem = tmp;
-  ListLen++;
-  if (ListLen == 1)
-    LastItem = tmp;
+  TDatLink<T>* tmp = new TDatLink<T>(a, tFirstItem);
+  tFirstItem = tmp;
+  pListLen++;
+  if (pListLen == 1)
+    tLastItem = tmp;
 }
 
 template <class T>
-void List<T>::InstLast(T A)
+void List<T>::InstLast(T a)
 {
-  TDatLink<T>* TMP = new TDatLink<T>(A, NULL);
-  ListLen++;
-  if (ListLen == 1)
+  TDatLink<T>* tMP = new TDatLink<T>(a, NULL);
+  pListLen++;
+  if (pListLen == 1)
   {
-    FirstItem = TMP;
-    LastItem = TMP;
+    tFirstItem = tMP;
+    tLastItem = tMP;
   }
   else
   {
-    LastItem->Set_m(TMP);
-    LastItem = TMP;
+    tLastItem->Set_m(tMP);
+    tLastItem = tMP;
   }
 }
 
 template <class T>
-void List<T>::InstCustom(const int Pos, T A)
+void List<T>::InstCustom(const int pos, T a)
 {
-  if (Pos > ListLen || Pos < 0)
+  if (pos > pListLen || pos < 0)
     exception->except_throw(103);
-  if (Pos != 0 && Pos != ListLen)
+  if (pos != 0 && pos != pListLen)
   {
-    TDatLink<T>* tmp_1 = FirstItem;
-    TDatLink<T>* tmp_2 = new TDatLink<T>(A, NULL);
-    TDatLink<T> tmp_3(A, NULL);
-    for (int i = 0; i < Pos; i++)
-      if (i == Pos - 1)
+    TDatLink<T>* tmp_1 = tFirstItem;
+    TDatLink<T>* tmp_2 = new TDatLink<T>(a, NULL);
+    TDatLink<T> tmp_3(a, NULL);
+    for (int i = 0; i < pos; i++)
+      if (i == pos - 1)
       {
         tmp_3 = *tmp_1;
         tmp_1->Set_m(tmp_2);
@@ -135,12 +135,12 @@ void List<T>::InstCustom(const int Pos, T A)
       }
       else
         tmp_1 = tmp_1->GetNextLink();
-    ListLen++;
+    pListLen++;
   }
-  else if (Pos == 0)
-    InstFirst(A);
-  else if (Pos == ListLen)
-    InstLast(A);
+  else if (pos == 0)
+    InstFirst(a);
+  else if (pos == pListLen)
+    InstLast(a);
 }
 
 template <class T>
@@ -148,44 +148,44 @@ void List<T>::DelFirst()
 {
   if (IsEmpty() == true)
     exception->except_throw(104);
-  TDatLink<T>* tmp = FirstItem;
-  FirstItem = tmp->GetNextLink();
+  TDatLink<T>* tmp = tFirstItem;
+  tFirstItem = tmp->GetNextLink();
   delete tmp;
-  ListLen--;
+  pListLen--;
 }
 
 template <class T>
-void List<T>::DelCustom(const int Pos)
+void List<T>::DelCustom(const int pos)
 {
-  if (Pos > ListLen - 1 || Pos < 0)
+  if (pos > pListLen - 1 || pos < 0)
     exception->except_throw(103);
   if (IsEmpty() == true)
     exception->except_throw(104);
-  if (Pos == 0)
+  if (pos == 0)
     DelFirst();
-  else if (Pos == ListLen - 1)
+  else if (pos == pListLen - 1)
   {
-    TDatLink<T>* tmp = FirstItem;
+    TDatLink<T>* tmp = tFirstItem;
     TDatLink<T>* TMP;
-    for (int i = 0; i < Pos - 1; i++)
+    for (int i = 0; i < pos - 1; i++)
       tmp = tmp->GetNextLink();
     TMP = tmp->GetNextLink();
     delete TMP;
     tmp->Set_m(NULL);
-    ListLen--;
-    if (ListLen == 1)
-      LastItem = FirstItem;
+    pListLen--;
+    if (pListLen == 1)
+      tLastItem = tFirstItem;
   }
   else
   {
-    TDatLink<T>* tmp = FirstItem;
-    TDatLink<T>* TMP;
-    for (int i = 0; i < Pos - 1; i++)
+    TDatLink<T>* tmp = tFirstItem;
+    TDatLink<T>* tMP;
+    for (int i = 0; i < pos - 1; i++)
       tmp = tmp->GetNextLink();
-    TMP = tmp->GetNextLink();
+    tMP = tmp->GetNextLink();
     tmp->Set_m(tmp->GetNextLink()->GetNextLink());
-    delete TMP;
-    ListLen--;
+    delete tMP;
+    pListLen--;
   }
 }
 
@@ -194,5 +194,5 @@ void List<T>::DelList()
 {
   while (IsEmpty() == false)
     DelFirst();
-  FirstItem = LastItem = NULL;
+  tFirstItem = tLastItem = NULL;
 }

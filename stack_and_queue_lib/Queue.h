@@ -6,12 +6,12 @@ class Queue : public Stack<T>
 {
 protected:
   int counts;
-  int IndexFirst;
+  int qIndexFirst;
 public:
   Queue();
-  Queue(const int _Len);
-  Queue(const Queue<T>& A);
-  void Put(const T& A);
+  Queue(const int _len);
+  Queue(const Queue<T>& a);
+  void Put(const T& a);
   T Get();
   T GetWithoutDelete();
   bool IsFull();
@@ -22,59 +22,59 @@ template<class T>
 Queue<T>::Queue() : Stack<T>()
 {
   counts = 0;
-  IndexFirst = 0;
+  qIndexFirst = 0;
 }
 
 template<class T>
-Queue<T>::Queue(const int _Len)
+Queue<T>::Queue(const int _len)
 {
-  if (_Len < 0)
+  if (_len < 0)
     this->except.except_throw(106);
-  else if (_Len == 0)
+  else if (_len == 0)
   {
-    this->Len = 0;
-    this->Mem = NULL;
-    this->Index = 0;
+    this->sLen = 0;
+    this->sMem = NULL;
+    this->sIndex = 0;
     counts = 0;
-    IndexFirst = 0;
+    qIndexFirst = 0;
   }
   else
   {
-    this->Len = _Len;
-    this->Mem = new T[this->Len];
-    for (int i = 0; i < this->Len; i++)
-      this->Mem[i] = 0;
-    this->Index = 0;
-    IndexFirst = 0;
+    this->sLen = _len;
+    this->sMem = new T[this->sLen];
+    for (int i = 0; i < this->sLen; i++)
+      this->sMem[i] = 0;
+    this->sIndex = 0;
+    qIndexFirst = 0;
     counts = 0;
   }
 }
 
 template<class T>
-Queue<T>::Queue(const Queue<T>& A)
+Queue<T>::Queue(const Queue<T>& a)
 {
-  this->Len = A->Len;
-  this->Mem = new T[this->Len];
-  for (int i = 0; i < this->Len; i++)
-    this->Mem[i] = A->Mem[i];
-  this->Index = A->Index;
-  IndexFirst = A.IndexFirst;
-  counts = A.counts;
+  this->sLen = a->sLen;
+  this->sMem = new T[this->sLen];
+  for (int i = 0; i < this->sLen; i++)
+    this->sMem[i] = a->sMem[i];
+  this->sIndex = a->sIndex;
+  qIndexFirst = a.qIndexFirst;
+  counts = a.counts;
 }
 
 template<class T>
-void Queue<T>::Put(const T& A)
+void Queue<T>::Put(const T& a)
 {
   if (IsFull() == false)
   {
-    this->Mem[this->Index] = A;
+    this->sMem[this->sIndex] = a;
     counts++;
-    if (counts != this->Len && this->Index != this->Len)
-      this->Index++;
-    else if (counts != this->Len && this->Index == this->Len)
-      this->Index = 0;
-    else if (counts == this->Len)
-      this->Index = 0;
+    if (counts != this->sLen && this->sIndex != this->sLen)
+      this->sIndex++;
+    else if (counts != this->sLen && this->sIndex == this->sLen)
+      this->sIndex = 0;
+    else if (counts == this->sLen)
+      this->sIndex = 0;
   }
   else
     this->except.except_throw(107);
@@ -86,13 +86,13 @@ T Queue<T>::Get()
   if (IsEmpty() == false)
   {
     counts--;
-    T A = this->Mem[IndexFirst];
-    if (counts != 0 && IndexFirst != this->Len - 1)
-      IndexFirst++;
-    else if (counts != 0 && IndexFirst == this->Len - 1)
-      IndexFirst = 0;
+    T A = this->sMem[qIndexFirst];
+    if (counts != 0 && qIndexFirst != this->sLen - 1)
+      qIndexFirst++;
+    else if (counts != 0 && qIndexFirst == this->sLen - 1)
+      qIndexFirst = 0;
     else if (counts == 0)
-      IndexFirst = this->Index = 0;
+      qIndexFirst = this->sIndex = 0;
     return A;
   }
   else
@@ -104,7 +104,7 @@ T Queue<T>::GetWithoutDelete()
 {
   if (IsEmpty() == false)
   {
-    T A = this->Mem[IndexFirst];
+    T A = this->sMem[qIndexFirst];
     return A;
   }
   else
@@ -114,9 +114,9 @@ T Queue<T>::GetWithoutDelete()
 template<class T>
 bool Queue<T>::IsFull()
 {
-  if (counts == this->Len)
+  if (counts == this->sLen)
     return true;
-  else if (counts > this->Len)
+  else if (counts > this->sLen)
     this->except.except_throw(109);
   else
     return false;
@@ -127,7 +127,7 @@ bool Queue<T>::IsEmpty()
 {
   if (counts == 0)
     return true;
-  else if (counts > this->Len)
+  else if (counts > this->sLen)
     this->except.except_throw(110);
   if (counts > 0)
     return false;

@@ -23,44 +23,44 @@ MStack<T>::MStack()
 template <class T>
 MStack<T>::MStack(T* _Mem, const int _Len)
 {
-  this->Len = _Len;
-  this->Mem = _Mem;
-  this->Index = 0;
+  this->sLen = _Len;
+  this->sMem = _Mem;
+  this->sIndex = 0;
 }
 
 template<class T>
 MStack<T>::~MStack()
 {
-  this->Mem = NULL;
+  this->sMem = NULL;
 }
 
 template <class T>
 void MStack<T>::SetMem(T* _Mem, int _Len)
 {
-  this->Mem = _Mem;
-  this->Len = _Len;
+  this->sMem = _Mem;
+  this->sLen = _Len;
 }
 
 template<class T>
 void MStack<T>::SetLen(const int N)
 {
-  this->Len = N;
+  this->sLen = N;
 }
 
 template<class T>
 T* MStack<T>::GetMem()
 {
-  return this->Mem;
+  return this->sMem;
 }
 
 template<class T>
 T MStack<T>::GetValue(const int N)
 {
-  return this->Mem[N];
+  return this->sMem[N];
 }
 
 template<class T>
 void MStack<T>::SetIndex(const int _i)
 {
-  this->Index = _i;
+  this->sIndex = _i;
 }

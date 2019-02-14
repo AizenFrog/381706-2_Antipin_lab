@@ -4,15 +4,15 @@
 #include "Exception_class.h"
 
 template <class T>
-class tStackList
+class TStackList
 {
 protected:
-  TDatLink<T>* pFirstItem;
-  int ListLen;
+  TDatLink<T>* pLastItem;
+  int pListLen;
   Exceptions_from_stack_queue_multystack exception;
 public:
-  tStackList();
-  ~tStackList();
+  TStackList();
+  ~TStackList();
   int GetLen();
   bool IsEmpty();
   void Put(T A);
@@ -20,75 +20,72 @@ public:
 };
 
 template <class T>
-tStackList<T>::tStackList()
+TStackList<T>::TStackList()
 {
-  pFirstItem = NULL;
-  ListLen = 0;
+  pLastItem = NULL;
+  pListLen = 0;
 }
 
 template <class T>
-tStackList<T>::~tStackList()
+TStackList<T>::~TStackList()
 {
   while (IsEmpty() == false)
   {
-    TDatLink<T>* tmp = pFirstItem;
-    pFirstItem = pFirstItem->GetNextLink();
+    TDatLink<T>* tmp = pLastItem;
+    pLastItem = pLastItem->GetNextLink();
     delete tmp;
+    pListLen--;
   }
 }
 
 template<class T>
-int tStackList<T>::GetLen()
+int TStackList<T>::GetLen()
 {
-  return ListLen;
+  return pListLen;
 }
 
 template <class T>
-bool tStackList<T>::IsEmpty()
+bool TStackList<T>::IsEmpty()
 {
-  if (pFirstItem == NULL)
+  if (pListLen == 0)
     return true;
   else
     return false;
 }
 
 template <class T>
-void tStackList<T>::Put(T A)
+void TStackList<T>::Put(T a)
 {
-  TDatLink<T>* tmp_1 = new TDatLink<T>(A, NULL);
-  if (ListLen == 0)
-    pFirstItem = tmp_1;
+  TDatLink<T>* tmp_1 = new TDatLink<T>(a, NULL);
+  if (pListLen == 0)
+    pLastItem = tmp_1;
   else
   {
-    TDatLink<T>* tmp_2 = pFirstItem;
-    for (int i = 0; i < ListLen - 1; i++)
-      tmp_2 = tmp_2->GetNextLink();
-    tmp_2->Set_m(tmp_1);
+    tmp_1->Set_m(pLastItem);
+    pLastItem = tmp_1;
   }
-  ListLen++;
+  pListLen++;
 }
 
 template <class T>
-T tStackList<T>::Get()
+T TStackList<T>::Get()
 {
-  if (ListLen == 0)
+  if (pListLen == 0)
     exception.except_throw(103);
   T A;
-  if (ListLen == 1)
+  if (pListLen == 1)
   {
-    A = pFirstItem->GetMem();
-    pFirstItem = NULL;
+    A = pLastItem->GetMem();
+    pLastItem = NULL;
   }
   else
   {
-    TDatLink<T>* tmp_2 = pFirstItem;
-    for (int i = 0; i < ListLen - 2; i++)
-      tmp_2 = tmp_2->GetNextLink();
-    A = tmp_2->GetNextLink()->GetMem();
-    delete tmp_2->GetNextLink();
-    tmp_2->Set_m(NULL);
+    A = pLastItem->GetMem();
+    TDatLink<T>* tmp = pLastItem;
+    pLastItem = pLastItem->GetNextLink();
+    delete tmp;
   }
-  ListLen--;
+  pListLen--;
   return A;
 }
 

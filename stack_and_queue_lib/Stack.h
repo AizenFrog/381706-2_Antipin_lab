@@ -6,14 +6,14 @@ template<class T>
 class Stack
 {
 protected:
-  int Len;
-  T *Mem;
-  int Index;
+  int sLen;
+  T *sMem;
+  int sIndex;
   Exceptions_from_stack_queue_multystack except;
 public:
   Stack();
-  Stack(const int _Len);
-  Stack(const Stack<T>& A);
+  Stack(const int _len);
+  Stack(const Stack<T>& a);
   virtual ~Stack();
   int GetIndex();
   int GetLen();
@@ -27,69 +27,69 @@ public:
 template<class T>
 Stack<T>::Stack()
 {
-  Len = 0;
-  Mem = NULL;
-  Index = 0;
+  sLen = 0;
+  sMem = NULL;
+  sIndex = 0;
 }
 
 template<class T>
-Stack<T>::Stack(const int _Len)
+Stack<T>::Stack(const int _len)
 {
-  if (_Len < 0)
+  if (_len < 0)
     except.except_throw(101);
-  else if (_Len == 0)
+  else if (_len == 0)
   {
-    Len = 0;
-    Mem = NULL;
-    Index = 0;
+    sLen = 0;
+    sMem = NULL;
+    sIndex = 0;
   }
   else
   {
-    Len = _Len;
-    Mem = new T[Len];
-    for (int i = 0; i < Len; i++)
-      Mem[i] = 0;
-    Index = 0;
+    sLen = _len;
+    sMem = new T[sLen];
+    for (int i = 0; i < sLen; i++)
+      sMem[i] = 0;
+    sIndex = 0;
   }
 }
 
 template<class T>
-Stack<T>::Stack(const Stack<T>& A)
+Stack<T>::Stack(const Stack<T>& a)
 {
-  Len = A.Len;
-  Mem = new T[Len];
-  for (int i = 0; i < Len; i++)
-    Mem[i] = A.Mem[i];
-  Index = A.Index;
+  sLen = a.sLen;
+  sMem = new T[sLen];
+  for (int i = 0; i < sLen; i++)
+    sMem[i] = a.sMem[i];
+  sIndex = a.sIndex;
 }
 
 template<class T>
 Stack<T>::~Stack()
 {
-  if (Mem != NULL)
-      delete[] Mem;
-  Mem = NULL;
+  if (sMem != NULL)
+      delete[] sMem;
+  sMem = NULL;
 }
 
 template<class T>
 int Stack<T>::GetIndex()
 {
-  return Index;
+  return sIndex;
 }
 
 template<class T>
 int Stack<T>::GetLen()
 {
-  return Len;
+  return sLen;
 }
 
 template<class T>
-void Stack<T>::Put(const T& A)
+void Stack<T>::Put(const T& a)
 {
   if (IsFull() == false)
   {
-    Mem[Index] = A;
-    Index++;
+    sMem[sIndex] = a;
+    sIndex++;
   }
   else
     except.except_throw(102);
@@ -100,8 +100,8 @@ T Stack<T>::Get()
 {
   if (IsEmpty() == false)
   {
-    Index--;
-    return Mem[Index];
+    sIndex--;
+    return sMem[sIndex];
   }
   else
     except.except_throw(103);
@@ -111,7 +111,7 @@ template<class T>
 T Stack<T>::GetWithoutDelete()
 {
   if (IsEmpty() == false)
-    return Mem[Index - 1];
+    return sMem[sIndex - 1];
   else
     except.except_throw(103);
 }
@@ -119,9 +119,9 @@ T Stack<T>::GetWithoutDelete()
 template<class T>
 bool Stack<T>::IsFull()
 {
-  if (Index == Len)
+  if (sIndex == sLen)
     return true;
-  else if (Index > Len || Index < 0)
+  else if (sIndex > sLen || sIndex < 0)
     except.except_throw(104);
   else
     return false;
@@ -130,10 +130,10 @@ bool Stack<T>::IsFull()
 template<class T>
 bool Stack<T>::IsEmpty()
 {
-  if (Index == 0)
+  if (sIndex == 0)
     return true;
-  else if (Index > Len || Index < 0)
+  else if (sIndex > sLen || sIndex < 0)
     except.except_throw(105);
-  if (Index > 0)
+  if (sIndex > 0)
     return false;
 }

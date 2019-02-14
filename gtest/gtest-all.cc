@@ -1264,7 +1264,7 @@ class GTEST_API_ UnitTestImpl {
   bool parameterized_tests_registered_;
 #endif  // GTEST_HAS_PARAM_TEST
 
-  // Index of the last death test case registered.  Initially -1.
+  // sIndex of the last death test case registered.  Initially -1.
   int last_death_test_case_;
 
   // This points to the TestCase for the currently running test.  It

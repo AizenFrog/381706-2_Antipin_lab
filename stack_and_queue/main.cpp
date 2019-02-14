@@ -64,7 +64,7 @@ int main()
   cout << "„исло циклов - " << val << ", перепаковок - " << mst.GetResizeCount() << endl;
 #endif
 #ifdef stacklist
-  tStackList<int> sl;
+  TStackList<int> sl;
   std::cout << "“естирование системы стека, основанного на списке:" << std::endl;
   for (int i = 0; i < 100; i++)
   {

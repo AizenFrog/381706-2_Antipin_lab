@@ -6,18 +6,18 @@ template <class T>
 class ArrList
 {
 protected:
-  T* Mas;
-  int* Index;
-  int Mem, count, c, size;//текущий элемент; количество элементов; текущий свободный; размер
+  T* arMas;
+  int* arIndex;
+  int arMem, count, c, size;//текущий элемент; количество элементов; текущий свободный; размер
   Exceptions_from_list_arrlist exception;
 public:
   ArrList(const int n = 0);
-  ArrList(const ArrList<T>& A);
+  ArrList(const ArrList<T>& a);
   ~ArrList();
   bool IsFull();
   bool IsEmpty();
-  void PutStart(const T& A);
-  void PutEnd(const T& A);
+  void PutStart(const T& a);
+  void PutEnd(const T& a);
   T GetStart();
   T GetEnd();
 };
@@ -29,41 +29,41 @@ ArrList<T>::ArrList(const int n)
     exception.except_throw(105);
   else if (n == 0)
   {
-    Mas = NULL;
-    Index = NULL;
-    Mem = count = c = size = 0;
+    arMas = NULL;
+    arIndex = NULL;
+    arMem = count = c = size = 0;
   }
   else
   {
     size = n;
     count = c = 0;
-    Mas = new T[size];
-    Index = new int[size];
-    Mem = -1;
+    arMas = new T[size];
+    arIndex = new int[size];
+    arMem = -1;
     for (int i = 0; i < size; i++)
-      Index[i] = -2;
+      arIndex[i] = -2;
   }
 }
 
 template <class T>
-ArrList<T>::ArrList(const ArrList<T>& A)
+ArrList<T>::ArrList(const ArrList<T>& a)
 {
-  if (A.size == 0)
+  if (a.size == 0)
   {
-    size = c = Mem = count = 0;
-    Mas = NULL;
-    Index = NULL;
+    size = c = arMem = count = 0;
+    arMas = NULL;
+    arIndex = NULL;
   }
   else
   {
-    size = A.size;
-    c = A.c;
-    Mem = A.Mem;
-    count = A.count;
+    size = a.size;
+    c = a.c;
+    arMem = a.arMem;
+    count = a.count;
     for (int i = 0; i < size; i++)
     {
-      Mas[i] = A.Mas[i];
-      Index[i] = A.Index[i];
+      arMas[i] = a.arMas[i];
+      arIndex[i] = a.arIndex[i];
     }
   }
 }
@@ -71,8 +71,8 @@ ArrList<T>::ArrList(const ArrList<T>& A)
 template <class T>
 ArrList<T>::~ArrList()
 {
-  delete[] Mas;
-  delete[] Index;
+  delete[] arMas;
+  delete[] arIndex;
 }
 
 template <class T>
@@ -94,18 +94,18 @@ bool ArrList<T>::IsEmpty()
 }
 
 template <class T>
-void ArrList<T>::PutStart(const T& A)
+void ArrList<T>::PutStart(const T& a)
 {
   if (IsFull() == true)
     exception.except_throw(106);
   else
   {
-    Mas[c] = A;
-    Index[c] = Mem;
-    Mem = c;
+    arMas[c] = a;
+    arIndex[c] = arMem;
+    arMem = c;
     count++;
     for (int i = 0; i < size; i++)
-      if (Index[i] == -2)
+      if (arIndex[i] == -2)
       {
         c = i;
         break;
@@ -114,23 +114,23 @@ void ArrList<T>::PutStart(const T& A)
 }
 
 template <class T>
-void ArrList<T>::PutEnd(const T& A)
+void ArrList<T>::PutEnd(const T& a)
 {
   if (IsFull() == true)
     exception.except_throw(106);
   else if (IsEmpty() == true)
-    PutStart(A);
+    PutStart(a);
   else
   {
-    int i = Mem;
-    while (Index[i] != -1)
-      i = Index[i];
-    Mas[c] = A;
-    Index[c] = -1;
-    Index[i] = c;
+    int i = arMem;
+    while (arIndex[i] != -1)
+      i = arIndex[i];
+    arMas[c] = a;
+    arIndex[c] = -1;
+    arIndex[i] = c;
     count++;
     for (int k = 0; k < size; k++)
-      if (Index[k] == -2)
+      if (arIndex[k] == -2)
       {
         c = k;
         break;
@@ -143,11 +143,11 @@ T ArrList<T>::GetStart()
 {
   if (IsEmpty() == true)
     exception.except_throw(107);
-  int i = Mem;
-  Mem = Index[Mem];
-  Index[i] = -2;
+  int i = arMem;
+  arMem = arIndex[arMem];
+  arIndex[i] = -2;
   count--;
-  return Mas[i];
+  return arMas[i];
 }
 
 template <class T>
@@ -159,17 +159,17 @@ T ArrList<T>::GetEnd()
     GetStart();
   else
   {
-    int i = Mem;
-    int j = Index[i];
-    while (Index[j] != -1)
+    int i = arMem;
+    int j = arIndex[i];
+    while (arIndex[j] != -1)
     {
       i = j;
-      j = Index[j];
+      j = arIndex[j];
     }
-    Index[j] = -2;
+    arIndex[j] = -2;
     count--;
     c = j;
-    Index[i] = -1;
-    return Mas[j];
+    arIndex[i] = -1;
+    return arMas[j];
   }
 }
