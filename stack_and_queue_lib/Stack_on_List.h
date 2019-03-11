@@ -15,8 +15,9 @@ public:
   ~TStackList();
   int GetLen();
   bool IsEmpty();
-  void Put(T A);
+  void Put(const T A);
   T Get();
+  void Clear();
 };
 
 template <class T>
@@ -54,7 +55,7 @@ bool TStackList<T>::IsEmpty()
 }
 
 template <class T>
-void TStackList<T>::Put(T a)
+void TStackList<T>::Put(const T a)
 {
   TDatLink<T>* tmp_1 = new TDatLink<T>(a, NULL);
   if (pListLen == 0)
@@ -76,7 +77,8 @@ T TStackList<T>::Get()
   if (pListLen == 1)
   {
     A = pLastItem->GetMem();
-    pLastItem = NULL;
+    delete pLastItem;
+    //pLastItem = NULL;
   }
   else
   {
@@ -89,3 +91,14 @@ T TStackList<T>::Get()
   return A;
 }
 
+template <class T>
+void TStackList<T>::Clear()
+{
+  while (IsEmpty() == false)
+  {
+    TDatLink<T>* tmp = pLastItem;
+    pLastItem = pLastItem->GetNextLink();
+    delete tmp;
+    pListLen--;
+  }
+}

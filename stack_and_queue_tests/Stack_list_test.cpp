@@ -40,6 +40,14 @@ TEST(StackList, can_throw_if_get_item_from_empty_stack_list)
   ASSERT_ANY_THROW(A.Get());
 }
 
+TEST(StackList, can_put_item_in_empty_stack_list_after_getting_item)
+{
+  TStackList<int> A;
+  A.Put(10);
+  A.Get();
+  ASSERT_NO_THROW(A.Put(10));
+}
+
 TEST(StackList, can_return_list_lenght)
 {
   TStackList<int> A;
