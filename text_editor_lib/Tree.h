@@ -1,6 +1,7 @@
 #pragma once
 #include "Stack_on_List.h"
 #include <iostream>
+#include "Exception_class.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ protected:
   static TTree* cur_free;
   static int tree_size;
   static int busy_tree_size;
+  Exceptions_from_tree_text exception;
 public:
   TTree(const int _level);
   TTree(const char* word);

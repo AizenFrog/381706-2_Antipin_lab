@@ -10,7 +10,7 @@ TTree* TTree::cur_free = NULL;
 TTree::TTree(const int _level)
 {
   if (_level < 0 || _level > 3)
-    throw 1;
+    exception.except_throw(101);
   Initialization();
   level = _level;
   letter = 0;
@@ -69,17 +69,13 @@ TTree::~TTree()
 TTree& TTree::operator=(const TTree& tree)
 {
   if (level != tree.level)
-    throw 2;
-  //TTree* tmp1 = same_level;
-  //TTree* tmp2 = next_level;
+    exception.except_throw(102);
   if (this != &tree)
   {
     same_level = tree.same_level;
     next_level = tree.next_level;
     letter = tree.letter;
   }
-  //delete tmp1;
-  //delete tmp2;
   return *this;
 }
 
@@ -115,17 +111,9 @@ void* TTree::operator new (const unsigned int size)
   {
     TTree* tmp1 = cur_free;
     if (busy_tree_size == tree_size)
-      throw 6;
+      throw("No free memory");
     cur_free = cur_free->next_level;
     busy_tree_size++;
-    //TTree* tmp2 = tmp1;
- /*   for (int i = 0; i < size && tmp2 != 0; i++)
-    {
-      if (tmp2 == 0)
-        throw 5;
-      else
-        tmp2 = tmp2->next_level;
-    }*/
     return tmp1;
   }
 }
@@ -172,7 +160,7 @@ void TTree::SetLetter(const char _letter)
   if (level == 3)
     letter = _letter;
   else
-    throw 3;
+    exception.except_throw(103);
 }
 
 void TTree::SetLevel(const int _level)
@@ -200,7 +188,7 @@ char TTree::GetLetter()
   if (level == 3)
     return letter;
   else
-    throw 4;
+    exception.except_throw(104);
 }
 
 int TTree::GetLevel()
@@ -283,7 +271,7 @@ TTree* TTree::Clone()
 void TTree::Initialization(const int size)
 {
   if (size <= 0)
-    throw 4;
+    exception.except_throw(105);
   if (memory == 0)
   {
     tree_size = size;

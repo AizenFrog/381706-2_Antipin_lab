@@ -4,12 +4,66 @@ TText::TText(const char* string)
 {
   root = new TTree(0);
   root->SetNextLevel(new TTree(1));
-  root->GetNextLevel()->SetNextLevel(new TTree(string));
+  TTree* tmp = root->GetNextLevel();
+  char* word;
+  int len = strlen(string);
+  int space_pos[100];
+  int space_count = 0;
+  int iter = 0;
+  for (int i = 0; i < len; i++)
+    if (string[i] == ' ')
+    {
+      if (space_count > 98)
+        exception.except_throw(106);;
+      space_pos[space_count] = i;
+      space_count++;
+    }
+  space_pos[space_count] = len;
+  word = new char[space_pos[0] + 1];
+  space_count = 0;
+  for (int i = 0; i < len; i++)
+  {
+    if (string[i] != ' ')
+    {
+      word[iter] = string[i];
+      iter++;
+    }
+    if (string[i] == ' ' || i + 1 == len)
+    {
+      word[iter] = 0;
+      if (i == iter)
+      {
+        tmp->SetNextLevel(new TTree(word));
+        tmp = tmp->GetNextLevel();
+      }
+      else
+      {
+        tmp->SetSameLevel(new TTree(word));
+        tmp = tmp->GetSameLevel();
+      }
+      delete[] word;
+      iter = 0;
+      word = new char[space_pos[space_count + 1] - space_pos[space_count]];
+    }
+  }
+  delete[] word;
 }
 
 TText::TText(TText& text)
 {
   root = text.Clone();
+}
+
+TText::TText(TTree& tree)
+{
+  root = new TTree(0);
+  root->SetNextLevel(new TTree(1));
+  root->GetNextLevel()->SetNextLevel(new TTree(*(tree.GetNextLevel()->GetNextLevel())));
+}
+
+TTree* TText::GetRoot()
+{
+  return root;
 }
 
 void TText::Insert(const int pos, const char* string)
@@ -45,10 +99,16 @@ void TText::Insert(TTree* start, TTree* string)
 {
   TTree* tmp1 = string;
   TTree* tmp2 = root;
-  while (tmp2->GetLevel() != start->GetLevel())
-    tmp2 = tmp2->GetNextLevel();
+  TStackList<TTree*> stack;
+  stack.Put(root);
   while (tmp2 != start)
-    tmp2 = tmp2->GetSameLevel();
+  {
+    tmp2 = stack.Get();
+    if (tmp2->GetSameLevel() != NULL)
+      stack.Put(tmp2->GetSameLevel());
+    if (tmp2->GetNextLevel() != NULL)
+      stack.Put(tmp2->GetNextLevel());
+  }
   tmp1->SetSameLevel(tmp2->GetSameLevel());
   tmp2->SetSameLevel(tmp1);
 }
@@ -60,10 +120,10 @@ int TText::Find(const char* string)
   int len = strlen(string);
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty())
+  while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
-    if (tmp->GetLetter() == string[i])
+    if (tmp->GetLevel() == 3 && tmp->GetLetter() == string[i])
       i++;
     else if (tmp->GetLevel() == 3 && tmp->GetLetter() != string[i])
     {
@@ -94,10 +154,10 @@ TTree* TText::FindTree(const char* string)
   int len = strlen(string);
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty())
+  while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
-    if (tmp->GetLetter() == string[i])
+    if (tmp->GetLevel() == 3 && tmp->GetLetter() == string[i])
     {
       if (i == 0)
         res = tmp;
@@ -124,23 +184,23 @@ TTree* TText::FindTree(const char* string)
 
 char* TText::Copy(const int start, const int len)
 {
-  char* res;
+  char* res = new char[len];
   TStackList<TTree*> stack;
   stack.Put(root);
   //TTree* res = NULL;
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty())
+  while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
-    if (tmp->GetLevel() == 3)
-      pos++;
-    else if (tmp->GetLevel() == 3 && pos == start + i)
+    if (tmp->GetLevel() == 3 && pos == start + i)
     {
       pos++;
       res[i] = tmp->GetLetter();
       i++;
     }
+    else if (tmp->GetLevel() == 3)
+      pos++;
     if (i == len)
       break;
     if (tmp->GetSameLevel() != NULL)
@@ -162,12 +222,11 @@ TTree* TText::Copy(TTree* start, const int len)
   stack.Put(root);
   int i = len;//итератор
   bool flag = false;
-  while (stack.IsEmpty())
+  while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
     if (tmp == start)
     {
-      //res_s->SetNextLevel(tmp);
       i--;
       flag = true;
     }
