@@ -12,6 +12,7 @@ public:
   TTree* GoNext();
   void Reset();
   bool IsEnd();
+  void PutInStack(TTree* tree);
   TTree* operator()();
   TTreeIterator& operator++();
 };

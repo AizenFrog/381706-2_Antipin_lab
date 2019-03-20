@@ -21,14 +21,14 @@ TText::TText(const char* string)
   space_pos[space_count] = len;
   word = new char[space_pos[0] + 1];
   space_count = 0;
-  for (int i = 0; i < len; i++)
+  for (int i = 0; i <= len; i++)
   {
-    if (string[i] != ' ')
+    if (string[i] != ' ' && i != len)
     {
       word[iter] = string[i];
       iter++;
     }
-    if (string[i] == ' ' || i + 1 == len)
+    else if (string[i] == ' ' || i == len)
     {
       word[iter] = 0;
       if (i == iter)
@@ -43,10 +43,12 @@ TText::TText(const char* string)
       }
       delete[] word;
       iter = 0;
+      if (i == len)
+        break;
       word = new char[space_pos[space_count + 1] - space_pos[space_count]];
     }
   }
-  delete[] word;
+  //delete[] word;
 }
 
 TText::TText(TText& text)
@@ -77,20 +79,21 @@ void TText::Insert(const int pos, const char* string)
     str->SetSameLevel(new TTree(string[i]));
     str = str->GetSameLevel();
   }
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  TTreeIterator iter(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
   int len = 0;
   while (len != pos - 1)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetLevel() == 3)
       len++;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
-  TTree* point = stack.Get();
+  TTree* point = iter.GoNext();//stack.Get();
   str->SetSameLevel(point->GetSameLevel());
   point->SetSameLevel(start_str);
 }
@@ -99,15 +102,16 @@ void TText::Insert(TTree* start, TTree* string)
 {
   TTree* tmp1 = string;
   TTree* tmp2 = root;
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  TTreeIterator iter(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
   while (tmp2 != start)
   {
-    tmp2 = stack.Get();
-    if (tmp2->GetSameLevel() != NULL)
+    tmp2 = iter.GoNext();//stack.Get();
+    /*if (tmp2->GetSameLevel() != NULL)
       stack.Put(tmp2->GetSameLevel());
     if (tmp2->GetNextLevel() != NULL)
-      stack.Put(tmp2->GetNextLevel());
+      stack.Put(tmp2->GetNextLevel());*/
   }
   tmp1->SetSameLevel(tmp2->GetSameLevel());
   tmp2->SetSameLevel(tmp1);
@@ -115,21 +119,23 @@ void TText::Insert(TTree* start, TTree* string)
 
 int TText::Find(const char* string)
 {
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  TTreeIterator iter(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
   int len = strlen(string);
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty() != true)
+  while (iter.IsEnd() != true/*stack.IsEmpty() != true*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetLevel() == 3 && tmp->GetLetter() == string[i])
       i++;
     else if (tmp->GetLevel() == 3 && tmp->GetLetter() != string[i])
     {
       if (i != 0)
       {
-        stack.Put(tmp);
+        //stack.Put(tmp);
+        iter.PutInStack(tmp);
         pos += i;
         i = 0;
       }
@@ -138,25 +144,26 @@ int TText::Find(const char* string)
     }
     if (i == len)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   return pos;
 }
 
 TTree* TText::FindTree(const char* string)
 {
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  TTreeIterator iter(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
   TTree* res = NULL;
   int len = strlen(string);
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty() != true)
+  while (iter.IsEnd() != true/*stack.IsEmpty() != true*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext()/*stack.Get()*/;
     if (tmp->GetLevel() == 3 && tmp->GetLetter() == string[i])
     {
       if (i == 0)
@@ -167,17 +174,18 @@ TTree* TText::FindTree(const char* string)
     {
       if (i != 0)
       {
-        stack.Put(tmp);
+        iter.PutInStack(tmp);
+        //stack.Put(tmp);
         res = NULL;
         i = 0;
       }
     }
     if (i == len)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   return res;
 }
@@ -185,14 +193,14 @@ TTree* TText::FindTree(const char* string)
 char* TText::Copy(const int start, const int len)
 {
   char* res = new char[len];
-  TStackList<TTree*> stack;
-  stack.Put(root);
-  //TTree* res = NULL;
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
+  TTreeIterator iter(root);
   int i = 0;//итератор
   int pos = 0;//позиция
-  while (stack.IsEmpty() != true)
+  while (iter.IsEnd() != true/*stack.IsEmpty() != true*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetLevel() == 3 && pos == start + i)
     {
       pos++;
@@ -203,10 +211,10 @@ char* TText::Copy(const int start, const int len)
       pos++;
     if (i == len)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   return res;
 }
@@ -218,13 +226,14 @@ TTree* TText::Copy(TTree* start, const int len)
   TTree* res_w = new TTree(*start);
   res->SetNextLevel(res_s);
   res_s->SetNextLevel(res_w);
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
+  TTreeIterator iter(root);
   int i = len;//итератор
   bool flag = false;
-  while (stack.IsEmpty() != true)
+  while (iter.IsEnd() != true/*stack.IsEmpty() != true*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp == start)
     {
       i--;
@@ -238,25 +247,26 @@ TTree* TText::Copy(TTree* start, const int len)
     }
     if (i == 0)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   return res;
 }
 
 void TText::Delete(const int start_del, const int lenght)
 {
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
+  TTreeIterator iter(root);
   int i = 0;//итератор
   int pos = 0;//позиция
   TTree* temp1;
   TTree* temp2;
-  while (stack.IsEmpty())
+  while (iter.IsEnd() != true/*stack.IsEmpty()*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetLevel() == 3 && pos == start_del - 1)
       temp1 = tmp;
     if (tmp->GetLevel() == 3)
@@ -272,25 +282,26 @@ void TText::Delete(const int start_del, const int lenght)
     }
     if (i == lenght)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   temp1->SetSameLevel(temp2);
 }
 
 void TText::Delete(TTree* start_del, const int lenght)
 {
-  TStackList<TTree*> stack;
-  stack.Put(root);
+  //TStackList<TTree*> stack;
+  //stack.Put(root);
+  TTreeIterator iter(root);
   int i = lenght;//итератор
   bool flag = false;
   TTree* temp1;
   TTree* temp2;
-  while (stack.IsEmpty())
+  while (iter.IsEnd() != true/*stack.IsEmpty()*/)
   {
-    TTree* tmp = stack.Get();
+    TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetSameLevel() == start_del)
       temp1 = tmp;
     if (tmp == start_del)
@@ -310,10 +321,10 @@ void TText::Delete(TTree* start_del, const int lenght)
     }
     if (i == 0)
       break;
-    if (tmp->GetSameLevel() != NULL)
+    /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
-      stack.Put(tmp->GetNextLevel());
+      stack.Put(tmp->GetNextLevel());*/
   }
   temp1->SetSameLevel(temp2);
 }

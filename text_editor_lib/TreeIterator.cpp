@@ -35,6 +35,11 @@ bool TTreeIterator::IsEnd()
     return false;
 }
 
+void TTreeIterator::PutInStack(TTree* tree)
+{
+  stack.Put(tree);
+}
+
 TTree* TTreeIterator::operator()()
 {
   return current;

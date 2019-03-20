@@ -1,5 +1,6 @@
 #pragma once
 #include "Tree.h"
+#include "TreeIterator.h"
 
 class TText : public TTree
 {
