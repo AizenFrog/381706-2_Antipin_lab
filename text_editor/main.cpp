@@ -13,12 +13,12 @@ int main()
   int pos = 0;
   int len = 0;
   cout << "¬ведите строку: " << endl;
-  gets_s(str, 100);
+  fgets(str, 100, stdin);
   TText text(str);
-  cout << *text.GetRoot() << endl;
-  text.GetRoot()->Output();
+  cout << *text.GetRoot();
+  //text.GetRoot()->Output();
   cout << "¬ведите что и в какое место добавить:" << endl;
-  gets_s(add, 20);
+  fgets(add, 20, stdin);
   cin >> pos;
   text.Insert(pos, add);
   text.GetRoot()->Output();

@@ -145,7 +145,7 @@ ostream& operator<<(ostream& o, TTree& tree)
   }
   o << endl;*/
   char* str = tree.ToString();
-  o << str[0];
+  o << str;
   return o;
 }
 
