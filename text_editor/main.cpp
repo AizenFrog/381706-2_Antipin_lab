@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <ctime>
 #include "Text.h"
-#define TIME_CHECK
+//#define TIME_CHECK
 
 using namespace std;
 
