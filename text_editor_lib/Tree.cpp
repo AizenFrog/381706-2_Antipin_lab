@@ -105,7 +105,7 @@ TTree& TTree::operator+=(const char* word)
   return *this;
 }
 
-void* TTree::operator new (const unsigned int size)
+void* TTree::operator new (const size_t size)
 {
   if (cur_free != 0)
   {
@@ -124,12 +124,14 @@ void TTree::operator delete(void* tree/*, const unsigned int size*/)
   tmp->next_level = cur_free;
   cur_free = tmp;
   tmp->letter = -1;
+  tmp->level = 0;
+  tmp->same_level = NULL;
 }
 
-ostream& operator<<(ostream& o, const TTree& tree)
+ostream& operator<<(ostream& o, TTree& tree)
 {
-  TStackList<TTree*> stack;
-  TTree* tr = new TTree(tree);
+  /*TStackList<TTree*> stack;
+  TTree* tr = &tree;
   stack.Put(tr);
   while (stack.IsEmpty() != true)
   {
@@ -139,10 +141,18 @@ ostream& operator<<(ostream& o, const TTree& tree)
     if (tr->next_level != NULL)
       stack.Put(tr->next_level);
     if (tr->level == 3)
-      cout << tr->letter;
+      o << tr->letter;
   }
-  cout << endl;
+  o << endl;*/
+  char* str = tree.ToString();
+  o << str[0];
   return o;
+}
+
+void TTree::Output()
+{
+  char* str = this->ToString();
+  cout << str << endl;
 }
 
 void TTree::SetSameLevel(TTree* _same_level)
@@ -211,21 +221,43 @@ char* TTree::ToString()
   TStackList<TTree*> stack;
   stack.Put(this);
   int len = 0;
+  int space_array[100];
+  int space_count = 0;
+  bool trap = false;
   while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
     if (tmp->level == 3)
+    {
       len++;
+      if (trap == false && len > 1)
+      {
+        space_array[space_count] = len - 1;
+        space_count++;
+        len++;
+      }
+      trap = true;
+    }
     if (tmp->same_level != NULL)
       stack.Put(tmp->same_level);
     if (tmp->next_level != NULL)
+    {
       stack.Put(tmp->next_level);
+      trap = false;
+    }
   }
   char* res_string = new char[len + 1];
   int j = 0;
   stack.Put(this);
+  space_count = 0;
   while (stack.IsEmpty() != true)
   {
+    if (j == space_array[space_count])
+    {
+      res_string[j] = ' ';
+      j++;
+      space_count++;
+    }
     TTree* tmp1 = stack.Get();
     if (tmp1->level == 3)
     {
@@ -275,7 +307,7 @@ void TTree::Initialization(const int size)
   if (memory == 0)
   {
     tree_size = size;
-    int a = sizeof(TTree);
+    //int a = sizeof(TTree);
     memory = new char[sizeof(TTree) * size];
     start = (TTree*)(memory);
     cur_free = end = start;
@@ -290,12 +322,15 @@ void TTree::Initialization(const int size)
 void TTree::GarbageCollector()
 {
   cur_free = 0;
+  TTree* tmp;
   for (int i = 0; i < tree_size; i++)
   {
     if (((TTree*)(&(memory[i * sizeof(TTree)])))->letter == -1)
     {
-      ((TTree*)&(memory[i * sizeof(TTree)]))->next_level = cur_free;
-      cur_free = (TTree*)memory;
+      tmp = cur_free;
+      cur_free = ((TTree*)&(memory[i * sizeof(TTree)]));
+      ((TTree*)&(memory[i * sizeof(TTree)]))->next_level = tmp;
+      //cur_free = (TTree*)memory;
     }
   }
 }

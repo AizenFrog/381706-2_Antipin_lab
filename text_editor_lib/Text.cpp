@@ -262,16 +262,31 @@ void TText::Delete(const int start_del, const int lenght)
   TTreeIterator iter(root);
   int i = 0;//итератор
   int pos = 0;//позиция
-  TTree* temp1;
+  TTree* temp1 = NULL;
   TTree* temp2;
+  bool flag = false;
   while (iter.IsEnd() != true/*stack.IsEmpty()*/)
   {
     TTree* tmp = iter.GoNext();//stack.Get();
-    if (tmp->GetLevel() == 3 && pos == start_del - 1)
-      temp1 = tmp;
-    if (tmp->GetLevel() == 3)
+    if (tmp->GetLevel() == 3 && flag == false)
+    {
       pos++;
-    else if (tmp->GetLevel() == 3 && pos == start_del + i)
+      if (pos == start_del)
+      {
+        tmp->SetSameLevel(NULL);
+        temp1 = tmp;
+      }
+    }
+    if (tmp->GetLevel() == 3 && pos - 1 == start_del)
+    {
+      //temp1 = tmp;
+      temp2 = tmp->GetSameLevel();
+      delete tmp;
+      pos++;
+      i++;
+      flag = true;
+    }
+    else if (tmp->GetLevel() == 3 && pos - 1 == start_del + i)
     {
       TTree* tmp_1 = tmp;
       if (i == lenght - 1)
@@ -288,6 +303,7 @@ void TText::Delete(const int start_del, const int lenght)
       stack.Put(tmp->GetNextLevel());*/
   }
   temp1->SetSameLevel(temp2);
+  //root->GarbageCollector();
 }
 
 void TText::Delete(TTree* start_del, const int lenght)
@@ -297,26 +313,38 @@ void TText::Delete(TTree* start_del, const int lenght)
   TTreeIterator iter(root);
   int i = lenght;//итератор
   bool flag = false;
+  bool nextflag = false;
+  bool sameflag = false;
   TTree* temp1;
   TTree* temp2;
+  TTree* temp3;
   while (iter.IsEnd() != true/*stack.IsEmpty()*/)
   {
     TTree* tmp = iter.GoNext();//stack.Get();
     if (tmp->GetSameLevel() == start_del)
+    {
       temp1 = tmp;
+      sameflag = true;
+    }
+    if (tmp->GetNextLevel() == start_del)
+    {
+      temp3 = tmp;
+      nextflag = true;
+    }
     if (tmp == start_del)
     {
-      TTree* tmp_1 = tmp;
-      delete tmp_1;
+      //temp1 = tmp;
+      //TTree* tmp_1 = tmp;
+      delete tmp;
       i--;
       flag = true;
     }
     else if (flag == true && tmp->GetLevel() == 3)
     {
-      TTree* tmp_1 = tmp;
+      //TTree* tmp_1 = tmp;
       if (i == 1)
         temp2 = tmp->GetSameLevel();
-      delete tmp_1;
+      delete tmp;
       i--;
     }
     if (i == 0)
@@ -326,5 +354,9 @@ void TText::Delete(TTree* start_del, const int lenght)
     if (tmp->GetNextLevel() != NULL)
       stack.Put(tmp->GetNextLevel());*/
   }
-  temp1->SetSameLevel(temp2);
+  if (nextflag == true)
+    temp3->SetNextLevel(temp2);
+  if (sameflag == true)
+    temp1->SetNextLevel(temp2);
+  //root->GarbageCollector();
 }

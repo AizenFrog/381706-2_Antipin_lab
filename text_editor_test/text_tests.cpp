@@ -44,8 +44,8 @@ TEST(text, can_insert_text_2)
   TTree* tmp;
   tmp = text.GetRoot()->GetNextLevel()->GetNextLevel();
   text.Insert(tmp, &word);
-  EXPECT_EQ(text.GetRoot()->ToString()[5], 'H');
-  EXPECT_EQ(text.GetRoot()->ToString()[6], 'I');
+  EXPECT_EQ(text.GetRoot()->ToString()[6], 'H');
+  EXPECT_EQ(text.GetRoot()->ToString()[7], 'I');
 }
 
 TEST(text, can_find_text_1_without_throws)
@@ -106,34 +106,35 @@ TEST(text, can_copy_text_2)
   TTree::ClearMemory();
 }
 
-//TEST(text, can_delete_element_1_without_throws)
-//{
-//  TText text("Hello world");
-//  ASSERT_NO_THROW(text.Delete(2, 3));
-//}
-//
-//TEST(text, can_delete_element_1)
-//{
-//  TText text("Hello world");
-//  text.Delete(2, 3);
-//  EXPECT_EQ(text.ToString()[2], ' ');
-//  EXPECT_EQ(text.ToString()[3], 'w');
-//  EXPECT_EQ(text.ToString()[4], 'o');
-//}
-//
-//TEST(text, can_delete_element_2_without_throws)
-//{
-//  TText text("Hello world");
-//  TTree* tmp = text.GetNextLevel()->GetNextLevel()->GetNextLevel();
-//  ASSERT_NO_THROW(text.Delete(tmp, 2));
-//}
-//
-//TEST(text, can_delete_element_2)
-//{
-//  TText text("Hello world");
-//  TTree* tmp = text.GetNextLevel()->GetNextLevel()->GetNextLevel();
-//  text.Delete(tmp, 2);
-//  EXPECT_EQ(text.ToString()[0], 'l');
-//  EXPECT_EQ(text.ToString()[1], 'l');
-//  TTree::ClearMemory();
-//}
+TEST(text, can_delete_element_1_without_throws)
+{
+  TText text("Hello world");
+  ASSERT_NO_THROW(text.Delete(2, 3));
+  TTree::ClearMemory();
+}
+
+TEST(text, can_delete_element_1)
+{
+  TText text("Hello world");
+  text.Delete(2, 3);
+  EXPECT_EQ(text.GetRoot()->ToString()[2], ' ');
+  EXPECT_EQ(text.GetRoot()->ToString()[3], 'w');
+  EXPECT_EQ(text.GetRoot()->ToString()[4], 'o');
+}
+
+TEST(text, can_delete_element_2_without_throws)
+{
+  TText text("Hello world");
+  TTree* tmp = text.GetRoot()->GetNextLevel()->GetNextLevel()->GetNextLevel();
+  ASSERT_NO_THROW(text.Delete(tmp, 2));
+}
+
+TEST(text, can_delete_element_2)
+{
+  TText text("Hello world");
+  TTree* tmp = text.GetRoot()->GetNextLevel()->GetNextLevel()->GetNextLevel();
+  text.Delete(tmp, 2);
+  EXPECT_EQ(text.GetRoot()->ToString()[0], 'l');
+  EXPECT_EQ(text.GetRoot()->ToString()[1], 'l');
+  TTree::ClearMemory();
+}

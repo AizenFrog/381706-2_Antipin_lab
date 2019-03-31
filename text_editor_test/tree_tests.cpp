@@ -173,18 +173,18 @@ TEST(tree, can_set_and_get_next_level)
   //EXPECT_EQ(&(string.GetNextLevel()), &word1);
 }
 
-TEST(tree, can_throw_if_memory_is_end)
-{
-  TTree word1("hello");
-  ASSERT_ANY_THROW(TTree word1("hello_world"););
-}
-
 TEST(tree, can_set_same_level_without_throws)
 {
-  TTree::ClearMemory();
+  //TTree::ClearMemory();
   TTree word1("hello");
   TTree word2("hi");
   ASSERT_NO_THROW(word1.SetSameLevel(&word2));
+}
+
+TEST(tree, can_throw_if_memory_is_end)
+{
+  ASSERT_ANY_THROW(TTree word1("hello_world"));
+  TTree::ClearMemory();
 }
 
 TEST(tree, can_set_and_get_same_level)
@@ -193,6 +193,15 @@ TEST(tree, can_set_and_get_same_level)
   TTree word2("hi");
   word1.SetSameLevel(&word2);
   //EXPECT_EQ(word1.GetSameLevel(), word2);
+}
+
+TEST(tree, can_create_and_delete_tree_element)
+{
+  //TTree::ClearMemory();
+  TTree* word = new TTree(0);
+  delete word;
+  TTree* word2 = new TTree(1);
+  EXPECT_EQ(word, word2);
 }
 
 TEST(tree, can_set_letter_without_throws)
