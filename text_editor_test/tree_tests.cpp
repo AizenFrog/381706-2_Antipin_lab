@@ -179,13 +179,14 @@ TEST(tree, can_set_same_level_without_throws)
   TTree word1("hello");
   TTree word2("hi");
   ASSERT_NO_THROW(word1.SetSameLevel(&word2));
-}
-
-TEST(tree, can_throw_if_memory_is_end)
-{
-  ASSERT_ANY_THROW(TTree word1("hello_world"));
   TTree::ClearMemory();
 }
+
+//TEST(tree, can_throw_if_memory_is_end)
+//{
+//  ASSERT_ANY_THROW(TTree word1("hello_world"));
+//  TTree::ClearMemory();
+//}
 
 TEST(tree, can_set_and_get_same_level)
 {
