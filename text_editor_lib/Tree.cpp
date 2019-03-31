@@ -11,7 +11,7 @@ TTree::TTree(const int _level)
 {
   if (_level < 0 || _level > 3)
     exception.except_throw(101);
-  Initialization();
+  Initialization(tree_size);
   level = _level;
   letter = 0;
   same_level = NULL;
@@ -20,7 +20,7 @@ TTree::TTree(const int _level)
 
 TTree::TTree(const char* word)
 {
-  Initialization();
+  Initialization(tree_size);
   int len = strlen(word);
   level = 2;
   same_level = NULL;
@@ -36,7 +36,7 @@ TTree::TTree(const char* word)
 
 TTree::TTree(const char _letter)
 {
-  Initialization();
+  Initialization(tree_size);
   level = 3;
   letter = _letter;
   same_level = NULL;
@@ -45,7 +45,7 @@ TTree::TTree(const char _letter)
 
 TTree::TTree(const TTree& tree)
 {
-  Initialization();
+  Initialization(tree_size);
   level = tree.level;
   letter = tree.letter;
   same_level = tree.same_level;
@@ -130,20 +130,6 @@ void TTree::operator delete(void* tree/*, const unsigned int size*/)
 
 ostream& operator<<(ostream& o, TTree& tree)
 {
-  /*TStackList<TTree*> stack;
-  TTree* tr = &tree;
-  stack.Put(tr);
-  while (stack.IsEmpty() != true)
-  {
-    tr = stack.Get();
-    if (tr->same_level != NULL)
-      stack.Put(tr->same_level);
-    if (tr->next_level != NULL)
-      stack.Put(tr->next_level);
-    if (tr->level == 3)
-      o << tr->letter;
-  }
-  o << endl;*/
   char* str = tree.ToString();
   o << str;
   return o;

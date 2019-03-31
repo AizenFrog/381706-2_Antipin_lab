@@ -83,19 +83,34 @@ void TText::Insert(const int pos, const char* string)
   //TStackList<TTree*> stack;
   //stack.Put(root);
   int len = 0;
-  while (len != pos - 1)
+  while (iter.IsEnd() != true)
   {
     TTree* tmp = iter.GoNext();//stack.Get();
+    if (tmp->GetLevel() == 2 && pos == 0)
+    {
+      iter.PutInStack(tmp);
+      break;
+    }
     if (tmp->GetLevel() == 3)
       len++;
+    if (len == pos - 1)
+      break;
     /*if (tmp->GetSameLevel() != NULL)
       stack.Put(tmp->GetSameLevel());
     if (tmp->GetNextLevel() != NULL)
       stack.Put(tmp->GetNextLevel());*/
   }
   TTree* point = iter.GoNext();//stack.Get();
-  str->SetSameLevel(point->GetSameLevel());
-  point->SetSameLevel(start_str);
+  if (pos == 0)
+  {
+    str->SetSameLevel(point->GetNextLevel());
+    point->SetNextLevel(start_str);
+  }
+  else
+  {
+    str->SetSameLevel(point->GetSameLevel());
+    point->SetSameLevel(start_str);
+  }
 }
 
 void TText::Insert(TTree* start, TTree* string)
