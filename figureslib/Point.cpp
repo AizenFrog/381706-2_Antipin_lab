@@ -20,7 +20,7 @@ TPoint::TPoint(const TPoint& point)
 
 TPoint::~TPoint()
 {
-  x = y = NULL;
+  x = y = 0;
 }
 
 bool TPoint::operator==(const TPoint & point)

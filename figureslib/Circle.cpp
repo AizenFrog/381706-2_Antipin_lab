@@ -31,7 +31,7 @@ TCircle::TCircle(const TCircle& circle)
 TCircle::~TCircle()
 {
   delete center;
-  radius = NULL;
+  radius = 0;
 }
 
 void TCircle::SetX(const double _x)

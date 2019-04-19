@@ -25,7 +25,8 @@ int main()
   cout << "¬ведите коодинаты еще одной точки:\n";
   cin >> x2 >> y2;
   TPlex pl(&point1, &point2);
-  TPlex plex(&pl, &TPoint(x2, y2));
+  TPoint p(x2, y2);
+  TPlex plex(&pl, &p);
   cout << "Ћомана€ крива€ с координатами:\n";
   plex.Show();
   return 0;
