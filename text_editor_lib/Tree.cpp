@@ -10,8 +10,8 @@ TTree* TTree::cur_free = NULL;
 TTree::TTree(const int _level)
 {
   if (_level < 0 || _level > 3)
-    throw 1;
-  Initialization();
+    exception.except_throw(101);
+  Initialization(tree_size);
   level = _level;
   letter = 0;
   same_level = NULL;
@@ -20,7 +20,7 @@ TTree::TTree(const int _level)
 
 TTree::TTree(const char* word)
 {
-  Initialization();
+  Initialization(tree_size);
   int len = strlen(word);
   level = 2;
   same_level = NULL;
@@ -36,7 +36,7 @@ TTree::TTree(const char* word)
 
 TTree::TTree(const char _letter)
 {
-  Initialization();
+  Initialization(tree_size);
   level = 3;
   letter = _letter;
   same_level = NULL;
@@ -45,7 +45,7 @@ TTree::TTree(const char _letter)
 
 TTree::TTree(const TTree& tree)
 {
-  Initialization();
+  Initialization(tree_size);
   level = tree.level;
   letter = tree.letter;
   same_level = tree.same_level;
@@ -69,17 +69,13 @@ TTree::~TTree()
 TTree& TTree::operator=(const TTree& tree)
 {
   if (level != tree.level)
-    throw 2;
-  //TTree* tmp1 = same_level;
-  //TTree* tmp2 = next_level;
+    exception.except_throw(102);
   if (this != &tree)
   {
     same_level = tree.same_level;
     next_level = tree.next_level;
     letter = tree.letter;
   }
-  //delete tmp1;
-  //delete tmp2;
   return *this;
 }
 
@@ -109,23 +105,15 @@ TTree& TTree::operator+=(const char* word)
   return *this;
 }
 
-void* TTree::operator new (const unsigned int size)
+void* TTree::operator new (const size_t size)
 {
   if (cur_free != 0)
   {
     TTree* tmp1 = cur_free;
     if (busy_tree_size == tree_size)
-      throw 6;
+      throw("No free memory");
     cur_free = cur_free->next_level;
     busy_tree_size++;
-    //TTree* tmp2 = tmp1;
- /*   for (int i = 0; i < size && tmp2 != 0; i++)
-    {
-      if (tmp2 == 0)
-        throw 5;
-      else
-        tmp2 = tmp2->next_level;
-    }*/
     return tmp1;
   }
 }
@@ -136,25 +124,21 @@ void TTree::operator delete(void* tree/*, const unsigned int size*/)
   tmp->next_level = cur_free;
   cur_free = tmp;
   tmp->letter = -1;
+  tmp->level = 0;
+  tmp->same_level = NULL;
 }
 
-ostream& operator<<(ostream& o, const TTree& tree)
+ostream& operator<<(ostream& o, TTree& tree)
 {
-  TStackList<TTree*> stack;
-  TTree* tr = new TTree(tree);
-  stack.Put(tr);
-  while (stack.IsEmpty() != true)
-  {
-    tr = stack.Get();
-    if (tr->same_level != NULL)
-      stack.Put(tr->same_level);
-    if (tr->next_level != NULL)
-      stack.Put(tr->next_level);
-    if (tr->level == 3)
-      cout << tr->letter;
-  }
-  cout << endl;
+  char* str = tree.ToString();
+  o << str;
   return o;
+}
+
+void TTree::Output()
+{
+  char* str = this->ToString();
+  cout << str << endl;
 }
 
 void TTree::SetSameLevel(TTree* _same_level)
@@ -172,7 +156,7 @@ void TTree::SetLetter(const char _letter)
   if (level == 3)
     letter = _letter;
   else
-    throw 3;
+    exception.except_throw(103);
 }
 
 void TTree::SetLevel(const int _level)
@@ -200,7 +184,7 @@ char TTree::GetLetter()
   if (level == 3)
     return letter;
   else
-    throw 4;
+    exception.except_throw(104);
 }
 
 int TTree::GetLevel()
@@ -223,21 +207,43 @@ char* TTree::ToString()
   TStackList<TTree*> stack;
   stack.Put(this);
   int len = 0;
+  int space_array[100];
+  int space_count = 0;
+  bool trap = false;
   while (stack.IsEmpty() != true)
   {
     TTree* tmp = stack.Get();
     if (tmp->level == 3)
+    {
       len++;
+      if (trap == false && len > 1)
+      {
+        space_array[space_count] = len - 1;
+        space_count++;
+        len++;
+      }
+      trap = true;
+    }
     if (tmp->same_level != NULL)
       stack.Put(tmp->same_level);
     if (tmp->next_level != NULL)
+    {
       stack.Put(tmp->next_level);
+      trap = false;
+    }
   }
   char* res_string = new char[len + 1];
   int j = 0;
   stack.Put(this);
+  space_count = 0;
   while (stack.IsEmpty() != true)
   {
+    if (j == space_array[space_count])
+    {
+      res_string[j] = ' ';
+      j++;
+      space_count++;
+    }
     TTree* tmp1 = stack.Get();
     if (tmp1->level == 3)
     {
@@ -283,11 +289,11 @@ TTree* TTree::Clone()
 void TTree::Initialization(const int size)
 {
   if (size <= 0)
-    throw 4;
+    exception.except_throw(105);
   if (memory == 0)
   {
     tree_size = size;
-    int a = sizeof(TTree);
+    //int a = sizeof(TTree);
     memory = new char[sizeof(TTree) * size];
     start = (TTree*)(memory);
     cur_free = end = start;
@@ -302,12 +308,15 @@ void TTree::Initialization(const int size)
 void TTree::GarbageCollector()
 {
   cur_free = 0;
+  TTree* tmp;
   for (int i = 0; i < tree_size; i++)
   {
     if (((TTree*)(&(memory[i * sizeof(TTree)])))->letter == -1)
     {
-      ((TTree*)&(memory[i * sizeof(TTree)]))->next_level = cur_free;
-      cur_free = (TTree*)memory;
+      tmp = cur_free;
+      cur_free = ((TTree*)&(memory[i * sizeof(TTree)]));
+      ((TTree*)&(memory[i * sizeof(TTree)]))->next_level = tmp;
+      //cur_free = (TTree*)memory;
     }
   }
 }

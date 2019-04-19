@@ -1,6 +1,8 @@
 #pragma once
 #include "Stack_on_List.h"
 #include <iostream>
+#include <cstring>
+#include "Exception_class.h"
 
 using namespace std;
 
@@ -17,6 +19,7 @@ protected:
   static TTree* cur_free;
   static int tree_size;
   static int busy_tree_size;
+  Exceptions_from_tree_text exception;
 public:
   TTree(const int _level);
   TTree(const char* word);
@@ -27,9 +30,10 @@ public:
   TTree& operator+=(const TTree& tree);
   TTree& operator+=(const char _letter);
   TTree& operator+=(const char* word);
-  void* operator new (const unsigned int size);
+  void* operator new (const size_t size);
   void operator delete (void* tree/*, const unsigned int size*/);
-  friend ostream& operator<<(ostream& o, const TTree& text);
+  friend ostream& operator<<(ostream& o, TTree& text);
+  void Output();
   char* ToString();
   void SetSameLevel(TTree* _same_level);
   void SetNextLevel(TTree* _next_level);
