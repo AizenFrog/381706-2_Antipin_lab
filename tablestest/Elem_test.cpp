@@ -74,4 +74,5 @@ TEST(element, can_set_key_correct)
 	TElem<int> elem(100, key);
 	elem.SetKey(key1);
 	EXPECT_EQ(elem.GetKey(), key1);
+	std::cout << elem;
 }

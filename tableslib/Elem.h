@@ -1,5 +1,8 @@
 #pragma once
 #include "TString.h"
+#include <iostream>
+
+using namespace std;
 
 template <class T>
 class TElem
@@ -15,6 +18,7 @@ public:
   void SetData(const T& _data);
   String& GetKey();
   void SetKey(const String& _key);
+  friend std::ostream& operator<<(std::ofstream& out, TElem<T>& elem);
 };
 
 template <class T>
@@ -60,4 +64,12 @@ template <class T>
 void TElem<T>::SetKey(const String& _key)
 {
   key = _key;
+}
+
+template <class T>
+std::ofstream& operator<<(std::ostream& out, TElem<T>& elem)
+{
+	out << elem.GetKey().GetArrChar() << "\t";
+	out << elem.GetData() << std::endl;
+	return out;
 }

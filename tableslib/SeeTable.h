@@ -5,19 +5,25 @@ template <class T>
 class TTable
 {
 protected:
-  TElem<T>* node;
+	static TElem<T> stand const;
+	TElem<T>* node;
   int size;
   int count;
 public:
   TTable(const int _size = 1);
   TTable(const TTable<T>& table);
+	~TTable();
   bool Add(const TElem<T>& elem);
   String& Add(const T& data);
   bool Del(const TElem<T>& elem);
   bool Del(const String& key);
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
+	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table);
 };
+
+template <class T>
+TElem<T> TTable<T>::stand = new TElem<NULL>() const;
 
 template <class T>
 TTable<T>::TTable(const int _size)
@@ -27,11 +33,13 @@ TTable<T>::TTable(const int _size)
   size = _size;
   count = 0;
   node = new TElem<T>()[size];
-  for (int i = 0; i < size; i++)
-  {
-    node[i].SetData(NULL);
-    node[i].SetKey("0");
-  }
+	for (int i = 0; i < size; i++)
+		node[i] = stand;
+	/*{
+		node[i].SetData(NULL);
+		node[i].SetKey("0");
+	}*/
+		
 }
 
 template <class T>
@@ -117,4 +125,10 @@ template <class T>
 T& TTable<T>::operator[](const String& _key) const
 {
   return Search(_key).GetData();
+}
+
+template <class T>
+std::ostream& operator<<(const std::ofstream& out, const TTable<T> table)
+{
+
 }
