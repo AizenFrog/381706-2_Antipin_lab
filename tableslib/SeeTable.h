@@ -20,6 +20,8 @@ public:
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
 	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table);
+protected:
+	void Expansion(const int newsize);
 };
 
 template <class T>
@@ -55,8 +57,8 @@ TTable<T>::TTable(const TTable<T>& table)
 template <class T>
 bool TTable<T>::Add(const TElem<T>& elem)
 {
-  if (size == count)
-    return false;
+	if (size == count)
+		Expansion(count * 2);
   node[count] = elem;
   count++;
   return true;
@@ -65,8 +67,8 @@ bool TTable<T>::Add(const TElem<T>& elem)
 template <class T>
 String& TTable<T>::Add(const T& _data)
 {
-  if (size == count)
-    return String();
+	if (size == count)
+		Expansion(count * 2);
   node[count].SetData(_data);
   String tmp(node[count - 1].GetKey().GetArrChar + 1);
   node[count].SetKey(tmp);
@@ -130,5 +132,25 @@ T& TTable<T>::operator[](const String& _key) const
 template <class T>
 std::ostream& operator<<(const std::ofstream& out, const TTable<T> table)
 {
+	for (int i = 0; i < table.count; i++)
+		out << table.node[i] << endl;
+	return out;
+}
 
+template <class T>
+void TTable<T>::Expansion(const int newsize)
+{
+	if (newsize > size)
+	{
+		TElem<T>* tmp = new TElem<T>()[newsize];
+		for (int i = 0; i < count; i++)
+			tmp[i] = node[i];
+		for (int i = count; i < newsize; i++)
+			tmp[i] = stand;
+		size = newsize;
+		delete[] node;
+		node = tmp;
+	}
+	else
+		throw 3;
 }
