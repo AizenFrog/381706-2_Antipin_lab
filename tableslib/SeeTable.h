@@ -5,7 +5,7 @@ template <class T>
 class TTable
 {
 protected:
-	static TElem<T> stand const;
+	static TElem<T> stand;
 	TElem<T>* node;
   int size;
   int count;
@@ -24,8 +24,8 @@ protected:
 	void Expansion(const int newsize);
 };
 
-template <class T>
-TElem<T> TTable<T>::stand = new TElem<NULL>() const;
+//template <class T>
+//TElem<T> TTable<T>::stand = 0;
 
 template <class T>
 TTable<T>::TTable(const int _size)
@@ -34,7 +34,7 @@ TTable<T>::TTable(const int _size)
     throw 2;
   size = _size;
   count = 0;
-  node = new TElem<T>()[size];
+  node = new TElem<T>[size];
 	for (int i = 0; i < size; i++)
 		node[i] = stand;
 	/*{
@@ -49,7 +49,7 @@ TTable<T>::TTable(const TTable<T>& table)
 {
   size = table.size;
   count = table.count;
-  node = new TElem<T>()[size];
+  node = new TElem<T>[size];
   for (int i = 0; i < size; i++)
     node[i] = table.node[i];
 }
