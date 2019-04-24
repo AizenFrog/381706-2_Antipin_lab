@@ -5,7 +5,7 @@ template <class T>
 class TTable
 {
 protected:
-	static TElem<T> stand;
+	static TElem<T> st;
 	TElem<T>* node;
   int size;
   int count;
@@ -15,7 +15,7 @@ public:
 	~TTable();
   bool Add(const TElem<T>& elem);
   String& Add(const T& data);
-  bool Del(const TElem<T>& elem);
+  bool Del(TElem<T>& elem);
   bool Del(const String& key);
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
@@ -24,8 +24,8 @@ protected:
 	void Expansion(const int newsize);
 };
 
-//template <class T>
-//TElem<T> TTable<T>::stand = 0;
+template <class T>
+TElem<T> TTable<T>::st;
 
 template <class T>
 TTable<T>::TTable(const int _size)
@@ -36,12 +36,7 @@ TTable<T>::TTable(const int _size)
   count = 0;
   node = new TElem<T>[size];
 	for (int i = 0; i < size; i++)
-		node[i] = stand;
-	/*{
-		node[i].SetData(NULL);
-		node[i].SetKey("0");
-	}*/
-		
+		node[i] = st;
 }
 
 template <class T>
@@ -52,6 +47,13 @@ TTable<T>::TTable(const TTable<T>& table)
   node = new TElem<T>[size];
   for (int i = 0; i < size; i++)
     node[i] = table.node[i];
+}
+
+template <class T>
+TTable<T>::~TTable()
+{
+	count = size = NULL;
+	delete[] node;
 }
 
 template <class T>
@@ -70,14 +72,21 @@ String& TTable<T>::Add(const T& _data)
 	if (size == count)
 		Expansion(count * 2);
   node[count].SetData(_data);
-  String tmp(node[count - 1].GetKey().GetArrChar + 1);
-  node[count].SetKey(tmp);
+	String tmp("First_Key");
+	if (count == 0)
+		node[count].SetKey(tmp);
+	else
+	{		
+		String tmp1(&(node[count - 1].GetKey().GetArrChar()[0]));
+		tmp = tmp1;
+		node[count].SetKey(tmp);
+	}
   count++;
-  return tmp;
+	return node[count - 1].GetKey();
 }
 
 template <class T>
-bool TTable<T>::Del(const TElem<T>& elem)
+bool TTable<T>::Del(TElem<T>& elem)
 {
   if (count == 0)
     return false;
@@ -120,7 +129,7 @@ TElem<T>& TTable<T>::Search(const String& _key) const
   for (int i = 0; i < count; i++)
     if (node[i].GetKey() == _key)
       return node[i];
-  return TElem<T>();
+  return st;
 }
 
 template <class T>
@@ -142,11 +151,11 @@ void TTable<T>::Expansion(const int newsize)
 {
 	if (newsize > size)
 	{
-		TElem<T>* tmp = new TElem<T>()[newsize];
+		TElem<T>* tmp = new TElem<T>[newsize];
 		for (int i = 0; i < count; i++)
 			tmp[i] = node[i];
 		for (int i = count; i < newsize; i++)
-			tmp[i] = stand;
+			tmp[i] = st;
 		size = newsize;
 		delete[] node;
 		node = tmp;

@@ -74,5 +74,58 @@ TEST(element, can_set_key_correct)
 	TElem<int> elem(100, key);
 	elem.SetKey(key1);
 	EXPECT_EQ(elem.GetKey(), key1);
-	//std::cout << elem;
+}
+
+TEST(element, can_compare_elements_without_throws_0)
+{
+	String key1("key1");
+	String key2("key2");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	ASSERT_NO_THROW(elem1 == elem2);
+}
+
+TEST(element, can_compare_elements_without_throws_1)
+{
+	String key1("key1");
+	String key2("key1");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	ASSERT_NO_THROW(elem1 == elem2);
+}
+
+TEST(element, can_compare_elements_correct_0)
+{
+	String key1("key1");
+	String key2("key1");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	EXPECT_EQ(elem1 == elem2, 1);
+}
+
+TEST(element, can_compare_elements_without_throws_0_0)
+{
+	String key1("key1");
+	String key2("key2");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	ASSERT_NO_THROW(elem1 != elem2);
+}
+
+TEST(element, can_compare_elements_without_throws_1_1)
+{
+	String key1("key1");
+	String key2("key1");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	ASSERT_NO_THROW(elem1 != elem2);
+}
+
+TEST(element, can_compare_elements_correct_0_1)
+{
+	String key1("key1");
+	String key2("key2");
+	TElem<int> elem1(100, key1);
+	TElem<int> elem2(100, key2);
+	EXPECT_EQ(elem1 != elem2 , 1);
 }

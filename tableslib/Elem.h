@@ -13,7 +13,9 @@ protected:
 public:
   TElem();
   TElem(const T& _data, const String& _key);
-  TElem& operator=(const TElem& elem);
+  TElem& operator=(const TElem<T>& elem);
+	bool operator==(const TElem<T>& elem);
+	bool operator!=(const TElem<T>& elem);
   T& GetData();
   void SetData(const T& _data);
   String& GetKey();
@@ -35,11 +37,27 @@ TElem<T>::TElem(const T& _data, const String& _key)
 }
 
 template <class T>
-TElem<T>& TElem<T>::operator=(const TElem& elem)
+TElem<T>& TElem<T>::operator=(const TElem<T>& elem)
 {
   data = elem.data;
   key = elem.key;
   return *this;
+}
+
+template <class T>
+bool TElem<T>::operator==(const TElem<T>& elem)
+{
+	if (data == elem.data && key == elem.key)
+		return true;
+	return false;
+}
+
+template <class T>
+bool TElem<T>::operator!=(const TElem<T>& elem)
+{
+	if (data == elem.data && key == elem.key)
+		return false;
+	return true;
 }
 
 template <class T>
