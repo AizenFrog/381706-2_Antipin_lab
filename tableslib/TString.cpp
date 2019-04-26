@@ -1,5 +1,6 @@
 #include "TString.h"
 #include <iostream>
+#include <cstring>
 
 String::String()
 {
