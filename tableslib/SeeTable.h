@@ -19,7 +19,12 @@ public:
   bool Del(const String& key);
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
-	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table);
+	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table)
+	{
+		for (int i = 0; i < table.count; i++)
+			out << table.node[i] << std::endl;
+		return out;
+	}
 protected:
 	void Expansion(const int newsize);
 };
@@ -138,13 +143,13 @@ T& TTable<T>::operator[](const String& _key) const
   return Search(_key).GetData();
 }
 
-template <class T>
-std::ostream& operator<<(const std::ofstream& out, const TTable<T> table)
-{
-	for (int i = 0; i < table.count; i++)
-		out << table.node[i] << endl;
-	return out;
-}
+//template <class T>
+//std::ostream& operator<<(const std::ofstream& out, const TTable<T> table)
+//{
+//	for (int i = 0; i < table.count; i++)
+//		out << table.node[i] << endl;
+//	return out;
+//}
 
 template <class T>
 void TTable<T>::Expansion(const int newsize)
