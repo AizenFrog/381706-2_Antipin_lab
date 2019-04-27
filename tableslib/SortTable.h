@@ -2,6 +2,10 @@
 #include "Elem.h"
 #include "SeeTable.h"
 
+#define INSERT_SORT 0
+#define MERGE_SORT 1
+#define QUICK_SORT 2
+
 template <class T>
 class TSortTable
 {
@@ -13,8 +17,9 @@ protected:
 public:
   TSortTable(const int _size = 1);
   TSortTable(const TSortTable<T>& table);
+	TSortTable(const TTable<T>& table, const int nomber_sort);
 	~TSortTable();
-  bool Add(const TElem<T>& elem);
+  bool Add(TElem<T>& elem);
   String& Add(const T& data);
   bool Del(const TElem<T>& elem);
   bool Del(const String& key);
@@ -60,24 +65,45 @@ TSortTable<T>::TSortTable(const TSortTable<T>& table)
 }
 
 template <class T>
+TSortTable<T>::TSortTable(const TTable<T>& table, const int nomber_sort)
+{
+	size = table.size;
+	count = table.count;
+	TTable<T> copy_t(table);
+	if (nomber_sort == INSERT_SORT)
+		copy_t = TSortTable<T>::InsertSort(copy_t);
+	else if (nomber_sort == MERGE_SORT)
+		copy_t = TSortTable<T>::MergeSort(copy_t, copy_t.count);
+	else if (nomber_sort == QUICK_SORT)
+		copy_t = TSortTable<T>::QuickSort(copy_t, 0, copy_t.count);
+	node = new TElem<T>[size];
+	for (int i = 0; i < count; i++)
+		node[i] = copy_t.node[i];
+}
+
+template <class T>
 TSortTable<T>::~TSortTable()
 {
-	count = size = NULL;
+	count = size = 0;
 	delete[] node;
 }
 
 template <class T>
-bool TSortTable<T>::Add(const TElem<T>& elem)
+bool TSortTable<T>::Add(TElem<T>& elem)
 {
+	bool flag = false;
 	if (count == 0)
+	{
 		node[count] = elem;
+		count++;
+		return true;
+	}
 	if (count == size)
 		Expansion(count * 2);
-	bool flag = false;
 	TElem<T> tmp;
 	for (int i = 0; i <= count; i++)
 	{
-		if (node[i].GetKey() < elem.GetKey())
+		if (node[i].GetKey() < elem.GetKey() && i != count)
 			continue;
 		else if (node[i].GetKey() > elem.GetKey() && flag == false)
 		{
@@ -92,6 +118,11 @@ bool TSortTable<T>::Add(const TElem<T>& elem)
 			node[i] = tmp;
 			tmp = temp;
 		}
+		else if (i == count && flag == false)
+		{
+			node[count] = elem;
+			flag = true;
+		}
 	}
 	count++;
 	return flag;
@@ -102,7 +133,7 @@ String& TSortTable<T>::Add(const T& data)//////??????????
 {
 	if (size == count)
 		Expansion(count * 2);
-	node[count].SetData(_data);
+	node[count].SetData(data);
 	String tmp("First_Key");
 	if (count == 0)
 		node[count].SetKey(tmp);

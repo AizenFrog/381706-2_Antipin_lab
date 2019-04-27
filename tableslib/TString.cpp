@@ -50,7 +50,7 @@ bool String::operator==(const String& _str) const
 
 bool String::operator<(const String& _str) const
 {
-  bool result = true;
+  bool result = false;
   if (count < _str.count)
     return true;
   else if (count > _str.count)
@@ -58,25 +58,29 @@ bool String::operator<(const String& _str) const
   else
   {
     for (int i = 0; i < count; i++)
-      if (str[i] > _str.str[i])
-        result = false;
+			if (str[i] < _str.str[i])
+			{
+				result = true;
+				break;
+			}
   }
   return result;
 }
 
 bool String::operator>(const String& _str) const
 {
-  bool result = true;
+  bool result = false;
   if (count < _str.count)
     return false;
   else if (count > _str.count)
     return true;
   else
-  {
     for (int i = 0; i < count; i++)
-      if (str[i] < _str.str[i])
-        result = false;
-  }
+			if (str[i] > _str.str[i])
+			{
+				result = true;
+				break;
+			}
   return result;
 }
 
