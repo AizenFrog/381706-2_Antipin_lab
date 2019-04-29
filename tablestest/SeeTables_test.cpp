@@ -170,11 +170,9 @@ TEST(seetables, can_add_element_with_resize_without_throws_1_correct)
 	String key1("key1");
 	String key2("key2");
 	String key3("key3");
-	String key4("key4");
 	TElem<int> elem1(10, key1);
 	TElem<int> elem2(10, key2);
 	TElem<int> elem3(10, key3);
-	TElem<int> elem4(5, key4);
 	table.Add(elem1);
 	table.Add(elem2);
 	table.Add(elem3);

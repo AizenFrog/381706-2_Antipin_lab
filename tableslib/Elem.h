@@ -44,9 +44,12 @@ TElem<T>::TElem(const T& _data, const String& _key)
 template <class T>
 TElem<T>& TElem<T>::operator=(const TElem<T>& elem)
 {
-  data = elem.data;
-  key = elem.key;
-  return *this;
+	if (this != &elem)
+	{
+		data = elem.data;
+		key = elem.key;
+		return *this;
+	}
 }
 
 template <class T>

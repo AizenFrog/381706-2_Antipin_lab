@@ -19,23 +19,25 @@ public:
   TSortTable(const TSortTable<T>& table);
 	TSortTable(const TTable<T>& table, const int nomber_sort);
 	~TSortTable();
+	int GetCount() const;
   bool Add(TElem<T>& elem);
   String& Add(const T& data);
-  bool Del(const TElem<T>& elem);
+  bool Del(TElem<T>& elem);
   bool Del(const String& key);
   TElem<T>& Search(const String& key) const;
   T& operator[](const String& key) const;
-	friend TTable<T>;
+	//friend TTable<T>;
 	friend std::ostream& operator<<(const std::ostream& out, const TSortTable<T>& table)
 	{
 		for (int i = 0; i < count; i++)
 			out << table.node[i] << std::endl;
 		return out;
 	}
+//protected:
+  static void InsertSort(TTable<T>& seetable);
+	static void MergeSort(TTable<T>& seetable, const int n, const int start);
+	static void QuickSort(TTable<T>& seetable, const int low, const int high);
 protected:
-  static TTable<T>& InsertSort(TTable<T>& seetable);
-	static TTable<T>& MergeSort(TTable<T>& seetable, const int n);
-	static TTable<T>& QuickSort(TTable<T>& seetable, const int low, const int high);
 	void Expansion(const int newsize);
 };
 
@@ -71,11 +73,11 @@ TSortTable<T>::TSortTable(const TTable<T>& table, const int nomber_sort)
 	count = table.count;
 	TTable<T> copy_t(table);
 	if (nomber_sort == INSERT_SORT)
-		copy_t = TSortTable<T>::InsertSort(copy_t);
+		TSortTable<T>::InsertSort(copy_t);
 	else if (nomber_sort == MERGE_SORT)
-		copy_t = TSortTable<T>::MergeSort(copy_t, copy_t.count);
+		TSortTable<T>::MergeSort(copy_t, copy_t.count, 0);
 	else if (nomber_sort == QUICK_SORT)
-		copy_t = TSortTable<T>::QuickSort(copy_t, 0, copy_t.count);
+		TSortTable<T>::QuickSort(copy_t, 0, copy_t.count - 1);
 	node = new TElem<T>[size];
 	for (int i = 0; i < count; i++)
 		node[i] = copy_t.node[i];
@@ -86,6 +88,12 @@ TSortTable<T>::~TSortTable()
 {
 	count = size = 0;
 	delete[] node;
+}
+
+template <class T>
+int TSortTable<T>::GetCount() const
+{
+	return count;
 }
 
 template <class T>
@@ -135,8 +143,12 @@ String& TSortTable<T>::Add(const T& data)//////??????????
 		Expansion(count * 2);
 	node[count].SetData(data);
 	String tmp("First_Key");
-	if (count == 0)
+	if (count == 0) 
+	{
 		node[count].SetKey(tmp);
+		count++;
+		return node[count - 1].GetKey();
+	}
 	else
 	{
 		String tmp1(&(node[count - 1].GetKey().GetArrChar()[0]));
@@ -144,26 +156,26 @@ String& TSortTable<T>::Add(const T& data)//////??????????
 		node[count].SetKey(tmp);
 		TElem<T> temp = node[count - 1];
 		node[count - 1] = node[count];
-		code[count] = temp;
+		node[count] = temp;
 	}
 	count++;
 	return node[count - 2].GetKey();
 }
 
 template <class T>
-bool TSortTable<T>::Del(const TElem<T>& elem)
+bool TSortTable<T>::Del(TElem<T>& elem)
 {
 	int left = 0;
 	int right = count;
 	int current = count / 2;
 	bool flag = false;
 	while (right - left >= 1)
-		if (node[current].GetKey() > elem.GetKey())
+		if (node[current].GetKey() < elem.GetKey())
 		{
 			left = current;
 			current = (right + left) / 2;
 		}
-		else if (node[current].GetKey() < elem.GetKey())
+		else if (node[current].GetKey() > elem.GetKey())
 		{
 			right = current;
 			current = (right - left) / 2;
@@ -187,12 +199,12 @@ bool TSortTable<T>::Del(const String& key)
 	int current = count / 2;
 	bool flag = false;
 	while (right - left >= 1)
-		if (node[current].GetKey() > key)
+		if (node[current].GetKey() < key)
 		{
 			left = current;
 			current = (right + left) / 2;
 		}
-		else if (node[current].GetKey() < key)
+		else if (node[current].GetKey() > key)
 		{
 			right = current;
 			current = (right - left) / 2;
@@ -214,19 +226,24 @@ TElem<T>& TSortTable<T>::Search(const String& key) const
 	int left = 0;
 	int right = count;
 	int current = count / 2;
+	int tmp = count / 2;
 	while (right - left >= 1)
-		if (node[current].GetKey() > key)
+	{
+		if (node[current].GetKey() < key)
 		{
 			left = current;
 			current = (right + left) / 2;
 		}
-		else if (node[current].GetKey() < key)
+		else if (node[current].GetKey() > key)
 		{
 			right = current;
 			current = (right - left) / 2;
 		}
 		else if (node[current].GetKey() == key)
 			return node[current];
+		if (right - left == 1)
+			break;
+	}
 	return st;
 }
 
@@ -255,47 +272,48 @@ void TSortTable<T>::Expansion(const int newsize)
 }
 
 template <class T>
-static TTable<T>& TSortTable<T>::InsertSort(TTable<T>& seetable)
+void TSortTable<T>::InsertSort(TTable<T>& seetable)
 {
 	for (int i = 1; i < seetable.count; i++)
 	{
-		TTable<T> temp = seetable.node[i];
+		TElem<T> temp = seetable.node[i];
 		int j = i;
-		while (j > 0 && seetable.node[j - 1] > temp)
+		while (j > 0 && seetable.node[j - 1].GetKey() > temp.GetKey())
 		{
 			seetable.node[j] = seetable.node[j - 1];
 			j--;
 		}
 		seetable.node[j] = temp;
 	}
-	return seetable;
 }
 
 template <class T>
-static TTable<T>& TSortTable<T>::MergeSort(TTable<T>& seetable, const int n)
+void TSortTable<T>::MergeSort(TTable<T>& seetable, const int n, const int start)
 {
-	if (seetable.count > 1)
+	if (n > 1)
 	{
 		const int left_size = n / 2;
 		const int right_size = n - left_size;
+		const int left_start = right_size - left_size + start - (n % 2);
+		const int right_start = left_size + start;
 		/////////////////////////////////////////////////
-		MergeSort(seetable, left_size);
-		MergeSort(seetable, right_size);
+		MergeSort(seetable, left_size, left_start);
+		MergeSort(seetable, right_size, right_start);
 		/////////////////////////////////////////////////
 		int	lid = 0, rid = left_size, xid = 0;
 		/////////////////////////////////////////////////
 		TElem<T>* tmp = new TElem<T>[n];
 		while (lid < left_size || rid < n)
 		{
-			if (seetable.node[lid] < seetable.node[rid])
+			if (seetable.node[lid + start].GetKey() < seetable.node[rid + start].GetKey())
 			{
-				tmp[xid] = seetable.node[lid];
+				tmp[xid] = seetable.node[lid + start];
 				lid++;
 				xid++;
 			}
 			else
 			{
-				tmp[xid] = seetable.node[rid];
+				tmp[xid] = seetable.node[rid + start];
 				xid++;
 				rid++;
 			}
@@ -303,7 +321,7 @@ static TTable<T>& TSortTable<T>::MergeSort(TTable<T>& seetable, const int n)
 			{
 				for (int i = rid; i < n; i++)
 				{
-					tmp[xid] = seetable.node[i];
+					tmp[xid] = seetable.node[i + start];
 					//rid++;
 					xid++;
 				}
@@ -311,9 +329,9 @@ static TTable<T>& TSortTable<T>::MergeSort(TTable<T>& seetable, const int n)
 			}
 			if (rid == n)
 			{
-				for (int i = rid; i < n; i++)
+				for (int i = lid; i < left_size; i++)
 				{
-					tmp[xid] = seetable.node[i];
+					tmp[xid] = seetable.node[i + start];
 					//lid++;
 					xid++;
 				}
@@ -321,38 +339,30 @@ static TTable<T>& TSortTable<T>::MergeSort(TTable<T>& seetable, const int n)
 			}
 		}
 		for (int i = 0; i < n; i++)
-			seetable.node[i] = tmp[i];
+			seetable.node[i + start] = tmp[i];
 		delete[] tmp;
 	}
-	return seetable;
 }
 
 template <class T>
-static TTable<T>& TSortTable<T>::QuickSort(TTable<T>& seetable, const int low, const int high)
+void TSortTable<T>::QuickSort(TTable<T>& seetable, const int low, const int high)
 {
-	if (high > low)
+	int i = low, j = high;
+	TElem<T> d;
+	TElem<T> m = seetable.node[(low + high) / 2];
+	while (i <= j)
 	{
-		const int p = Partition(seetable, low, high);
-		QuickSort(seetable, low, p - 1);
-		QuickSort(seetable, p + 1, high);
-	}
-}
-
-template <class T>
-int Partition(TTable<T> seetable, const int low, const int higt)
-{
-	TElem<T> pivot = seetable.node[higt];
-	int i = low;
-	for (int j = low; j < higt - 1; j++)
-		if (seetable.node[j] <= pivot)
+		for (; seetable.node[i].GetKey() < m.GetKey(); i++);
+		for (; seetable.node[j].GetKey() > m.GetKey(); j--);
+		if (i <= j)
 		{
-			TElem<T> tmp = seetable.node[j];
-			seetable.node[j] = seetable.node[i];
-			seetable.node[i] = tmp;
-			i++;
-		}	
-	TElem<T> tmp = seetable.node[i];
-	seetable.node[i] = seetable.node[higt];
-	seetable.node[high] = tmp;
-	return i;
+			d = seetable.node[i];
+			seetable.node[i++] = seetable.node[j];
+			seetable.node[j--] = d;
+		}
+	}
+	if (low < j)
+		QuickSort(seetable, low, j);
+	if (i < high)
+		QuickSort(seetable, i, high);
 }

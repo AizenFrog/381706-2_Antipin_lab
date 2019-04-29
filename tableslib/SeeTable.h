@@ -1,5 +1,9 @@
 #pragma once
 #include "Elem.h"
+//#include "SortTable.h"
+
+template <class T>
+class TSortTable;
 
 template <class T>
 class TTable
@@ -13,12 +17,14 @@ public:
   TTable(const int _size = 1);
   TTable(const TTable<T>& table);
 	~TTable();
+	int GetCount() const;
   bool Add(const TElem<T>& elem);
   String& Add(const T& data);
   bool Del(TElem<T>& elem);
   bool Del(const String& key);
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
+	friend class TSortTable<T>;
 	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table)
 	{
 		for (int i = 0; i < table.count; i++)
@@ -27,6 +33,7 @@ public:
 	}
 protected:
 	void Expansion(const int newsize);
+
 };
 
 template <class T>
@@ -59,6 +66,12 @@ TTable<T>::~TTable()
 {
 	count = size = NULL;
 	delete[] node;
+}
+
+template <class T>
+int TTable<T>::GetCount() const
+{
+	return count;
 }
 
 template <class T>
