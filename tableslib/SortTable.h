@@ -26,14 +26,12 @@ public:
   bool Del(const String& key);
   TElem<T>& Search(const String& key) const;
   T& operator[](const String& key) const;
-	//friend TTable<T>;
 	friend std::ostream& operator<<(const std::ostream& out, const TSortTable<T>& table)
 	{
 		for (int i = 0; i < count; i++)
 			out << table.node[i] << std::endl;
 		return out;
 	}
-//protected:
   static void InsertSort(TTable<T>& seetable);
 	static void MergeSort(TTable<T>& seetable, const int n, const int start);
 	static void QuickSort(TTable<T>& seetable, const int low, const int high);
