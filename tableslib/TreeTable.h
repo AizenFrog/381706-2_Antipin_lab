@@ -15,8 +15,8 @@ public:
 	~TTreeTable();
 	int GetCount() const;
 	TTreeElem<T>* GetNode() const;
-	void Add(TTreeElem<T>& elem);
-	bool Del(TTreeElem<T>& elem);
+	TTreeElem<T>* Add(TTreeElem<T>& elem);
+	void Del(TTreeElem<T>& elem);
 	bool Del(const String& key);
 	TTreeElem<T>& Search(const String& key) const;
 	T& operator[](const String& key) const;
@@ -85,11 +85,14 @@ TTreeTable<T>::~TTreeTable()
 	while (stack1.IsEmpty() != true)
 	{
 		TTreeElem<T>* tmp = stack1.Get();
-		if (tmp->GetLeft() != NULL)
-			stack1.Put(tmp1->GetLeft());
-		if (tmp2->GetRight() != NULL)
-			stack1.Put(tmp1->GetRight());
-		delete tmp;
+		if (tmp != NULL)
+		{
+			if (tmp->GetLeft() != NULL)
+				stack1.Put(tmp->GetLeft());
+			if (tmp->GetRight() != NULL)
+				stack1.Put(tmp->GetRight());
+			delete tmp;
+		}
 	}
 }
 
@@ -106,37 +109,50 @@ TTreeElem<T>* TTreeTable<T>::GetNode() const
 }
 
 template <class T>
-void TTreeTable<T>::Add(TTreeElem<T>& elem)
+TTreeElem<T>* TTreeTable<T>::Add(TTreeElem<T>& elem)
 {
-	TTreeElem<T>* par;
-	TTreeElem<T>* curr = node;
-	while (curr != NULL)
+
+	if (count == 0)
 	{
-		par = curr;
-		if (elem.GetKey() > curr->GetKey())
-			curr = curr->GetRight();
-		else if (elem.GetKey < curr->GetKey())
-			curr = curr->GetLeft();
-		else
-			throw 1;
-	}
-	count++;
-	if (elem.GetKey() > par->GetKey())
-	{
-		par->SetRight(new TTreeElem<T>(elem));
-		//par->SetRight(elem);
-		par->GetRight()->SetParent(par);
+		node = new TTreeElem<T>(elem);
+		count++;
+		return node;
 	}
 	else
-	{
-		par->SetLeft(new TTreeElem<T>(elem));
-		//par->SetLeft(elem);
-		par->GetLeft()->SetParent(par);
+	{	
+		TTreeElem<T>* par;
+		TTreeElem<T>* curr = node;
+		while (curr != NULL)
+		{
+			par = curr;
+			if (elem.GetKey() > curr->GetKey())
+				curr = curr->GetRight();
+			else if (elem.GetKey() < curr->GetKey())
+				curr = curr->GetLeft();
+			else
+				throw 1;
+		}
+		count++;
+		if (elem.GetKey() > par->GetKey())
+		{
+			par->SetRight(new TTreeElem<T>(elem));
+			//par->SetRight(&elem);
+			par->GetRight()->SetParent(par);
+			curr = par->GetRight();
+		}
+		else
+		{
+			par->SetLeft(new TTreeElem<T>(elem));
+			//par->SetLeft(&elem);
+			par->GetLeft()->SetParent(par);
+			curr = par->GetLeft();
+		}
+		return curr;
 	}
 }
 
 template <class T>
-bool TTreeTable<T>::Del(TTreeElem<T>& elem)
+void TTreeTable<T>::Del(TTreeElem<T>& elem)
 {
 	TTreeElem<T>* par = elem.GetParent();
 	TTreeElem<T>* nl = NULL;
@@ -196,7 +212,7 @@ bool TTreeTable<T>::Del(TTreeElem<T>& elem)
 		nl = NULL;
 	delete &elem;
 	count--;
-	return true;
+	//return true;
 }
 
 template <class T>
@@ -207,12 +223,12 @@ bool TTreeTable<T>::Del(const String& key)
 	TTreeElem<T>* curr = node;
 	while (curr != NULL)
 	{
-		if (elem.GetKey() > curr->GetKey())
+		if (key > curr->GetKey())
 		{
 			par = curr;
 			curr = curr->GetRight();
 		}
-		else if (elem.GetKey < curr->GetKey())
+		else if (key < curr->GetKey())
 		{
 			par = curr;
 			curr = curr->GetLeft();
@@ -225,21 +241,27 @@ bool TTreeTable<T>::Del(const String& key)
 	}
 	if (key == par->GetLeft()->GetKey() && flag == true)
 	{
-		par->SetLeft(curr->GetRight);
+		par->SetLeft(curr->GetRight());
 		TTreeElem<T>* i = curr->GetRight();
-		while (i->GetLeft() != NULL)
-			i = i->GetLeft();
-		i->SetLeft(curr->GetLeft());
-		i->GetLeft()->SetParent(i);
+		if (i != NULL)
+		{
+			while (i->GetLeft() != NULL)
+				i = i->GetLeft();
+			i->SetLeft(curr->GetLeft());
+			i->GetLeft()->SetParent(i);
+		}
 	}
 	else if (key == par->GetRight()->GetKey() && flag == true)
 	{
-		par->SetRight(curr->GetRight);
+		par->SetRight(curr->GetRight());
 		TTreeElem<T>* i = curr->GetRight();
-		while (i->GetLeft() != NULL)
-			i = i->GetLeft();
-		i->SetLeft(curr->GetLeft());
-		i->GetLeft()->SetParent(i);
+		if (i != NULL)
+		{
+			while (i->GetLeft() != NULL)
+				i = i->GetLeft();
+			i->SetLeft(curr->GetLeft());
+			i->GetLeft()->SetParent(i);
+		}
 	}
 	if (flag == true)
 	{
@@ -258,9 +280,9 @@ TTreeElem<T>& TTreeTable<T>::Search(const String& key) const
 	while (tmp != NULL)
 	{
 		if (tmp->GetKey() < key)
-			tmp = tmp->GetLeft();
-		else if (tmp->GetKey() > key)
 			tmp = tmp->GetRight();
+		else if (tmp->GetKey() > key)
+			tmp = tmp->GetLeft();
 		else
 			return *tmp;
 	}
@@ -270,5 +292,5 @@ TTreeElem<T>& TTreeTable<T>::Search(const String& key) const
 template <class T>
 T& TTreeTable<T>::operator[](const String& key) const
 {
-	return Search(key)->GetData();
+	return Search(key).GetData();
 }

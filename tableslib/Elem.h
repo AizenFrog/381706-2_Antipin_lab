@@ -111,7 +111,7 @@ protected:
 	T data;
 public:
 	TTreeElem();
-	TTreeElem(const T& _data, const String& _key, const TTreeElem<T>* _left = NULL, const TTreeElem<T>* _right = NULL, const TTreeElem<T>* _parent = NULL);
+	TTreeElem(const T& _data, const String& _key, TTreeElem<T>* _left = NULL, TTreeElem<T>* _right = NULL, TTreeElem<T>* _parent = NULL);
 	TTreeElem(const TTreeElem<T>& elem);
 	~TTreeElem();
 	TTreeElem<T>& operator=(const TTreeElem<T>& elem);
@@ -124,9 +124,9 @@ public:
 	TTreeElem<T>* GetLeft();
 	TTreeElem<T>* GetRight();
 	TTreeElem<T>* GetParent();
-	void SetLeft(const TTreeElem<T>* _left);
-	void SetRight(const TTreeElem<T>* _right);
-	void SetParent(const TTreeElem<T>* _parent);
+	void SetLeft(TTreeElem<T>* _left);
+	void SetRight(TTreeElem<T>* _right);
+	void SetParent(TTreeElem<T>* _parent);
 	friend std::ostream& operator<<(std::ofstream& out, TTreeElem<T>& elem)
 	{
 		out << elem.GetKey().GetArrChar() << "\t";
@@ -143,7 +143,7 @@ TTreeElem<T>::TTreeElem()
 }
 
 template <class T>
-TTreeElem<T>::TTreeElem(const T& _data, const String& _key, const TTreeElem<T>* _left, const TTreeElem<T>* _right, const TTreeElem<T>* _parent)
+TTreeElem<T>::TTreeElem(const T& _data, const String& _key, TTreeElem<T>* _left, TTreeElem<T>* _right, TTreeElem<T>* _parent)
 {
 	data = _data;
 	key = _key;
@@ -241,19 +241,19 @@ TTreeElem<T>* TTreeElem<T>::GetParent()
 }
 
 template <class T>
-void TTreeElem<T>::SetLeft(const TTreeElem<T>* _left)
+void TTreeElem<T>::SetLeft(TTreeElem<T>* _left)
 {
 	left = _left;
 }
 
 template <class T>
-void TTreeElem<T>::SetRight(const TTreeElem<T>* _right)
+void TTreeElem<T>::SetRight(TTreeElem<T>* _right)
 {
 	right = _right;
 }
 
 template <class T>
-void TTreeElem<T>::SetParent(const TTreeElem<T>* _parent)
+void TTreeElem<T>::SetParent(TTreeElem<T>* _parent)
 {
 	parent = _parent;
 }
