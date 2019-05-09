@@ -13,8 +13,10 @@ public:
   String(const char* _str);
   String(const String& _str);
   ~String();
+	int GetCount() const;
   String& operator=(const String& _str);
   bool operator==(const String& _str) const;
+	bool operator!=(const String& _str) const;
   bool operator<(const String& _str) const;
   bool operator>(const String& _str) const;
   char& operator[](const int pos) const;

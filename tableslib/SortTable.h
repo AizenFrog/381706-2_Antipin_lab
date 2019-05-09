@@ -45,7 +45,7 @@ TElem<T> TSortTable<T>::st;
 template <class T>
 TSortTable<T>::TSortTable(const int _size)
 {
-  if (_size < 0)
+  if (_size <= 0)
     throw 2;
   size = _size;
   count = 0;

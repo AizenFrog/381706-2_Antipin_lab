@@ -28,6 +28,11 @@ String::~String()
   delete[] str;
 }
 
+int String::GetCount() const
+{
+	return count;
+}
+
 String& String::operator=(const String& _str)
 {
   count = _str.count;
@@ -46,6 +51,16 @@ bool String::operator==(const String& _str) const
     if (str[i] != _str.str[i])
       return false;
   return true;
+}
+
+bool String::operator!=(const String& _str) const
+{
+	if (count != _str.count)
+		return true;
+	for (int i = 0; i < count; i++)
+		if (str[i] != _str.str[i])
+			return true;
+	return false;
 }
 
 bool String::operator<(const String& _str) const
