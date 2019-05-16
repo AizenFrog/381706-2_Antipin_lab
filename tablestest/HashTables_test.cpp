@@ -139,3 +139,64 @@ TEST(hashtables, can_add_element_to_hash_table_correct_2)
 	table.Add(key4, 30);
 	EXPECT_EQ(table.Search(key2), 20);
 }
+
+TEST(hashtables, can_overcome_the_conflict_0)
+{
+	THashTable<int> table(5);
+	String key1("ab");
+	String key2("Ar");
+	table.Add(key1, 15);
+	table.Add(key2, 20);
+	ASSERT_NO_THROW(table.Search(key2));
+}
+
+TEST(hashtables, can_overcome_the_conflict_1)
+{
+	THashTable<int> table(5);
+	String key1("ab");
+	String key2("Ar");
+	String key3("Bq");
+	String key4("sv");
+	table.Add(key1, 15);
+	table.Add(key2, 20);
+	table.Add(key3, 25);
+	table.Add(key4, 30);
+	ASSERT_NO_THROW(table.Search(key2));
+}
+
+TEST(hashtables, can_overcome_the_conflict_correct_0)
+{
+	THashTable<int> table(5);
+	String key1("ab");
+	String key2("Ar");
+	table.Add(key1, 15);
+	table.Add(key2, 20);
+	EXPECT_EQ(table.Search(key2), 20);
+}
+
+TEST(hashtables, can_overcome_the_conflict_correct_1)
+{
+	THashTable<int> table(5);
+	String key1("ab");
+	String key2("Ar");
+	String key3("Bq");
+	String key4("sv");
+	table.Add(key1, 15);
+	table.Add(key2, 20);
+	table.Add(key3, 25);
+	table.Add(key4, 30);
+	EXPECT_EQ(table.Search(key3), 25);
+}
+
+TEST(hashtables, can_return_false_if_nomber_is_simple)
+{
+	THashTable<int> table(5);
+	EXPECT_EQ(table.IsSimple(156), false);
+}
+
+TEST(hashtables, can_return_true_if_nomber_is_simple)
+{
+	THashTable<int> table(5);
+	EXPECT_EQ(table.IsSimple(157), true);
+}
+

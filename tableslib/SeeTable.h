@@ -25,15 +25,14 @@ public:
   TElem<T>& Search(const String& _key) const;
   T& operator[](const String& key) const;
 	friend class TSortTable<T>;
-	friend std::ofstream& operator<<(const std::ostream& out, const TTable<T>& table)
+	friend std::ostream& operator<<(std::ostream& out, const TTable<T>& table)
 	{
-		for (int i = 0; i < table.count; i++)
+		for (int i = 0; i < table.GetCount(); i++)
 			out << table.node[i] << std::endl;
 		return out;
 	}
 protected:
-	void Expansion(const int newsize);
-
+	void Expansion(const int newsize);	
 };
 
 template <class T>
@@ -94,8 +93,9 @@ String& TTable<T>::Add(const T& _data)
 	if (count == 0)
 		node[count].SetKey(tmp);
 	else
-	{		
-		String tmp1(&(node[count - 1].GetKey().GetArrChar()[0]));
+	{	
+		char letter = (node[count - 1].GetKey().GetArrChar())[0];
+		String tmp1(&letter);
 		tmp = tmp1;
 		node[count].SetKey(tmp);
 	}
@@ -155,14 +155,6 @@ T& TTable<T>::operator[](const String& _key) const
 {
   return Search(_key).GetData();
 }
-
-//template <class T>
-//std::ostream& operator<<(const std::ofstream& out, const TTable<T> table)
-//{
-//	for (int i = 0; i < table.count; i++)
-//		out << table.node[i] << endl;
-//	return out;
-//}
 
 template <class T>
 void TTable<T>::Expansion(const int newsize)

@@ -20,18 +20,18 @@ public:
 	bool Del(const String& key);
 	TTreeElem<T>& Search(const String& key) const;
 	T& operator[](const String& key) const;
-	friend std::ostream& operator<<(const std::ostream& out, const TTreeTable<T>& table)
+	friend std::ostream& operator<<(std::ostream& out, const TTreeTable<T>& table)
 	{
 		TStackList<TTreeElem<T>*> stack1;
 		stack1.Put(table.GetNode());
 		while (stack1.IsEmpty() != true)
 		{
 			TTreeElem<T>* tmp = stack1.Get();
+			if (tmp->GetRight() != NULL)
+				stack1.Put(tmp->GetRight());
 			if (tmp->GetLeft() != NULL)
-				stack1.Put(tmp1->GetLeft());
-			if (tmp2->GetRight() != NULL)
-				stack1.Put(tmp1->GetRight());
-			out << *tmp;
+				stack1.Put(tmp->GetLeft());
+			out << *tmp << endl;
 		}
 		return out;
 	}
@@ -239,7 +239,20 @@ bool TTreeTable<T>::Del(const String& key)
 			break;
 		}
 	}
-	if (key == par->GetLeft()->GetKey() && flag == true)
+	if (curr == node && flag == true)
+	{
+		node = node->GetRight();
+		TTreeElem<T>* i = curr->GetRight();
+		if (i != NULL)
+		{
+			while (i->GetLeft() != NULL)
+				i = i->GetLeft();
+			i->SetLeft(curr->GetLeft());
+			if (i->GetLeft() != NULL)
+				i->GetLeft()->SetParent(i);
+		}
+	}
+	else if (flag == true && key == par->GetLeft()->GetKey())
 	{
 		par->SetLeft(curr->GetRight());
 		TTreeElem<T>* i = curr->GetRight();
@@ -248,10 +261,11 @@ bool TTreeTable<T>::Del(const String& key)
 			while (i->GetLeft() != NULL)
 				i = i->GetLeft();
 			i->SetLeft(curr->GetLeft());
-			i->GetLeft()->SetParent(i);
+			if (i->GetLeft() != NULL)
+				i->GetLeft()->SetParent(i);
 		}
 	}
-	else if (key == par->GetRight()->GetKey() && flag == true)
+	else if (flag == true && key == par->GetRight()->GetKey())
 	{
 		par->SetRight(curr->GetRight());
 		TTreeElem<T>* i = curr->GetRight();
@@ -260,7 +274,8 @@ bool TTreeTable<T>::Del(const String& key)
 			while (i->GetLeft() != NULL)
 				i = i->GetLeft();
 			i->SetLeft(curr->GetLeft());
-			i->GetLeft()->SetParent(i);
+			if (i->GetLeft() != NULL)
+				i->GetLeft()->SetParent(i);
 		}
 	}
 	if (flag == true)

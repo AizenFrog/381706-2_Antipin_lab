@@ -9,17 +9,19 @@ String::String()
 String::String(const char* _str)
 {
   count = strlen(_str);
-  str = new char[count];
+  str = new char[count + 1];
   for (int i = 0; i < count; i++)
     str[i] = _str[i];
+	str[count] = '\0';
 }
 
 String::String(const String& _str)
 {
   count = _str.count;
-  str = new char[count];
+  str = new char[count + 1];
   for (int i = 0; i < count; i++)
     str[i] = _str.str[i];
+	str[count] = '\0';
 }
 
 String::~String()
@@ -37,9 +39,10 @@ String& String::operator=(const String& _str)
 {
   count = _str.count;
   delete[] str;
-  str = new char[count];
+  str = new char[count + 1];
   for (int i = 0; i < count; i++)
     str[i] = _str.str[i];
+	str[count] = '\0';
   return *this;
 }
 

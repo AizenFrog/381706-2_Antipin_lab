@@ -21,9 +21,10 @@ public:
   void SetData(const T& _data);
   String& GetKey();
   void SetKey(const String& _key);
-  friend std::ostream& operator<<(std::ofstream& out, TElem<T>& elem)
+  friend std::ostream& operator<<(std::ostream& out, TElem<T>& elem)
 	{
-		out << elem.GetKey().GetArrChar() << "\t";
+		out << elem.GetKey().GetArrChar() << "  ";
+		out << "|  ";
 		out << elem.GetData() << std::endl;
 		return out;
 	}
@@ -127,9 +128,9 @@ public:
 	void SetLeft(TTreeElem<T>* _left);
 	void SetRight(TTreeElem<T>* _right);
 	void SetParent(TTreeElem<T>* _parent);
-	friend std::ostream& operator<<(std::ofstream& out, TTreeElem<T>& elem)
+	friend std::ostream& operator<<(std::ostream& out, TTreeElem<T>& elem)
 	{
-		out << elem.GetKey().GetArrChar() << "\t";
+		out << elem.GetKey().GetArrChar() << "  " << "|  ";
 		out << elem.GetData() << std::endl;
 		return out;
 	}

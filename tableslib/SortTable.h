@@ -6,6 +6,8 @@
 #define MERGE_SORT 1
 #define QUICK_SORT 2
 
+//int compare_cout = 0;
+
 template <class T>
 class TSortTable
 {
@@ -26,9 +28,9 @@ public:
   bool Del(const String& key);
   TElem<T>& Search(const String& key) const;
   T& operator[](const String& key) const;
-	friend std::ostream& operator<<(const std::ostream& out, const TSortTable<T>& table)
+	friend std::ostream& operator<<(std::ostream& out, const TSortTable<T>& table)
 	{
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < table.GetCount(); i++)
 			out << table.node[i] << std::endl;
 		return out;
 	}
@@ -135,7 +137,7 @@ bool TSortTable<T>::Add(TElem<T>& elem)
 }
 
 template <class T>
-String& TSortTable<T>::Add(const T& data)//////??????????
+String& TSortTable<T>::Add(const T& data)
 {
 	if (size == count)
 		Expansion(count * 2);
@@ -280,9 +282,12 @@ void TSortTable<T>::InsertSort(TTable<T>& seetable)
 		{
 			seetable.node[j] = seetable.node[j - 1];
 			j--;
+			//compare_cout++;
 		}
 		seetable.node[j] = temp;
 	}
+	//cout << compare_cout << endl;
+	//compare_cout = 0;
 }
 
 template <class T>
@@ -303,6 +308,7 @@ void TSortTable<T>::MergeSort(TTable<T>& seetable, const int n, const int start)
 		TElem<T>* tmp = new TElem<T>[n];
 		while (lid < left_size || rid < n)
 		{
+			//compare_cout++;
 			if (seetable.node[lid + start].GetKey() < seetable.node[rid + start].GetKey())
 			{
 				tmp[xid] = seetable.node[lid + start];
@@ -320,7 +326,6 @@ void TSortTable<T>::MergeSort(TTable<T>& seetable, const int n, const int start)
 				for (int i = rid; i < n; i++)
 				{
 					tmp[xid] = seetable.node[i + start];
-					//rid++;
 					xid++;
 				}
 				break;
@@ -330,7 +335,6 @@ void TSortTable<T>::MergeSort(TTable<T>& seetable, const int n, const int start)
 				for (int i = lid; i < left_size; i++)
 				{
 					tmp[xid] = seetable.node[i + start];
-					//lid++;
 					xid++;
 				}
 				break;
@@ -358,6 +362,7 @@ void TSortTable<T>::QuickSort(TTable<T>& seetable, const int low, const int high
 			seetable.node[i++] = seetable.node[j];
 			seetable.node[j--] = d;
 		}
+		//compare_cout++;
 	}
 	if (low < j)
 		QuickSort(seetable, low, j);
