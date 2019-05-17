@@ -33,7 +33,6 @@ public:
 template <class T>
 TElem<T>::TElem()
 {
-  data = NULL;
 }
 
 template <class T>
@@ -140,7 +139,6 @@ template <class T>
 TTreeElem<T>::TTreeElem()
 {
 	left = right = parent = NULL;
-	data = NULL;
 }
 
 template <class T>

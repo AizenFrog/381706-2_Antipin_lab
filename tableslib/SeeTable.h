@@ -63,7 +63,7 @@ TTable<T>::TTable(const TTable<T>& table)
 template <class T>
 TTable<T>::~TTable()
 {
-	count = size = NULL;
+	count = size = 0;
 	delete[] node;
 }
 
