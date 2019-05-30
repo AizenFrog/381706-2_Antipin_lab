@@ -14,7 +14,7 @@ public:
   TElem();
   TElem(const T& _data, const String& _key);
 	~TElem();
-  TElem& operator=(const TElem<T>& elem);
+  TElem<T>& operator=(const TElem<T>& elem);
 	bool operator==(const TElem<T>& elem);
 	bool operator!=(const TElem<T>& elem);
   T& GetData();
@@ -255,4 +255,156 @@ template <class T>
 void TTreeElem<T>::SetParent(TTreeElem<T>* _parent)
 {
 	parent = _parent;
+}
+
+////////////////////////////////////////////////////
+
+template <class T>
+class THashElem
+{
+protected:
+	T data;
+	String key;
+	THashElem<T>* next;
+public:
+	THashElem();
+	THashElem(const T& _data, const String& _key, THashElem<T>* _next = nullptr);
+	THashElem(const THashElem<T>& elem);
+	~THashElem();
+	THashElem<T>& operator=(const THashElem<T>& elem);
+	bool operator==(const THashElem<T>& elem);
+	bool operator!=(const THashElem<T>& elem);
+	T& GetData();
+	void SetData(const T& _data);
+	String& GetKey();
+	void SetKey(const String& _key);
+	THashElem<T>* GetNext();
+	void SetNext(THashElem<T>* _next);
+	void SetPtr(THashElem<T>* _next);
+	friend std::ostream& operator<<(std::ostream& out, THashElem<T>& elem)
+	{
+		out << elem.GetKey().GetArrChar() << "  ";
+		out << "|  ";
+		out << elem.GetData() << std::endl;
+		return out;
+	}
+};
+
+template <class T>
+THashElem<T>::THashElem()
+{
+	next = nullptr;
+}
+
+template <class T>
+THashElem<T>::THashElem(const T& _data, const String& _key, THashElem<T>* _next)
+{
+	data = _data;
+	key = _key;
+	if (_next != nullptr)
+		next = new THashElem<T>(*_next);
+	else
+		next = nullptr;
+}
+
+template <class T>
+THashElem<T>::THashElem(const THashElem<T>& elem)
+{
+	data = elem.data;
+	key = elem.key;
+	if (elem.next != nullptr)
+		next = new THashElem<T>(*elem.next);
+	else
+		next = nullptr;
+}
+
+template <class T>
+THashElem<T>::~THashElem()
+{
+	THashElem<T>* tmp = next;
+	//THashElem<T>* curr = next;
+	if (tmp != nullptr)
+		delete tmp;
+		/*while (tmp != nullptr)
+		{
+			curr = tmp->GetNext();
+			delete tmp;
+			tmp = curr;
+		}*/
+}
+
+template <class T>
+THashElem<T>& THashElem<T>::operator=(const THashElem<T>& elem)
+{
+	if (this != &elem)
+	{
+		data = elem.data;
+		key = elem.key;
+		if (elem.next != nullptr)
+		{
+			delete next;
+			next = new THashElem<T>(*elem.next);////////
+		}
+	}
+	return *this;
+}
+
+template <class T>
+bool THashElem<T>::operator==(const THashElem<T>& elem)
+{
+	if (data == elem.data && key == elem.key)
+		return true;
+	return false;
+}
+
+template <class T>
+bool THashElem<T>::operator!=(const THashElem<T>& elem)
+{
+	if (data == elem.data && key == elem.key)
+		return false;
+	return true;
+}
+
+template <class T>
+T& THashElem<T>::GetData()
+{
+	return data;
+}
+
+template <class T>
+void THashElem<T>::SetData(const T& _date)
+{
+	data = _date;
+}
+
+template <class T>
+String& THashElem<T>::GetKey()
+{
+	return key;
+}
+
+template <class T>
+void THashElem<T>::SetKey(const String& _key)
+{
+	key = _key;
+}
+
+template <class T>
+THashElem<T>* THashElem<T>::GetNext()
+{
+	return next;
+}
+
+template <class T>
+void THashElem<T>::SetNext(THashElem<T>* _next)
+{
+	if (next != nullptr)
+		delete next;
+	next = new THashElem<T>(*_next);
+}
+
+template <class T>
+void THashElem<T>::SetPtr(THashElem<T>* _next)
+{
+	next = _next;
 }
