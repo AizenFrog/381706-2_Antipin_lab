@@ -268,7 +268,7 @@ protected:
 	THashElem<T>* next;
 public:
 	THashElem();
-	THashElem(const T& _data, const String& _key, THashElem<T>* _next = nullptr);
+	THashElem(const T& _data, const String& _key, THashElem<T>* _next = NULL);
 	THashElem(const THashElem<T>& elem);
 	~THashElem();
 	THashElem<T>& operator=(const THashElem<T>& elem);
@@ -293,7 +293,7 @@ public:
 template <class T>
 THashElem<T>::THashElem()
 {
-	next = nullptr;
+	next = NULL;
 }
 
 template <class T>
@@ -301,10 +301,10 @@ THashElem<T>::THashElem(const T& _data, const String& _key, THashElem<T>* _next)
 {
 	data = _data;
 	key = _key;
-	if (_next != nullptr)
+	if (_next != NULL)
 		next = new THashElem<T>(*_next);
 	else
-		next = nullptr;
+		next = NULL;
 }
 
 template <class T>
@@ -312,10 +312,10 @@ THashElem<T>::THashElem(const THashElem<T>& elem)
 {
 	data = elem.data;
 	key = elem.key;
-	if (elem.next != nullptr)
+	if (elem.next != NULL)
 		next = new THashElem<T>(*elem.next);
 	else
-		next = nullptr;
+		next = NULL;
 }
 
 template <class T>
@@ -323,7 +323,7 @@ THashElem<T>::~THashElem()
 {
 	THashElem<T>* tmp = next;
 	//THashElem<T>* curr = next;
-	if (tmp != nullptr)
+	if (tmp != NULL)
 		delete tmp;
 		/*while (tmp != nullptr)
 		{
@@ -340,7 +340,7 @@ THashElem<T>& THashElem<T>::operator=(const THashElem<T>& elem)
 	{
 		data = elem.data;
 		key = elem.key;
-		if (elem.next != nullptr)
+		if (elem.next != NULL)
 		{
 			delete next;
 			next = new THashElem<T>(*elem.next);////////
@@ -398,7 +398,7 @@ THashElem<T>* THashElem<T>::GetNext()
 template <class T>
 void THashElem<T>::SetNext(THashElem<T>* _next)
 {
-	if (next != nullptr)
+	if (next != NULL)
 		delete next;
 	next = new THashElem<T>(*_next);
 }
