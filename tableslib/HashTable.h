@@ -251,7 +251,7 @@ void THashTable_1<T>::Add(String& key, const T& data)
 	if (node[i] != st)
 	{
 		THashElem<T>* tmp = &node[i];
-		while (tmp->GetNext() != nullptr)
+		while (tmp->GetNext() != NULL)
 			tmp = tmp->GetNext();
 		tmp->SetNext(new THashElem<T>(data, key));
 	}
@@ -274,7 +274,7 @@ void THashTable_1<T>::Add(THashElem<T>& elem)
 	if (node[i] != st)
 	{
 		THashElem<T>* tmp = &node[i];
-		while (tmp->GetNext() != nullptr)
+		while (tmp->GetNext() != NULL)
 			tmp = tmp->GetNext();
 		tmp = new THashElem<T>(elem);
 	}
@@ -294,20 +294,20 @@ bool THashTable_1<T>::Del(String& key)
 	{
 		THashElem<T>* tmp = node[i].GetNext();
 		THashElem<T>* par = &node[i];
-		while (tmp != nullptr)
+		while (tmp != NULL)
 		{
 			if (tmp->GetKey() == key)
 			{
-				if (tmp->GetNext() != nullptr)
+				if (tmp->GetNext() != NULL)
 				{
 					THashElem<T>* temp = tmp->GetNext();
-					tmp->SetPtr(nullptr);
+					tmp->SetPtr(NULL);
 					delete tmp;
 					par->SetPtr(temp);
 				}
 				else
 				{
-					par->SetPtr(nullptr);
+					par->SetPtr(NULL);
 					delete tmp;
 				}
 				flag = true;
@@ -324,9 +324,9 @@ bool THashTable_1<T>::Del(String& key)
 	else if (node[i].GetKey() == key)
 	{
 		THashElem<T>* tmp = node[i].GetNext();
-		if (tmp != nullptr)
+		if (tmp != NULL)
 		{
-			node[i].SetPtr(nullptr);
+			node[i].SetPtr(NULL);
 			node[i] = *tmp;
 			//tmp->SetPtr(nullptr);
 			//delete tmp;
@@ -346,7 +346,7 @@ T& THashTable_1<T>::Search(String& key)
 	if (node[i].GetKey() != key)
 	{
 		THashElem<T>* tmp = node[i].GetNext();
-		while (tmp != nullptr)
+		while (tmp != NULL)
 		{ 
 			if (tmp->GetKey() != key)
 				tmp = tmp->GetNext();
