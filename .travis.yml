@@ -14,5 +14,6 @@ script:
   - ./math_function_tests/math_function_tests
   - ./text_editor_test/text_editor_test
   - ./figurestest/figurestest
+  - ./tablestest/tablestest
 notifications:
   email: false
